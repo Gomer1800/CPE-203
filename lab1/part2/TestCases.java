@@ -21,30 +21,95 @@ public class TestCases
     * This test is just to get you started.
     */
    @Test
-   public void testGetX()
+   public void testGetX1()
    {
       assertEquals(1.0, new Point(1.0, 2.0).getX(), DELTA);
-      Point pointObj = new Point(1.0,1.0);
-      Point newPoint = pointObj.rotate90();
-      System.out.println(newPoint.getX());
-      System.out.println(newPoint.getY());
-
+      // Point pointObj = new Point(1.0,1.0);
+      // Point newPoint = pointObj.rotate90();
+      // System.out.println(newPoint.getX());
+      // System.out.println(newPoint.getY());
    }
-   public void testGetY(){
-      assertEquals(2.0, new Point(1.0, 2.0).getY(), DELTA);
+   @Test
+   public void testGetX2()
+   {
+      assertEquals(-5.5, new Point(-5.5, 1.0).getX(), DELTA);
    }
-   public void testGetRadius(){
-      assertEquals(4.0, new Point(2.0,2.0).getRadius(), DELTA);
+   @Test
+   public void testGetX3()
+   {
+      assertEquals(100.5, new Point(100.5, -3.5).getX(), DELTA);
    }
-   public void testGetAngle(){
+/*/////////////////////////////////////////////////////////////////*/
+   @Test
+   public void testGetY1(){
+      assertEquals(11.0, new Point(1.0, 11.0).getY(), DELTA);
+   }
+   @Test
+   public void testGetY2(){
+      assertEquals(-9.1, new Point(3.2, -9.1).getY(), DELTA);
+   }
+   @Test
+   public void testGetY3(){
+      assertEquals(3.14, new Point(1.0, 3.14).getY(), DELTA);
+   }
+/*/////////////////////////////////////////////////////////////////*/
+   @Test
+   public void testGetRadius1(){
+      assertEquals(Math.sqrt(8), new Point(2.0,2.0).getRadius(), DELTA);
+   }
+   @Test
+   public void testGetRadius2(){
+      assertEquals(Math.sqrt(2), new Point(1.0,1.0).getRadius(), DELTA);
+   }
+   @Test
+   public void testGetRadius3(){
+      assertEquals(5, new Point(3.0,4.0).getRadius(), DELTA);
+   }
+/*/////////////////////////////////////////////////////////////////*/
+   @Test
+   public void testGetAngle1(){
       assertEquals(Math.PI/4, new Point(2.0,2.0).getAngle(), DELTA);
    }
-   public void testRotate90(){
+   @Test
+   public void testGetAngle2(){
+      assertEquals(Math.PI/3, new Point(1,Math.sqrt(3)).getAngle(), DELTA);
+   }
+   @Test
+   public void testGetAngle3(){
+      assertEquals(Math.atan(-1.0/2.0), new Point(2.0,-1.0).getAngle(), DELTA);
+   }
+/*/////////////////////////////////////////////////////////////////*/
+   @Test
+   public void testRotate90_1(){
       Point pointObj = new Point(1.0,1.0);
       Point newPoint = pointObj.rotate90();
-      System.out.println(newPoint.getX());
-      System.out.println(newPoint.getY());
+      System.out.println();
+      System.out.println("old X: "+pointObj.getX()+
+                         "old Y: "+pointObj.getY());
+      System.out.println("new X: "+newPoint.getX()+
+                         "new Y: "+newPoint.getY());
    }
+   @Test
+   public void testRotate9_2(){
+      Point pointObj = new Point(-1.0,1.0);
+      Point newPoint = pointObj.rotate90();
+      System.out.println();
+      System.out.println("old X: "+pointObj.getX()+
+                         "old Y: "+pointObj.getY());
+      System.out.println("new X: "+newPoint.getX()+
+                         "new Y: "+newPoint.getY());
+   }
+   @Test
+   public void testRotate90_3(){
+      Point pointObj = new Point(1.0,-1.0);
+      Point newPoint = pointObj.rotate90();
+      System.out.println();
+      System.out.println("old X: "+pointObj.getX()+
+                         "old Y: "+pointObj.getY());
+      System.out.println("new X: "+newPoint.getX()+
+                         "new Y: "+newPoint.getY());
+   }
+/*/////////////////////////////////////////////////////////////////*/
    /*
     * The tests below here are to verify the basic requirements regarding
     * the "design" of your class.  These are to remain unchanged.
