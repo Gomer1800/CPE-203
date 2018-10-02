@@ -24,6 +24,11 @@ public class TestCases
    public void testGetX()
    {
       assertEquals(1.0, new Point(1.0, 2.0).getX(), DELTA);
+      Point pointObj = new Point(1.0,1.0);
+      Point newPoint = pointObj.rotate90();
+      System.out.println(newPoint.getX());
+      System.out.println(newPoint.getY());
+
    }
    public void testGetY(){
       assertEquals(2.0, new Point(1.0, 2.0).getY(), DELTA);
@@ -33,6 +38,12 @@ public class TestCases
    }
    public void testGetAngle(){
       assertEquals(Math.PI/4, new Point(2.0,2.0).getAngle(), DELTA);
+   }
+   public void testRotate90(){
+      Point pointObj = new Point(1.0,1.0);
+      Point newPoint = pointObj.rotate90();
+      System.out.println(newPoint.getX());
+      System.out.println(newPoint.getY());
    }
    /*
     * The tests below here are to verify the basic requirements regarding

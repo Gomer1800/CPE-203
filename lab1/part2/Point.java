@@ -24,8 +24,9 @@ public class Point
 		return angle;
 	}
 	public Point rotate90(){
-		double newX = xPos*Math.cos(angle + Math.PI/2)-yPos*Math.sin(angle + Math.PI/2);
-		double newY = xPos*Math.sin(angle + Math.PI/2)+yPos*Math.cos(angle + Math.PI/2);
+		double newX = xPos*Math.cos(Math.PI/2)-yPos*Math.sin(Math.PI/2);
+		double newY = xPos*Math.sin(Math.PI/2)+yPos*Math.cos(Math.PI/2);
+		//System.out.println("x: " + newX + "y: " + newY);
 		return new Point (newX, newY);
 	}
 }
