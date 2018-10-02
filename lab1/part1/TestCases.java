@@ -25,7 +25,7 @@ public class TestCases
    @Test
    public void testSimpleIf3()
    {
-      fail("Missing SimpleIf3");
+      assertEquals(9, SimpleLoop.sum(-3, 5));
       /* TO DO: Write one more valid test case. */
    }
 
@@ -44,9 +44,10 @@ public class TestCases
    @Test
    public void testSimpleLoop3()
    {
-      fail("Missing SimpleLoop3");
+      // fail("Missing SimpleLoop3");
       /* TO DO: Write one more valid test case to make sure that
          this function is not just returning 7. */
+      assertEquals(4, SimpleLoop.sum(-3, 4));
    }
 
    @Test
@@ -70,8 +71,11 @@ public class TestCases
    @Test
    public void testSimpleArray3()
    {
-      fail("Missing SimpleArray3");
+      // fail("Missing SimpleArray3");
       /* TO DO: Add a new test case. */
+      assertArrayEquals(
+         new int[] {4, 16, 49, 64},
+         SimpleArray.squareAll(new int[] {2, 4, 7, 8}));
    }
 
    @Test
@@ -89,7 +93,8 @@ public class TestCases
    @Test
    public void testBetterLoop3()
    {
-      fail("Missing BetterLoop3");
+      // fail("Missing BetterLoop3");
       /* TO DO: Write a valid test case where the expected result is false. */
+      assertFalse(BetterLoop.contains(new int[] {1, 2, 3, 5, 7, 11}, 4));
    }
 }
