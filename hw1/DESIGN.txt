@@ -1,0 +1,36 @@
++getCurrentImage(): PImage            <<static>> : could possibly belong in Background and Entitity object, attributes of both are called via instanceof. Accessor methods needed for both Entitity and Background image & imageIndex.
+
+-parseBackground(): boolean            <<static>>
+
+-executeOreActivity() : Entity vs EventScheduler vs VirtualWorld. Attribute of Entity accessed but Eventscheduler and WorldModel method used. All three of these are found within VirtualWorld, should it go in there?
+-executeOreBlobActivity() :
+-executeQuakeActivity() :
+-executeVeinActivity() :
+
++parseMiner(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
++parseObstacle(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
++parseOre(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
++parseSmith(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
++parseVein(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
+
+-executeAction() : Could belong in either Action or EventScheduler class 1) chose Action class 2) because the "kind" attribute of Action is accessed via dot operator and both Action/EvenScheduler reference is passed to another Action method.
+
+-executeAnimationAction() : Action or EventScheduler 1) chose Action class 2) because the "entity" & "repeatCount" attributes of Action are accessed via dot operator and passed to another method
+
+-executeActivityAction() : Action or EventScheduler 1) choose Action 2) Action attributes "entity.kind, world, imageStore, entity" accessed via dot operator. eventScheduler passed by reference
+
+-nextPositionMiner(): Point                  <<static>> : Either method for Entity or Point 1) chose Entity 2) Although attributes of both classes are accessed, this method returns a Point object relevant to the Miner entityKind.
+
+-contains(): boolean                         <<static>> : Utility method for Viewport or Point 1) chose Viewport 2) Because the method specifically checks whether a given coordinate pair is found within the Viewport attributes
+
+-clamp()                                      <<static>> : Utility method in Functions
+
++createActivityAction(): Action              <<static>>
++createBlacksmith(): Entity                  <<static>>
++createMinerFull(): Entity                   <<static>>
++createMinerNotFull(): Entity                <<static>>
++createObstacle(): Entity                    <<static>>
++createOre(): Entity                         <<static>>
++createOreBlob(): Entity                     <<static>>
++createQuake(): Entity                       <<static>>
++createVein(): Entity                        <<static>>
