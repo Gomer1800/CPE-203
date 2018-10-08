@@ -5,20 +5,13 @@ public class Circle
 
     public Circle(Point center, double r) {
         MY_CENTER = new Point(center.getX(), center.getY());
-        if (setRadius(r)==true) {
-            System.out.println("Radius set to: "+r);
-        }
-        else { 
-            System.out.println("Invalid radius..."); 
-        }
-    }
-    private boolean setRadius(double r) {
         if(r>0) {
             RADIUS = r;
-            return true;
+            System.out.println("Radius set to: "+r);
         }
         else {
-            return false;
+            RADIUS = 1.0;
+            System.out.println("Invalid input, radius set to default 1.0");
         }
     }
     public Point getCenter () {
