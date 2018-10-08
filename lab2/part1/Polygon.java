@@ -9,4 +9,7 @@ public class Polygon {
          vertices.add(points.get(i));
       }
    }
+   public ArrayList<Point> getPoints() {
+       return vertices;
+   }
 } 

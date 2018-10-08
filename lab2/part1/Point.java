@@ -29,4 +29,14 @@ public class Point
 		//System.out.println("x: " + newX + "y: " + newY);
 		return new Point (newX, newY);
 	}
+        public boolean equals(Object o) {
+            if(o == null) {
+                return false;
+            }
+            if(!(o instanceof Point)) {
+                return false;
+            }
+            Point other = (Point) o;
+            return this.xPos == other.xPos && this.yPos == other.yPos;
+        }
 }
