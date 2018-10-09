@@ -85,6 +85,27 @@ public class PartOneTestCases
          expectedMethodReturns, expectedMethodParameters);
    }
 
+   @Test
+   public void testCirclePerimeter() {
+       Circle myCircle = new Circle(new Point(0.0,0.0), 2.0);
+       assertEquals(2*Math.PI*myCircle.getRadius(), Util.perimeter(myCircle), DELTA);
+   }
+
+   @Test
+   public void testRectanglePerimeter() {
+       Rectangle myRect = new Rectangle(new Point(0.0, 1.0),new Point(4.0,0.0));
+       assertEquals(10.0, Util.perimeter(myRect), DELTA);
+   }
+
+   @Test
+   public void testPerimPoly {
+       List <Point>points = new ArrayList <Point>():
+           points.add(new Point(0, 0));
+           points.add(new Point(3, 0));
+           points.add(new Point(0, 4));
+           double d = Util.perimeter(new Polygon(points));
+           assertEquals(12.0, d, DELTA);
+   }
    private static void verifyImplSpecifics(
       final Class<?> clazz,
       final List<String> expectedMethodNames,
