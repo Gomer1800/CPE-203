@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -57,7 +58,7 @@ public class PartTwoTestCases
          "getPoints", "perimeter");
 
       final List<Class> expectedMethodReturns = Arrays.asList(
-         List.class, double.class);
+         ArrayList.class, double.class);
 
       final List<Class[]> expectedMethodParameters = Arrays.asList(
          new Class[0], new Class[0]);
@@ -65,6 +66,42 @@ public class PartTwoTestCases
       verifyImplSpecifics(Polygon.class, expectedMethodNames,
          expectedMethodReturns, expectedMethodParameters);
    }
+
+   @Test
+   public void testCirclePerimeter() {
+       Circle myC = new Circle(new Point(Math.PI,Math.PI), 1.0);
+       assertEquals(2*Math.PI*myC.getRadius(), myC.perimeter(), DELTA);
+   }
+
+   @Test
+   public void testRectanglePerimeter() {
+       Rectangle myR = new Rectangle(new Point(0.0, 10.0), new Point(1.0, 0.0));
+       assertEquals(22.0, myR.perimeter(), DELTA);
+   }
+
+   @Test
+   public void testPolygonPerimeter() {
+       List < Point >points = new ArrayList < Point >(); 
+       points.add(new Point(0, 0));
+       points.add(new Point(4,0.0));
+       points.add(new Point(0,25));
+       Polygon myP = new Polygon(points);
+       assertEquals(Math.sqrt(641)+29, myP.perimeter(), DELTA);
+   }
+    @Test
+    public void testBigger()  {
+        Circle myC =  new Circle(new Point(1.5,-3.0),4.0);
+        Rectangle myR =  new Rectangle(new Point(0.0,2.0),new Point(4.0,0.0));
+        
+        List <Point> points = new ArrayList <Point>();
+        points.add(new Point(0,0));
+        points.add(new Point(4,0));
+        points.add(new Point(0,3));
+        points.add(new Point(0,5));
+        Polygon myP = new Polygon(points);
+        
+        assertEquals(8.0*Math.PI , Bigger.whichIsBigger(myC,myR,myP),DELTA);
+    }
 
    private static void verifyImplSpecifics(
       final Class<?> clazz,

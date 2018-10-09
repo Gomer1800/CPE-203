@@ -3,7 +3,7 @@ public class Util {
         return 2*Math.PI*myCircle.getRadius();
     }
     public static double perimeter(Rectangle myRectangle) {
-        return myRectangle.getTopLeft().getRadius() *2 +  myRectangle.getBottomRight().getRadius()*2;
+        return myRectangle.getTopLeft().getRadius() * myRectangle.getBottomRight().getRadius();
     }
     public static double perimeter(Polygon myPolygon) {
         double sum = 0;
