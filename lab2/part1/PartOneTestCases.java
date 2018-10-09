@@ -99,7 +99,7 @@ public class PartOneTestCases
    }
 
    @Test
-   public void testPerimPoly {
+   public void testPerimPoly()  {
        List <Point>points = new ArrayList <Point>();
            points.add(new Point(0, 0));
            points.add(new Point(3, 0));
@@ -109,7 +109,7 @@ public class PartOneTestCases
    }
 
    @Test
-   public void testBigger {
+   public void testBigger()  {
        Circle myC =  new Circle(new Point(0.0,0.0),4.0);
        Rectangle myR =  new Rectangle(new Point(0.0,2.0),new Point(4.0,0.0));
        
