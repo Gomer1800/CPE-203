@@ -15,7 +15,7 @@ public class Rectangle
         }
     }
     public double perimeter() {
-        return this.TOP_LEFT.getRadius() * this.BOTTOM_RIGHT.getRadius();
+        return this.TOP_LEFT.getRadius() *2 +  this.BOTTOM_RIGHT.getRadius()*2;
     }
     public Point getTopLeft() {
         return TOP_LEFT;

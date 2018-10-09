@@ -58,7 +58,7 @@ public class PartOneTestCases
          "getPoints");
 
       final List<Class> expectedMethodReturns = Arrays.asList(
-         List.class);
+         ArrayList.class);
 
       final List<Class[]> expectedMethodParameters = Arrays.asList(
          new Class[][] {new Class[0]});

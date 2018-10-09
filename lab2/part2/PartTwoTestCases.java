@@ -58,7 +58,7 @@ public class PartTwoTestCases
          "getPoints", "perimeter");
 
       final List<Class> expectedMethodReturns = Arrays.asList(
-         List.class, double.class);
+         ArrayList.class, double.class);
 
       final List<Class[]> expectedMethodParameters = Arrays.asList(
          new Class[0], new Class[0]);

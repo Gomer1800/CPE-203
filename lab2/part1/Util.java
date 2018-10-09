@@ -2,10 +2,10 @@ public class Util {
     public static double perimeter(Circle myCircle) {
         return 2*Math.PI*myCircle.getRadius();
     }
-    public static Double perimeter(Rectangle myRectangle) {
-        return myRectangle.getTopLeft().getRadius() * myRectangle.getBottomRight().getRadius();
+    public static double perimeter(Rectangle myRectangle) {
+        return myRectangle.getTopLeft().getRadius() *2 +  myRectangle.getBottomRight().getRadius()*2;
     }
-    public static Double perimeter(Polygon myPolygon) {
+    public static double perimeter(Polygon myPolygon) {
         double sum = 0;
         for (int i=0; i<myPolygon.getPoints().size(); i++) {
             if(i != myPolygon.getPoints().size()-1) {
