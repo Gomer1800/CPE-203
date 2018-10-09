@@ -99,13 +99,28 @@ public class PartOneTestCases
    }
 
    @Test
-   public void testPerimPoly() {
+   public void testPerimPoly {
        List <Point>points = new ArrayList <Point>();
            points.add(new Point(0, 0));
            points.add(new Point(3, 0));
            points.add(new Point(0, 4));
            double d = Util.perimeter(new Polygon(points));
            assertEquals(12.0, d, DELTA);
+   }
+
+   @Test
+   public void testBigger {
+       Circle myC =  new Circle(new Point(0.0,0.0),4.0);
+       Rectangle myR =  new Rectangle(new Point(0.0,2.0),new Point(4.0,0.0));
+       
+       List <Point> points = new ArrayList <Point>();
+       points.add(new Point(0,0));
+       points.add(new Point(4,0));
+       points.add(new Point(0,3));
+       points.add(new Point(0,5));
+       Polygon myP = new Polygon(points);
+
+       assertEquals(8.0*Math.PI , Bigger.whichIsBigger(myC,myR,myP),DELTA);
    }
    private static void verifyImplSpecifics(
       final Class<?> clazz,
