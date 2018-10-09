@@ -1,3 +1,5 @@
+GOAL: Make the program more OO. 
+
 +getCurrentImage(): PImage            <<static>> : could possibly belong in Background and Entitity object, attributes of both are called via instanceof. Accessor methods needed for both Entitity and Background image & imageIndex.
 
 -parseBackground(): boolean            <<static>>
