@@ -4,6 +4,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -98,8 +99,8 @@ public class PartOneTestCases
    }
 
    @Test
-   public void testPerimPoly {
-       List <Point>points = new ArrayList <Point>():
+   public void testPerimPoly() {
+       List <Point>points = new ArrayList <Point>();
            points.add(new Point(0, 0));
            points.add(new Point(3, 0));
            points.add(new Point(0, 4));
