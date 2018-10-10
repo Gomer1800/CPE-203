@@ -1,38 +1,46 @@
 GOAL: Make the program more OO. 
 
-+getCurrentImage(): PImage            <<static>> : could possibly belong in Background and Entitity object, attributes of both are called via instanceof. Accessor methods needed for both Entitity and Background image & imageIndex.
++getCurrentImage(): PImage : Background or Entity or Functions 1) Chose to split into Entity & Background 2) this function was split up and reimplemented as getImage() : PImage in both Background and Entity classes
 
--parseBackground(): boolean            <<static>>
++executeOreActivity() : Entity vs Action? 1) Entity 2) Only Entity attributes accessed, other objects are passed by reference to other methods within 
++executeOreBlobActivity() : Entity vs Action? 1) Entity 2) Only Entity attributes accessed, other objects are passed by reference to other methods within 
++executeQuakeActivity() : Entity vs Action? 1) Entity 2)  Quake is a type of entity, thus this belongs within Entity
++executeVeinActivity() : Entity vs Action? 1) Entity 2) Only Entity attributes accessed, other objects are passed by reference to other methods within 
 
--executeOreActivity() : Entity vs EventScheduler vs VirtualWorld. Attribute of Entity accessed but Eventscheduler and WorldModel method used. All three of these are found within VirtualWorld, should it go in there?
--executeOreBlobActivity() :
--executeQuakeActivity() :
--executeVeinActivity() :
++findOpenAround(): Optional<Point> : Point or WorldModel? 1) WorldModel 2) This method searches through a 2-D array for non-occupied points which has more to do with the WorldModel Class(High level) than the Point Class(lower level).
++nearestEntity(): Optional<Entity> <<static>> : Functions or WorldModel? 1) Worldmodel 2) The WorldModel object should be able to tell where the nearest Entity to a point lies.
+-setAlpha() <<static> : Functions or Imagestore? 1) Functions 2) Utility function
++load() <<static>> : Functions or VirtualWorld 1) Functions 2) Utility function
++processLine(): boolean <<static>> : Functions or VirtualWorld 1) Functions 2) Utility function
 
-+parseMiner(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
-+parseObstacle(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
-+parseOre(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
-+parseSmith(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
-+parseVein(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
++createAnimationAction(): Action : Action or Entity 1) Entity 2) All entities are expected to have animations/activity and to provide methods to create them
+-createActivityAction(): Action : Action or Entity 1) Entity 2) All entities are expected to have animations/activity and to provide methods to create them
 
--executeAction() : Could belong in either Action or EventScheduler class 1) chose Action class 2) because the "kind" attribute of Action is accessed via dot operator and both Action/EvenScheduler reference is passed to another Action method.
++loadImages() <<static>> : Functions or ImageStore 1) Functions 2) Utility functions
+-processImageLine() <<static>> : Functions or ImageStore 1) Functions 2) Utility function
+-getImages(): List<PImage> <<static>> : Functions or ImageStore 1) Functions 2) Utility function
 
--executeAnimationAction() : Action or EventScheduler 1) chose Action class 2) because the "entity" & "repeatCount" attributes of Action are accessed via dot operator and passed to another method
+-parseMiner(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
+-parseObstacle(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
+-parseOre(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
+-parseSmith(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
+-parseVein(): boolean            <<static>> : Requires its own class derived from entity, remains static for now
 
--executeActivityAction() : Action or EventScheduler 1) choose Action 2) Action attributes "entity.kind, world, imageStore, entity" accessed via dot operator. eventScheduler passed by reference
++executeAction() : Could belong in either Action or EventScheduler class 1) chose Action class 2) because the "kind" attribute of Action is accessed via dot operator and both Action/EvenScheduler reference is passed to another Action method.
+
+-executeAnimationAction() : Action or EventScheduler 1) Action class 2) because the "entity" & "repeatCount" attributes of Action are accessed via dot operator and passed to another method
+
+-executeActivityAction() : Action or EventScheduler 1) Action 2) Action attributes "entity.kind, world, imageStore, entity" accessed via dot operator. eventScheduler passed by reference
 
 -nextPositionMiner(): Point                  <<static>> : Either method for Entity or Point 1) chose Entity 2) Although attributes of both classes are accessed, this method returns a Point object relevant to the Miner entityKind.
 
--contains(): boolean                         <<static>> : Utility method for Viewport or Point 1) chose Viewport 2) Because the method specifically checks whether a given coordinate pair is found within the Viewport attributes
++contains(): boolean                         <<static>> : Utility method for Viewport or Point 1) chose Viewport 2) Because the method specifically checks whether a given coordinate pair is found within the Viewport attributes
 
--clamp()                                      <<static>> : Utility method in Functions
-
-+createActivityAction(): Action              <<static>>
-+createBlacksmith(): Entity                  <<static>>
-+createMinerFull(): Entity                   <<static>>
-+createMinerNotFull(): Entity                <<static>>
-+createObstacle(): Entity                    <<static>>
-+createOre(): Entity                         <<static>>
-+createOreBlob(): Entity                     <<static>>
-+createQuake(): Entity                       <<static>>
-+createVein(): Entity                        <<static>>
++createBlacksmith(): Entity                  <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
++createMinerFull(): Entity                   <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
++createMinerNotFull(): Entity                <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
++createObstacle(): Entity                    <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
++createOre(): Entity                         <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
++createOreBlob(): Entity                     <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
++createQuake(): Entity                       <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
++createVein(): Entity                        <<static>> :Functions or Entity? 1) Functions 2) This will have to be used later to make a derived class from Entity
