@@ -19,7 +19,25 @@ public class TestCases
    public static final double DELTA = 0.00001;
 
    /* put your tests here */
-
+   @Test
+   public void testCircleMethods() {
+       Circle myCircle = new Circle (1.0, new Point(-1,2), Color.green);
+       System.out.println("TESTING CIRCLE METHODS");
+       assertEquals(Color.green, myCircle.getColor());
+       System.out.print("Changed color from "+myCircle.getColor().toString());
+       myCircle.setColor(Color.black);
+       System.out.println(" to "+myCircle.getColor().toString());
+       assertEquals(Math.PI*Math.sqrt(myCircle.getRadius()), myCircle.getArea(), DELTA);
+       assertEquals(2*Math.PI*myCircle.getRadius(), myCircle.getPerimeter(), DELTA);
+       myCircle.translate( new Point(2,5));
+       System.out.println("Translating by (2, 5), new x: " +
+               myCircle.getCenter().getX()+ " new y : " +
+               myCircle.getCenter().getY() );
+       assertEquals(1.0, myCircle.getRadius(), DELTA);
+       myCircle.setRadius(3.0);
+       System.out.println("Changed radius from 1.0 to "+myCircle.getRadius());
+       assertEquals(new Point(1,7), myCircle.getCenter());
+   }
    
 
    /* HINT - comment out implementation tests for the classes that you have not yet implemented */
