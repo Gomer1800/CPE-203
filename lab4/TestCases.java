@@ -49,7 +49,7 @@ public class TestCases
    {
       final List<String> expectedMethodNames = Arrays.asList(
          "getColor", "setColor", "getArea", "getPerimeter", "translate",
-         "getWidth", "setWidth", "getHeight", "setHeight", "getUpperLeft");
+         "getWidth", "setWidth", "getHeight", "setHeight", "getTopLeft");
 
       final List<Class> expectedMethodReturns = Arrays.asList(
          Color.class, void.class, double.class, double.class, void.class,
