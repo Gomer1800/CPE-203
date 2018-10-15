@@ -11,6 +11,12 @@ final class Functions
 {
    public static final Random rand = new Random();
 
+   public static final String BGND_KEY = "background";
+   public static final int BGND_NUM_PROPERTIES = 4;
+   public static final int BGND_ID = 1;
+   public static final int BGND_COL = 2;
+   public static final int BGND_ROW = 3;
+
    public static final String BLOB_KEY = "blob";
    public static final String BLOB_ID_SUFFIX = " -- blob";
    public static final int BLOB_PERIOD_SCALE = 4;
@@ -36,11 +42,6 @@ final class Functions
 
    public static final int PROPERTY_KEY = 0;
 
-   public static final String BGND_KEY = "background";
-   public static final int BGND_NUM_PROPERTIES = 4;
-   public static final int BGND_ID = 1;
-   public static final int BGND_COL = 2;
-   public static final int BGND_ROW = 3;
 
    public static final String MINER_KEY = "miner";
    public static final int MINER_NUM_PROPERTIES = 7;
@@ -97,7 +98,7 @@ final class Functions
       }
    }
 
-   public static int getAnimationPeriod(Entity entity)
+   /*public static int getAnimationPeriod(Entity entity)
    {
       switch (entity.kind)
       {
@@ -111,12 +112,12 @@ final class Functions
             String.format("getAnimationPeriod not supported for %s",
             entity.kind));
       }
-   }
+   }*/
 
-   public static void nextImage(Entity entity)
+   /*public static void nextImage(Entity entity)
    {
       entity.imageIndex = (entity.imageIndex + 1) % entity.images.size();
-   }
+   }*/
 
    /*public static void executeAction(Action action, EventScheduler scheduler)
    {
@@ -188,7 +189,7 @@ final class Functions
       }
    }*/
 
-   public static void executeMinerFullActivity(Entity entity, WorldModel world,
+   /*public static void executeMinerFullActivity(Entity entity, WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Entity> fullTarget = findNearest(world, entity.position,
@@ -205,9 +206,9 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
       }
-   }
+   }*/
 
-   public static void executeMinerNotFullActivity(Entity entity,
+   /*public static void executeMinerNotFullActivity(Entity entity,
       WorldModel world, ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Entity> notFullTarget = findNearest(world, entity.position,
@@ -221,9 +222,9 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
       }
-   }
+   }*/
 
-   public static void executeOreActivity(Entity entity, WorldModel world,
+   /*public static void executeOreActivity(Entity entity, WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Point pos = entity.position;  // store current position before removing
@@ -239,9 +240,9 @@ final class Functions
 
       world.addEntity(blob);
       scheduleActions(blob, scheduler, world, imageStore);
-   }
+   }*/
 
-   public static void executeOreBlobActivity(Entity entity, WorldModel world,
+   /*public static void executeOreBlobActivity(Entity entity, WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Entity> blobTarget = findNearest(world,
@@ -266,16 +267,16 @@ final class Functions
       scheduler.scheduleEvent(entity,
          createActivityAction(entity, world, imageStore),
          nextPeriod);
-   }
+   }*/
 
-   public static void executeQuakeActivity(Entity entity, WorldModel world,
+   /*public static void executeQuakeActivity(Entity entity, WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       scheduler.unscheduleAllEvents(entity);
       world.removeEntity(entity);
-   }
+   }*/
 
-   public static void executeVeinActivity(Entity entity, WorldModel world,
+   /*public static void executeVeinActivity(Entity entity, WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Point> openPt = world.findOpenAround(entity.position);
@@ -293,9 +294,9 @@ final class Functions
       scheduler.scheduleEvent(entity,
          createActivityAction(entity, world, imageStore),
          entity.actionPeriod);
-   }
+   }*/
 
-   public static void scheduleActions(Entity entity, EventScheduler scheduler,
+   /*public static void scheduleActions(Entity entity, EventScheduler scheduler,
       WorldModel world, ImageStore imageStore)
    {
       switch (entity.kind)
@@ -305,7 +306,7 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          scheduler.scheduleEvent(entity, createAnimationAction(entity, 0),
-            getAnimationPeriod(entity));
+            entity.getAnimationPeriod());
          break;
 
       case MINER_NOT_FULL:
@@ -313,7 +314,7 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, 0), getAnimationPeriod(entity));
+            createAnimationAction(entity, 0), entity.getAnimationPeriod());
          break;
 
       case ORE:
@@ -327,7 +328,7 @@ final class Functions
             createActivityAction(entity, world, imageStore),
             entity.actionPeriod);
          scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, 0), getAnimationPeriod(entity));
+            createAnimationAction(entity, 0), entity.getAnimationPeriod());
          break;
 
       case QUAKE:
@@ -336,7 +337,7 @@ final class Functions
             entity.actionPeriod);
          scheduler.scheduleEvent(entity,
             createAnimationAction(entity, QUAKE_ANIMATION_REPEAT_COUNT),
-            getAnimationPeriod(entity));
+            entity.getAnimationPeriod());
          break;
 
       case VEIN:
@@ -347,7 +348,7 @@ final class Functions
 
       default:
       }
-   }
+   }*/
 
    public static boolean transformNotFull(Entity entity, WorldModel world,
       EventScheduler scheduler, ImageStore imageStore)
@@ -362,7 +363,7 @@ final class Functions
          scheduler.unscheduleAllEvents(entity);
 
          world.addEntity(miner);
-         scheduleActions(miner, scheduler, world, imageStore);
+         miner.scheduleActions(scheduler, world, imageStore);
 
          return true;
       }
@@ -381,7 +382,7 @@ final class Functions
       scheduler.unscheduleAllEvents(entity);
 
       world.addEntity(miner);
-      scheduleActions(miner, scheduler, world, imageStore);
+      miner.scheduleActions(scheduler, world, imageStore);
    }
 
    public static boolean moveToNotFull(Entity miner, WorldModel world,
