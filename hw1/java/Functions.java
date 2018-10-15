@@ -285,7 +285,7 @@ final class Functions
          Entity ore = createOre(ORE_ID_PREFIX + entity.id,
             openPt.get(), ORE_CORRUPT_MIN +
                rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
-            getImageList(imageStore, ORE_KEY));
+            imageStore.getImageList(ORE_KEY));
          addEntity(world, ore);
          scheduleActions(ore, scheduler, world, imageStore);
       }
@@ -591,10 +591,10 @@ final class Functions
       }
    }
 
-   public static List<PImage> getImageList(ImageStore imageStore, String key)
+   /*public static List<PImage> getImageList(ImageStore imageStore, String key)
    {
       return imageStore.images.getOrDefault(key, imageStore.defaultImages);
-   }
+   }*/
 
    public static void loadImages(Scanner in, ImageStore imageStore,
       PApplet screen)
