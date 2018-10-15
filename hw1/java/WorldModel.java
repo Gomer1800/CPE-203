@@ -2,6 +2,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Optional;
+import java.util.List;
+import java.util.LinkedList;
 import processing.core.PImage;
 
 final class WorldModel
@@ -32,9 +34,25 @@ final class WorldModel
    public int getNumCols() { return this.numCols; }
    public Set<Entity> getEntities() { return this.entities; }
    // Methods
+
+   public Optional<Entity> findNearest(Point pos,
+      EntityKind kind)
+   {
+      List<Entity> ofType = new LinkedList<>();
+      for (Entity entity : this.getEntities())
+      {
+         if (entity.getKind() == kind)
+         {
+            ofType.add(entity);
+         }
+      }
+
+      return Functions.nearestEntity(ofType, pos);
+   }
+
    public void tryAddEntity(Entity entity)
    {
-      if (this.isOccupied(entity.position))
+      if (this.isOccupied(entity.getPosition()))
       {
          // arguably the wrong type of exception, but we are not
          // defining our own exceptions yet
@@ -76,28 +94,28 @@ final class WorldModel
 
    public void addEntity(Entity entity)
    {
-      if (this.withinBounds(entity.position))
+      if (this.withinBounds(entity.getPosition()))
       {
-         this.setOccupancyCell(entity.position, entity);
+         this.setOccupancyCell(entity.getPosition(), entity);
          this.entities.add(entity);
       }
    }
 
    public void moveEntity(Entity entity, Point pos)
    {
-      Point oldPos = entity.position;
+      Point oldPos = entity.getPosition();
       if (this.withinBounds(pos) && !pos.equals(oldPos))
       {
          this.setOccupancyCell(oldPos, null);
          this.removeEntityAt(pos);
          this.setOccupancyCell(pos, entity);
-         entity.position = pos;
+         entity.setPosition(pos);
       }
    }
 
    public void removeEntity(Entity entity)
    {
-      this.removeEntityAt(entity.position);
+      this.removeEntityAt(entity.getPosition());
    }
 
    private void removeEntityAt(Point pos)
@@ -109,7 +127,7 @@ final class WorldModel
 
          /* this moves the entity just outside of the grid for
             debugging purposes */
-         entity.position = new Point(-1, -1);
+         entity.setPosition(new Point(-1, -1));
          this.entities.remove(entity);
          this.setOccupancyCell(pos, null);
       }

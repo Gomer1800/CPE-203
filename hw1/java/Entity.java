@@ -5,15 +5,15 @@ import java.util.Random;
 
 final class Entity
 {
-   public EntityKind kind;
-   public String id;
-   public Point position;
-   public List<PImage> images;
-   public int imageIndex;
-   public int resourceLimit;
-   public int resourceCount;
-   public int actionPeriod;
-   public int animationPeriod;
+   private final EntityKind kind;
+   private final String id;
+   private Point position;
+   private final List<PImage> images;
+   private int imageIndex;
+   private final int resourceLimit;
+   private int resourceCount;
+   private final int actionPeriod;
+   private final int animationPeriod;
 
    public static final String BLOB_KEY = "blob";
    public static final String BLOB_ID_SUFFIX = " -- blob";
@@ -31,15 +31,6 @@ final class Entity
    public static final int QUAKE_ACTION_PERIOD = 1100;
    public static final int QUAKE_ANIMATION_PERIOD = 100;
    public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
-
-   public static final int COLOR_MASK = 0xffffff;
-   public static final int KEYED_IMAGE_MIN = 5;
-   private static final int KEYED_RED_IDX = 2;
-   private static final int KEYED_GREEN_IDX = 3;
-   private static final int KEYED_BLUE_IDX = 4;
-
-   public static final int PROPERTY_KEY = 0;
-
 
    public static final String MINER_KEY = "miner";
    public static final int MINER_NUM_PROPERTIES = 7;
@@ -65,6 +56,16 @@ final class Entity
 
    public static final String SMITH_KEY = "blacksmith";
    public static final int SMITH_NUM_PROPERTIES = 4;
+   public static final int SMITH_ID = 1;
+   public static final int SMITH_COL = 2;
+   public static final int SMITH_ROW = 3;
+
+   public static final String VEIN_KEY = "vein";
+   public static final int VEIN_NUM_PROPERTIES = 5;
+   public static final int VEIN_ID = 1;
+   public static final int VEIN_COL = 2;
+   public static final int VEIN_ROW = 3;
+
 
    public Entity(EntityKind kind, String id, Point position,
       List<PImage> images, int resourceLimit, int resourceCount,
@@ -81,7 +82,196 @@ final class Entity
       this.animationPeriod = animationPeriod;
    }
    // accessors
+   public EntityKind getKind() { return this.kind; }
+   public String getID() { return this.id; }
+   public Point getPosition() { return this.position; }
+   public List<PImage> getImages() { return this.images; }
+   public int getImageIndex() { return this.imageIndex; }
+   public int getResourceLimit() { return this.resourceLimit; }
+   public int getResourceCount() { return this.resourceCount; }
+   public int getActionPeriod() { return this.actionPeriod; }
+
+   public void setPosition(Point p) { this.position = p; }
    // Methods
+
+   public Action createActivityAction(WorldModel world,
+      ImageStore imageStore)
+   {
+      return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
+   }
+
+   public Action createAnimationAction(int repeatCount)
+   {
+      return new Action(ActionKind.ANIMATION, this, null, null, repeatCount);
+   }
+
+   public Point nextPositionOreBlob(WorldModel world,
+      Point destPos)
+   {
+      int horiz = Integer.signum(destPos.getX() - this.position.getX());
+      Point newPos = new Point(this.position.getX() + horiz,
+         this.position.getY());
+
+      Optional<Entity> occupant = world.getOccupant(newPos);
+
+      if (horiz == 0 ||
+         (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
+      {
+         int vert = Integer.signum(destPos.getY() - this.position.getY());
+         newPos = new Point(this.position.getX(), this.position.getY() + vert);
+         occupant = world.getOccupant(newPos);
+
+         if (vert == 0 ||
+            (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
+         {
+            newPos = this.position;
+         }
+      }
+
+      return newPos;
+   }
+
+
+   public Point nextPositionMiner(WorldModel world,
+      Point destPos)
+   {
+      int horiz = Integer.signum(destPos.getX() - this.position.getX());
+      Point newPos = new Point(this.position.getX() + horiz,
+         this.position.getY());
+
+      if (horiz == 0 || world.isOccupied(newPos))
+      {
+         int vert = Integer.signum(destPos.getY() - this.position.getY());
+         newPos = new Point(this.position.getX(),
+            this.position.getY() + vert);
+
+         if (vert == 0 || world.isOccupied(newPos))
+         {
+            newPos = this.position;
+         }
+      }
+
+      return newPos;
+   }
+
+   public static boolean moveToOreBlob(Entity blob, WorldModel world,
+      Entity target, EventScheduler scheduler)
+   {
+      if (Point.adjacent(blob.position, target.position))
+      {
+         world.removeEntity(target);
+         scheduler.unscheduleAllEvents(target);
+         return true;
+      }
+      else
+      {
+         Point nextPos = blob.nextPositionOreBlob(world, target.position);
+
+         if (!blob.position.equals(nextPos))
+         {
+            Optional<Entity> occupant = world.getOccupant(nextPos);
+            if (occupant.isPresent())
+            {
+               scheduler.unscheduleAllEvents(occupant.get());
+            }
+
+            world.moveEntity(blob, nextPos);
+         }
+         return false;
+      }
+   }
+
+
+   public static boolean moveToFull(Entity miner, WorldModel world,
+      Entity target, EventScheduler scheduler)
+   {
+      if (Point.adjacent(miner.position, target.position))
+      {
+         return true;
+      }
+      else
+      {
+         Point nextPos = miner.nextPositionMiner(world, target.position);
+
+         if (!miner.position.equals(nextPos))
+         {
+            Optional<Entity> occupant = world.getOccupant(nextPos);
+            if (occupant.isPresent())
+            {
+               scheduler.unscheduleAllEvents(occupant.get());
+            }
+
+            world.moveEntity(miner, nextPos);
+         }
+         return false;
+      }
+   }
+
+
+   public static boolean moveToNotFull(Entity miner, WorldModel world,
+      Entity target, EventScheduler scheduler)
+   {
+      if (Point.adjacent(miner.position, target.position))
+      {
+         miner.resourceCount += 1;
+         world.removeEntity(target);
+         scheduler.unscheduleAllEvents(target);
+
+         return true;
+      }
+      else
+      {
+         Point nextPos = miner.nextPositionMiner(world, target.position);
+
+         if (!miner.position.equals(nextPos))
+         {
+            Optional<Entity> occupant = world.getOccupant(nextPos);
+            if (occupant.isPresent())
+            {
+               scheduler.unscheduleAllEvents(occupant.get());
+            }
+
+            world.moveEntity(miner, nextPos);
+         }
+         return false;
+      }
+   }
+
+
+   public void transformFull(WorldModel world,
+      EventScheduler scheduler, ImageStore imageStore)
+   {
+      Entity miner = Functions.createMinerNotFull(this.id, this.resourceLimit,
+         this.position, this.actionPeriod, this.animationPeriod,
+         this.images);
+
+      world.removeEntity(this);
+      scheduler.unscheduleAllEvents(this);
+
+      world.addEntity(miner);
+      miner.scheduleActions(scheduler, world, imageStore);
+   }
+
+   public boolean transformNotFull(WorldModel world,
+      EventScheduler scheduler, ImageStore imageStore)
+   {
+      if (this.resourceCount >= this.resourceLimit)
+      {
+         Entity miner = Functions.createMinerFull(this.id, this.resourceLimit,
+            this.position, this.actionPeriod, this.animationPeriod,
+            this.images);
+
+         world.removeEntity(this);
+         scheduler.unscheduleAllEvents(this);
+
+         world.addEntity(miner);
+         miner.scheduleActions(scheduler, world, imageStore);
+
+         return true;
+      }
+
+      return false;
+   }
 
    public int getAnimationPeriod()
    {
@@ -107,33 +297,33 @@ final class Entity
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
-      Optional<Entity> fullTarget = Functions.findNearest(world, this.position,
+      Optional<Entity> fullTarget = world.findNearest(this.position,
          EntityKind.BLACKSMITH);
 
       if (fullTarget.isPresent() &&
-         Functions.moveToFull(this, world, fullTarget.get(), scheduler))
+         Entity.moveToFull(this, world, fullTarget.get(), scheduler))
       {
-         Functions.transformFull(this, world, scheduler, imageStore);
+         this.transformFull(world, scheduler, imageStore);
       }
       else
       {
           scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
       }
    }
 
    public void executeMinerNotFullActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
    {
-      Optional<Entity> notFullTarget = Functions.findNearest(world, this.position,
+      Optional<Entity> notFullTarget = world.findNearest(this.position,
          EntityKind.ORE);
 
       if (!notFullTarget.isPresent() ||
-         !Functions.moveToNotFull(this, world, notFullTarget.get(), scheduler) ||
-         !Functions.transformNotFull(this, world, scheduler, imageStore))
+         !Entity.moveToNotFull(this, world, notFullTarget.get(), scheduler) ||
+         !this.transformNotFull(world, scheduler, imageStore))
       {
          scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
       }
    }
@@ -159,15 +349,14 @@ final class Entity
    public void executeOreBlobActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
-      Optional<Entity> blobTarget = Functions.findNearest(world,
-         this.position, EntityKind.VEIN);
+      Optional<Entity> blobTarget = world.findNearest(this.position, EntityKind.VEIN);
       long nextPeriod = this.actionPeriod;
 
       if (blobTarget.isPresent())
       {
          Point tgtPos = blobTarget.get().position;
 
-         if (Functions.moveToOreBlob(this, world, blobTarget.get(), scheduler))
+         if (Entity.moveToOreBlob(this, world, blobTarget.get(), scheduler))
          {
             Entity quake = Functions.createQuake(tgtPos,
                imageStore.getImageList(QUAKE_KEY));
@@ -179,7 +368,7 @@ final class Entity
       }
 
       scheduler.scheduleEvent(this,
-         Functions.createActivityAction(this, world, imageStore),
+         this.createActivityAction(world, imageStore),
          nextPeriod);
    }
 
@@ -206,7 +395,7 @@ final class Entity
       }
 
       scheduler.scheduleEvent(this,
-         Functions.createActivityAction(this, world, imageStore),
+         this.createActivityAction(world, imageStore),
          this.actionPeriod);
    }
 
@@ -217,46 +406,46 @@ final class Entity
       {
       case MINER_FULL:
          scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
-         scheduler.scheduleEvent(this, Functions.createAnimationAction(this, 0),
+         scheduler.scheduleEvent(this, this.createAnimationAction(0),
             this.getAnimationPeriod());
          break;
 
       case MINER_NOT_FULL:
          scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
          scheduler.scheduleEvent(this,
-            Functions.createAnimationAction(this, 0), this.getAnimationPeriod());
+            this.createAnimationAction(0), this.getAnimationPeriod());
          break;
 
       case ORE:
          scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
          break;
 
       case ORE_BLOB:
          scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
          scheduler.scheduleEvent(this,
-            Functions.createAnimationAction(this, 0), this.getAnimationPeriod());
+            this.createAnimationAction(0), this.getAnimationPeriod());
          break;
 
       case QUAKE:
          scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
          scheduler.scheduleEvent(this,
-            Functions.createAnimationAction(this, QUAKE_ANIMATION_REPEAT_COUNT),
+            this.createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
             this.getAnimationPeriod());
          break;
 
       case VEIN:
          scheduler.scheduleEvent(this,
-            Functions.createActivityAction(this, world, imageStore),
+            this.createActivityAction(world, imageStore),
             this.actionPeriod);
          break;
 

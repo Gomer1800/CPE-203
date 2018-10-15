@@ -33,14 +33,14 @@ public final class VirtualWorld
    public static final double FASTER_SCALE = 0.25;
    public static final double FASTEST_SCALE = 0.10;
 
-   public static double timeScale = 1.0;
+   private static double timeScale = 1.0;
 
-   public ImageStore imageStore;
-   public WorldModel world;
-   public WorldView view;
-   public EventScheduler scheduler;
+   private ImageStore imageStore;
+   private WorldModel world;
+   private WorldView view;
+   private EventScheduler scheduler;
 
-   public long next_time;
+   private long next_time;
 
    public void settings()
    {

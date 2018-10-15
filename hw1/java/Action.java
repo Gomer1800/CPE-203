@@ -33,15 +33,14 @@ final class Action
 
        if(this.repeatCount != 1) {
            scheduler.scheduleEvent(this.entity,
-                   Functions.createAnimationAction(this.entity,
-                       Math.max(this.repeatCount - 1, 0)),
+                   this.entity.createAnimationAction(Math.max(this.repeatCount - 1, 0)),
                    entity.getAnimationPeriod());
        }
    }
 
    private void executeActivityAction(EventScheduler scheduler)
    {
-      switch (this.entity.kind)
+      switch (this.entity.getKind())
       {
       case MINER_FULL:
          this.entity.executeMinerFullActivity(this.world,
@@ -76,7 +75,7 @@ final class Action
       default:
          throw new UnsupportedOperationException(
             String.format("executeActivityAction not supported for %s",
-            this.entity.kind));
+            this.entity.getKind()));
       }
    }
 }

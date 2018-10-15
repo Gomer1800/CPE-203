@@ -17,6 +17,14 @@ final class Functions
    public static final int BGND_COL = 2;
    public static final int BGND_ROW = 3;
 
+   public static final int COLOR_MASK = 0xffffff;
+   public static final int KEYED_IMAGE_MIN = 5;
+   private static final int KEYED_RED_IDX = 2;
+   private static final int KEYED_GREEN_IDX = 3;
+   private static final int KEYED_BLUE_IDX = 4;
+
+   public static final int PROPERTY_KEY = 0;
+
    public static final String BLOB_KEY = "blob";
    public static final String BLOB_ID_SUFFIX = " -- blob";
    public static final int BLOB_PERIOD_SCALE = 4;
@@ -33,15 +41,6 @@ final class Functions
    public static final int QUAKE_ACTION_PERIOD = 1100;
    public static final int QUAKE_ANIMATION_PERIOD = 100;
    public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
-
-   public static final int COLOR_MASK = 0xffffff;
-   public static final int KEYED_IMAGE_MIN = 5;
-   private static final int KEYED_RED_IDX = 2;
-   private static final int KEYED_GREEN_IDX = 3;
-   private static final int KEYED_BLUE_IDX = 4;
-
-   public static final int PROPERTY_KEY = 0;
-
 
    public static final String MINER_KEY = "miner";
    public static final int MINER_NUM_PROPERTIES = 7;
@@ -77,8 +76,7 @@ final class Functions
    public static final int VEIN_COL = 2;
    public static final int VEIN_ROW = 3;
    public static final int VEIN_ACTION_PERIOD = 4;
-
-
+   
    public static PImage getCurrentImage(Object entity)
    {
       if (entity instanceof Background)
@@ -88,7 +86,7 @@ final class Functions
       }
       else if (entity instanceof Entity)
       {
-         return ((Entity)entity).images.get(((Entity)entity).imageIndex);
+         return ((Entity)entity).getImages().get(((Entity)entity).getImageIndex());
       }
       else
       {
@@ -350,7 +348,7 @@ final class Functions
       }
    }*/
 
-   public static boolean transformNotFull(Entity entity, WorldModel world,
+   /*public static boolean transformNotFull(Entity entity, WorldModel world,
       EventScheduler scheduler, ImageStore imageStore)
    {
       if (entity.resourceCount >= entity.resourceLimit)
@@ -369,9 +367,9 @@ final class Functions
       }
 
       return false;
-   }
+   }*/
 
-   public static void transformFull(Entity entity, WorldModel world,
+   /*public static void transformFull(Entity entity, WorldModel world,
       EventScheduler scheduler, ImageStore imageStore)
    {
       Entity miner = createMinerNotFull(entity.id, entity.resourceLimit,
@@ -383,9 +381,9 @@ final class Functions
 
       world.addEntity(miner);
       miner.scheduleActions(scheduler, world, imageStore);
-   }
+   }*/
 
-   public static boolean moveToNotFull(Entity miner, WorldModel world,
+   /*public static boolean moveToNotFull(Entity miner, WorldModel world,
       Entity target, EventScheduler scheduler)
    {
       if (Point.adjacent(miner.position, target.position))
@@ -412,9 +410,9 @@ final class Functions
          }
          return false;
       }
-   }
+   }*/
 
-   public static boolean moveToFull(Entity miner, WorldModel world,
+   /*public static boolean moveToFull(Entity miner, WorldModel world,
       Entity target, EventScheduler scheduler)
    {
       if (Point.adjacent(miner.position, target.position))
@@ -437,9 +435,9 @@ final class Functions
          }
          return false;
       }
-   }
+   }*/
 
-   public static boolean moveToOreBlob(Entity blob, WorldModel world,
+   /*public static boolean moveToOreBlob(Entity blob, WorldModel world,
       Entity target, EventScheduler scheduler)
    {
       if (Point.adjacent(blob.position, target.position))
@@ -464,9 +462,9 @@ final class Functions
          }
          return false;
       }
-   }
+   }*/
 
-   public static Point nextPositionMiner(Entity entity, WorldModel world,
+   /*public static Point nextPositionMiner(Entity entity, WorldModel world,
       Point destPos)
    {
       int horiz = Integer.signum(destPos.getX() - entity.position.getX());
@@ -486,9 +484,9 @@ final class Functions
       }
 
       return newPos;
-   }
+   }*/
 
-   public static Point nextPositionOreBlob(Entity entity, WorldModel world,
+   /*public static Point nextPositionOreBlob(Entity entity, WorldModel world,
       Point destPos)
    {
       int horiz = Integer.signum(destPos.getX() - entity.position.getX());
@@ -512,7 +510,7 @@ final class Functions
       }
 
       return newPos;
-   }
+   }*/
 
    /*public static boolean adjacent(Point p1, Point p2)
    {
@@ -869,11 +867,11 @@ final class Functions
       else
       {
          Entity nearest = entities.get(0);
-         int nearestDistance = Point.distanceSquared(nearest.position, pos);
+         int nearestDistance = Point.distanceSquared(nearest.getPosition(), pos);
 
          for (Entity other : entities)
          {
-            int otherDistance = Point.distanceSquared(other.position, pos);
+            int otherDistance = Point.distanceSquared(other.getPosition(), pos);
 
             if (otherDistance < nearestDistance)
             {
@@ -894,7 +892,7 @@ final class Functions
       return deltaX * deltaX + deltaY * deltaY;
    }*/
 
-   public static Optional<Entity> findNearest(WorldModel world, Point pos,
+   /*public static Optional<Entity> findNearest(WorldModel world, Point pos,
       EntityKind kind)
    {
       List<Entity> ofType = new LinkedList<>();
@@ -907,7 +905,7 @@ final class Functions
       }
 
       return nearestEntity(ofType, pos);
-   }
+   }*/
 
    /*
       Assumes that there is no entity currently occupying the
@@ -1075,16 +1073,16 @@ final class Functions
       view.drawEntities();
    }*/
 
-   public static Action createAnimationAction(Entity entity, int repeatCount)
+   /*public static Action createAnimationAction(Entity entity, int repeatCount)
    {
       return new Action(ActionKind.ANIMATION, entity, null, null, repeatCount);
-   }
+   }*/
 
-   public static Action createActivityAction(Entity entity, WorldModel world,
+   /*public static Action createActivityAction(Entity entity, WorldModel world,
       ImageStore imageStore)
    {
       return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
-   }
+   }*/
 
    public static Entity createBlacksmith(String id, Point position,
       List<PImage> images)
