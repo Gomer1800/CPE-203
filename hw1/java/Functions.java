@@ -604,7 +604,7 @@ final class Functions
       {
          try
          {
-            processImageLine(imageStore.images, in.nextLine(), screen);
+            processImageLine(imageStore.getImages(), in.nextLine(), screen);
          }
          catch (NumberFormatException e)
          {
