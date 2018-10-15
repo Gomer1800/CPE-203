@@ -15,56 +15,56 @@ final class Entity
    private final int actionPeriod;
    private final int animationPeriod;
 
-   public static final String BLOB_KEY = "blob";
-   public static final String BLOB_ID_SUFFIX = " -- blob";
-   public static final int BLOB_PERIOD_SCALE = 4;
-   public static final int BLOB_ANIMATION_MIN = 50;
-   public static final int BLOB_ANIMATION_MAX = 150;
+   private static final String BLOB_KEY = "blob";
+   private static final String BLOB_ID_SUFFIX = " -- blob";
+   private static final int BLOB_PERIOD_SCALE = 4;
+   private static final int BLOB_ANIMATION_MIN = 50;
+   private static final int BLOB_ANIMATION_MAX = 150;
 
-   public static final String ORE_ID_PREFIX = "ore -- ";
-   public static final int ORE_CORRUPT_MIN = 20000;
-   public static final int ORE_CORRUPT_MAX = 30000;
-   public static final int ORE_REACH = 1;
+   private static final String ORE_ID_PREFIX = "ore -- ";
+   private static final int ORE_CORRUPT_MIN = 20000;
+   private static final int ORE_CORRUPT_MAX = 30000;
+   private static final int ORE_REACH = 1;
 
-   public static final String QUAKE_KEY = "quake";
-   public static final String QUAKE_ID = "quake";
-   public static final int QUAKE_ACTION_PERIOD = 1100;
-   public static final int QUAKE_ANIMATION_PERIOD = 100;
-   public static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
+   private static final String QUAKE_KEY = "quake";
+   private static final String QUAKE_ID = "quake";
+   private static final int QUAKE_ACTION_PERIOD = 1100;
+   private static final int QUAKE_ANIMATION_PERIOD = 100;
+   private static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
 
-   public static final String MINER_KEY = "miner";
-   public static final int MINER_NUM_PROPERTIES = 7;
-   public static final int MINER_ID = 1;
-   public static final int MINER_COL = 2;
-   public static final int MINER_ROW = 3;
-   public static final int MINER_LIMIT = 4;
-   public static final int MINER_ACTION_PERIOD = 5;
-   public static final int MINER_ANIMATION_PERIOD = 6;
+   private static final String MINER_KEY = "miner";
+   private static final int MINER_NUM_PROPERTIES = 7;
+   private static final int MINER_ID = 1;
+   private static final int MINER_COL = 2;
+   private static final int MINER_ROW = 3;
+   private static final int MINER_LIMIT = 4;
+   private static final int MINER_ACTION_PERIOD = 5;
+   private static final int MINER_ANIMATION_PERIOD = 6;
 
-   public static final String OBSTACLE_KEY = "obstacle";
-   public static final int OBSTACLE_NUM_PROPERTIES = 4;
-   public static final int OBSTACLE_ID = 1;
-   public static final int OBSTACLE_COL = 2;
-   public static final int OBSTACLE_ROW = 3;
+   private static final String OBSTACLE_KEY = "obstacle";
+   private static final int OBSTACLE_NUM_PROPERTIES = 4;
+   private static final int OBSTACLE_ID = 1;
+   private static final int OBSTACLE_COL = 2;
+   private static final int OBSTACLE_ROW = 3;
 
-   public static final String ORE_KEY = "ore";
-   public static final int ORE_NUM_PROPERTIES = 5;
-   public static final int ORE_ID = 1;
-   public static final int ORE_COL = 2;
-   public static final int ORE_ROW = 3;
-   public static final int ORE_ACTION_PERIOD = 4;
+   private static final String ORE_KEY = "ore";
+   private static final int ORE_NUM_PROPERTIES = 5;
+   private static final int ORE_ID = 1;
+   private static final int ORE_COL = 2;
+   private static final int ORE_ROW = 3;
+   private static final int ORE_ACTION_PERIOD = 4;
 
-   public static final String SMITH_KEY = "blacksmith";
-   public static final int SMITH_NUM_PROPERTIES = 4;
-   public static final int SMITH_ID = 1;
-   public static final int SMITH_COL = 2;
-   public static final int SMITH_ROW = 3;
+   private static final String SMITH_KEY = "blacksmith";
+   private static final int SMITH_NUM_PROPERTIES = 4;
+   private static final int SMITH_ID = 1;
+   private static final int SMITH_COL = 2;
+   private static final int SMITH_ROW = 3;
 
-   public static final String VEIN_KEY = "vein";
-   public static final int VEIN_NUM_PROPERTIES = 5;
-   public static final int VEIN_ID = 1;
-   public static final int VEIN_COL = 2;
-   public static final int VEIN_ROW = 3;
+   private static final String VEIN_KEY = "vein";
+   private static final int VEIN_NUM_PROPERTIES = 5;
+   private static final int VEIN_ID = 1;
+   private static final int VEIN_COL = 2;
+   private static final int VEIN_ROW = 3;
 
 
    public Entity(EntityKind kind, String id, Point position,
