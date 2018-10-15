@@ -671,17 +671,17 @@ final class Functions
       img.updatePixels();
    }
 
-   public static void shift(Viewport viewport, int col, int row)
+   /*public static void shift(Viewport viewport, int col, int row)
    {
       viewport.col = col;
       viewport.row = row;
-   }
+   }*/
 
-   public static boolean contains(Viewport viewport, Point p)
+   /*public static boolean contains(Viewport viewport, Point p)
    {
       return p.y >= viewport.row && p.y < viewport.row + viewport.numRows &&
          p.x >= viewport.col && p.x < viewport.col + viewport.numCols;
-   }
+   }*/
 
    public static void load(Scanner in, WorldModel world, ImageStore imageStore)
    {
@@ -1009,7 +1009,7 @@ final class Functions
       world.background[pos.y][pos.x] = background;
    }
 
-   public static Point viewportToWorld(Viewport viewport, int col, int row)
+   /*public static Point viewportToWorld(Viewport viewport, int col, int row)
    {
       return new Point(col + viewport.col, row + viewport.row);
    }
@@ -1017,14 +1017,14 @@ final class Functions
    public static Point worldToViewport(Viewport viewport, int col, int row)
    {
       return new Point(col - viewport.col, row - viewport.row);
-   }
+   }*/
 
    public static int clamp(int value, int low, int high)
    {
       return Math.min(high, Math.max(value, low));
    }
 
-   public static void shiftView(WorldView view, int colDelta, int rowDelta)
+   /*public static void shiftView(WorldView view, int colDelta, int rowDelta)
    {
       int newCol = clamp(view.viewport.col + colDelta, 0,
          view.world.numCols - view.viewport.numCols);
@@ -1032,9 +1032,9 @@ final class Functions
          view.world.numRows - view.viewport.numRows);
 
       shift(view.viewport, newCol, newRow);
-   }
+   }*/
 
-   public static void drawBackground(WorldView view)
+   /*public static void drawBackground(WorldView view)
    {
       for (int row = 0; row < view.viewport.numRows; row++)
       {
@@ -1050,9 +1050,9 @@ final class Functions
             }
          }
       }
-   }
+   }*/
 
-   public static void drawEntities(WorldView view)
+   /*public static void drawEntities(WorldView view)
    {
       for (Entity entity : view.world.entities)
       {
@@ -1065,13 +1065,13 @@ final class Functions
                viewPoint.x * view.tileWidth, viewPoint.y * view.tileHeight);
          }
       }
-   }
+   }*/
 
-   public static void drawViewport(WorldView view)
+   /*public static void drawViewport(WorldView view)
    {
-      drawBackground(view);
-      drawEntities(view);
-   }
+      view.drawBackground();
+      view.drawEntities();
+   }*/
 
    public static Action createAnimationAction(Entity entity, int repeatCount)
    {
