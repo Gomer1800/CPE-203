@@ -46,7 +46,7 @@ final class EventScheduler
 
    private void removePendingEvent(Event event)
    {
-      List<Event> pending = this.pendingEvents.get(event.entity);
+      List<Event> pending = this.pendingEvents.get(event.getEntity());
 
       if (pending != null)
       {
@@ -57,13 +57,13 @@ final class EventScheduler
    public void updateOnTime(long time)
    {
       while (!this.eventQueue.isEmpty() &&
-         this.eventQueue.peek().time < time)
+         this.eventQueue.peek().getTime() < time)
       {
          Event next = this.eventQueue.poll();
          
          this.removePendingEvent(next);
          
-         next.action.executeAction(this);
+         next.getAction().executeAction(this);
       }
    }
 

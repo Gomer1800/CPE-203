@@ -1,8 +1,8 @@
 final class Event
 {
-   public Action action;
-   public long time;
-   public Entity entity;
+   private final Action action;
+   private final long time;
+   private final Entity entity;
 
    public Event(Action action, long time, Entity entity)
    {
@@ -10,4 +10,8 @@ final class Event
       this.time = time;
       this.entity = entity;
    }
+   // accessors
+   public Action getAction() { return this.action; }
+   public long getTime() { return this.time; }
+   public Entity getEntity() { return this.entity; }
 }
