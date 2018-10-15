@@ -118,7 +118,7 @@ final class Functions
       entity.imageIndex = (entity.imageIndex + 1) % entity.images.size();
    }
 
-   public static void executeAction(Action action, EventScheduler scheduler)
+   /*public static void executeAction(Action action, EventScheduler scheduler)
    {
       switch (action.kind)
       {
@@ -130,9 +130,9 @@ final class Functions
          executeAnimationAction(action, scheduler);
          break;
       }
-   }
+   }*/
 
-   public static void executeAnimationAction(Action action,
+   /*public static void executeAnimationAction(Action action,
       EventScheduler scheduler)
    {
       nextImage(action.entity);
@@ -144,9 +144,9 @@ final class Functions
                Math.max(action.repeatCount - 1, 0)),
             getAnimationPeriod(action.entity));
       }
-   }
+   }*/
 
-   public static void executeActivityAction(Action action,
+   /*public static void executeActivityAction(Action action,
       EventScheduler scheduler)
    {
       switch (action.entity.kind)
@@ -186,7 +186,7 @@ final class Functions
             String.format("executeActivityAction not supported for %s",
             action.entity.kind));
       }
-   }
+   }*/
 
    public static void executeMinerFullActivity(Entity entity, WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
@@ -587,7 +587,7 @@ final class Functions
          
          removePendingEvent(scheduler, next);
          
-         executeAction(next.action, scheduler);
+         next.action.executeAction(scheduler);
       }
    }
 
