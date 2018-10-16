@@ -83,7 +83,7 @@ public class Workspace {
         double sum = 0.0;
         for(int i=0; i< myShapes.size(); i++) {
             if((myShapes.get(i) != null) && (myShapes.get(i) instanceof Shape)) {
-                sum = sum + myShapes.get(i).getArea();
+                sum = sum + myShapes.get(i).getPerimeter();
             }
         }
         return sum;
