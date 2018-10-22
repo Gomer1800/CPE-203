@@ -18,7 +18,10 @@ import org.junit.Test;
 public class TestCases
 {
    public static final double DELTA = 0.00001;
+   @Test
+   public void ExamPractice() {
 
+   }
    /* put your tests here */
    @Test
    public void testWorkspaceMethods () {
