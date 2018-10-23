@@ -243,6 +243,8 @@ public class LogAnalyzer
          sessionsFromCustomer.entrySet()) 
       {
           List<String> sessions = entry.getValue();
+          // for each session, cycle through views and buys
+          // if a sessionID resulted in no purchases, +1 numVisitorsNoPurchase , +1 numViewsNoPurchase
           for(String sessionID : sessions) {
               boolean purchase = false;
              try {
@@ -253,16 +255,16 @@ public class LogAnalyzer
                          numViewsNoPurchase += 1 ;
                      }
                  }
+                 // there was a purchase matching this sessionID
                  else purchase = true;
              }
              catch (NullPointerException ex) {}
              if (purchase == false) { numVisitorsNoPurchase += 1; }
           }
       }
+      // After cycling through all customerIDs, comput result
       System.out.println(((double)numViewsNoPurchase)/numVisitorsNoPurchase);
    }
-
-
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
@@ -374,36 +376,65 @@ public class LogAnalyzer
        throws NullPointerException
    {
       System.out.println("\nNumber of Views for Purchased Product by Customer");
+      boolean productPurchased = false;
+      boolean viewedBeforePurchase = false;
 
       //for each customer, get their sessions
+      //for each session check if purchases were made
+      //if a purchase was made, then cycle through views
       for(Map.Entry<String, List<String>> entry: 
          sessionsFromCustomer.entrySet()) 
       {
-          boolean purchase = false;
-          boolean viewedBeforePurchase = false;
-          List<String> yesPurchase = new ArrayList<>();
+          productPurchased = false;
+          viewedBeforePurchase = false;
+          List<String> purchasedProducts = new ArrayList<>(); // for each customer
           List<String> sessions = entry.getValue();
-          //gather list of purchased items each customer 
+          //for each sessionID, check for purchases
+          //if a purchase was made, gather list of purchased items for that customer
           for(String sessionID : sessions)
           {
+              // for each sessionID, check it there were purchases made
+              // if a purchase was made, gather list of purchased items
               if(buysFromSession.get(sessionID) != null) { 
-                  purchase = true;
+                  productPurchased = true;
+                  System.out.println("triggered");
+                  
                   List<Buy> theBuys = buysFromSession.get(sessionID);
+                  // cycle through purchases made in sessionID
+                  // add each product to list yesPurchase
                   for (Buy thisBuy: theBuys) {
-                  yesPurchase.add(thisBuy.getProduct());
+                      System.out.println("list empty? " +purchasedProducts.isEmpty());
+                      System.out.println("this buy? " + thisBuy.getProduct());
+                      if(purchasedProducts.isEmpty())  {
+                          purchasedProducts.add(thisBuy.getProduct()) ; 
+                          System.out.println("product added 1");
+                      }
+                      else { 
+                          List<String> purchases = purchasedProducts;
+                          for (String thisPurchase : purchases) {
+                              if (thisPurchase.compareTo(thisBuy.getProduct()) != 0) {
+                                  purchasedProducts.add(thisBuy.getProduct());
+                                  System.out.println("product added 2");
+                              }
+                          }
+                      }
                   }
               }
           }
-          if (purchase == true) {
+          // for customers who made a purchase
+          System.out.println(productPurchased);
+          if (productPurchased == true) {
               System.out.println(entry.getKey());
               // cycle through purchased products
-              for (String thisProduct : yesPurchase) {
-                  int numViews = 0;
+              for (String thisProduct : purchasedProducts) {
+                  int numViews = 1;
                   System.out.print("\t" + thisProduct);
                   // for each purchased product cycle through sessions
                   for(String sessionID : sessions) {
                       try {
                           List<View> theViews = viewsFromSession.get(sessionID);
+                          // check if customer viewed purchased product
+                          // if so, set viewedBeforePurchase = true
                           for (View thisView: theViews) {
                               if (thisView.getProduct().compareTo(thisProduct) == 0 ) {
                                   viewedBeforePurchase = true;
@@ -411,10 +442,10 @@ public class LogAnalyzer
                               }
                           }
                       }
-                      catch (NullPointerException ex) { System.err.println("error"); }
+                      catch (NullPointerException ex2) { System.err.println("error"); }
                       if (viewedBeforePurchase == true) { numViews += 1; }
                   }
-                  if (purchase == true) { System.out.println(" " + numViews);}
+                  if (productPurchased == true) { System.out.println(" " + numViews);}
               }
           }
       }
