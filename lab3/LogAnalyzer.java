@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class LogAnalyzer
 {
@@ -374,43 +375,53 @@ public class LogAnalyzer
    {
       System.out.println("\nNumber of Views for Purchased Product by Customer");
 
-      int numViews = 0 ;
-      int numVisitorsPurchase = 0 ;
       //for each customer, get their sessions
-      //for each session cycle through views and buys
       for(Map.Entry<String, List<String>> entry: 
          sessionsFromCustomer.entrySet()) 
       {
           boolean purchase = false;
-          System.out.println(entry.getKey());
+          boolean viewedBeforePurchase = false;
+          List<String> yesPurchase = new ArrayList<>();
           List<String> sessions = entry.getValue();
+          //gather list of purchased items each customer 
           for(String sessionID : sessions)
           {
-             try {
-                 if (buysFromSession.get(sessionID) != null) {
-                     // for each session with no purchases, add up number of views
-                     purchase = true;
-                     System.out.println("\t" + sessionID);
-                     List<View> theViews = viewsFromSession.get(sessionID);
-                     for (View thisView: theViews) {
-                         numViews += 1;
-                         System.out.println("\t\t" + thisView.getProduct());
-                     }
-                 }
-             }
-             catch (NullPointerException ex) {
-                 System.err.println("\tNO VIEWS");
-             }
+              if(buysFromSession.get(sessionID) != null) { 
+                  purchase = true;
+                  List<Buy> theBuys = buysFromSession.get(sessionID);
+                  for (Buy thisBuy: theBuys) {
+                  yesPurchase.add(thisBuy.getProduct());
+                  }
+              }
           }
-          if (purchase) { numVisitorsPurchase += 1 ; }
+          if (purchase == true) {
+              System.out.println(entry.getKey());
+              // cycle through purchased products
+              for (String thisProduct : yesPurchase) {
+                  int numViews = 0;
+                  System.out.print("\t" + thisProduct);
+                  // for each purchased product cycle through sessions
+                  for(String sessionID : sessions) {
+                      try {
+                          List<View> theViews = viewsFromSession.get(sessionID);
+                          for (View thisView: theViews) {
+                              if (thisView.getProduct().compareTo(thisProduct) == 0 ) {
+                                  viewedBeforePurchase = true;
+                                  // System.out.println("\t\t" + sessionID);
+                              }
+                          }
+                      }
+                      catch (NullPointerException ex) { System.err.println("error"); }
+                      if (viewedBeforePurchase == true) { numViews += 1; }
+                  }
+                  if (purchase == true) { System.out.println(" " + numViews);}
+              }
+          }
       }
-      System.out.println("\t\t\tAvg # Views w/ Purchase : "
-              + (((double)numViews)/numVisitorsPurchase));
    }
-
+}
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
    //private static void printStatistics(
       // add parameters as needed
       //);
-}
