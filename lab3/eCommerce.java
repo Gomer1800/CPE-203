@@ -44,7 +44,7 @@ public class eCommerce {
         Map<String, List<Buy>> buysFromSession = new HashMap<>();
 
         LogAnalyzer.populateDataStructures( 
-                LogAnalyzer.getFilename(args),
+                args,
                 sessionsFromCustomer,
                 viewsFromSession,
                 buysFromSession) ;
@@ -58,6 +58,10 @@ public class eCommerce {
                 buysFromSession);
         
         LogAnalyzer.printCustomerItemViewsNoPurchase(sessionsFromCustomer,
+                viewsFromSession,
+                buysFromSession);
+        
+        LogAnalyzer.printCustomerItemViewsForPurchase(sessionsFromCustomer,
                 viewsFromSession,
                 buysFromSession);
     
