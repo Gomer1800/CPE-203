@@ -171,8 +171,7 @@ public class LogAnalyzer
            throws NullPointerException
    {
       System.out.println("\nPrice Difference for Purchased Product by Session");
-
-        
+ 
       //for each customer, get their sessions
       //for each session cycle through views and buys
       for(Map.Entry<String, List<String>> entry: 
@@ -236,13 +235,62 @@ public class LogAnalyzer
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
    private static void printCustomerItemViewsForPurchase(
-      /* add parameters as needed */
-      )
+      final Map<String, List<String>> sessionsFromCustomer,
+      final Map<String, List<View>> viewsFromSession,
+      final Map<String, List<Buy>> buysFromSession) 
+           throws NullPointerException
    {
       System.out.println("Number of Views for Purchased Product by Customer");
 
       /* add printing */
    }
+
+   public static void printCustomerItemViewsNoPurchase(
+      final Map<String, List<String>> sessionsFromCustomer,
+      final Map<String, List<View>> viewsFromSession,
+      final Map<String, List<Buy>> buysFromSession) 
+           throws NullPointerException
+   {
+      System.out.println("Average Number of Views per Customer without a Purchase");
+
+      int numViews = 0 ;
+      int numVisitorsNoPurchase = 0 ;
+      //for each customer, get their sessions
+      //for each session cycle through views and buys
+      for(Map.Entry<String, List<String>> entry: 
+         sessionsFromCustomer.entrySet()) 
+      {
+          boolean noPurchase = false;
+          System.out.println(entry.getKey());
+          List<String> sessions = entry.getValue();
+          for(String sessionID : sessions)
+          {
+             try {
+                 if (buysFromSession.get(sessionID) == null) {
+                     noPurchase = true;
+                     // for each session with no purchases, add up number of views
+                     System.out.println("\t" + sessionID);
+                     List<View> theViews = viewsFromSession.get(sessionID);
+                     for (View thisView: theViews) {
+                         numViews += 1;
+                         System.out.println("\t\t" + thisView.getProduct());
+                     }
+                 }
+             }
+             catch (NullPointerException ex) {
+                 if (buysFromSession.get(sessionID) == null) {
+                     System.err.println("NO VIEWS OR PURCHASES");
+                 }
+                 else System.err.println("NO VIEWS");
+             }
+          }
+          if (noPurchase) numVisitorsNoPurchase += 1 ;
+      }
+      System.out.println("Avg#Views w/NoPurchase : "
+              + ((double)numViews)/numVisitorsNoPurchase);
+   }
+
+
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
