@@ -11,4 +11,7 @@ public class Buy {
         this.price = price;
         this.quantity = quantity;
     }
+
+    public String getProduct() { return this.productId; }
+    public int getPrice() { return this.price; };
 }

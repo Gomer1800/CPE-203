@@ -52,5 +52,10 @@ public class eCommerce {
         LogAnalyzer.printOutExample(sessionsFromCustomer,
                 viewsFromSession,
                 buysFromSession);
+        
+        LogAnalyzer.printSessionPriceDifference(sessionsFromCustomer,
+                viewsFromSession,
+                buysFromSession);
+    
     }
 }

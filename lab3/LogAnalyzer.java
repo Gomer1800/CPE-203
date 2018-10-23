@@ -164,13 +164,73 @@ public class LogAnalyzer
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
-   private static void printSessionPriceDifference(
-      /* add parameters as needed */
-      )
+   public static void printSessionPriceDifference(
+      final Map<String, List<String>> sessionsFromCustomer,
+      final Map<String, List<View>> viewsFromSession,
+      final Map<String, List<Buy>> buysFromSession) 
+           throws NullPointerException
    {
-      System.out.println("Price Difference for Purchased Product by Session");
+      System.out.println("\nPrice Difference for Purchased Product by Session");
 
-      /* add printing */
+        
+      //for each customer, get their sessions
+      //for each session cycle through views and buys
+      for(Map.Entry<String, List<String>> entry: 
+         sessionsFromCustomer.entrySet()) 
+      {
+         List<String> sessions = entry.getValue();
+         for(String sessionID : sessions)
+         {
+             double averageViewPrice = 0.0;
+             int numViews = 0;
+
+             try {
+                 // for each session, calculate average price of views
+                 System.out.println(sessionID);
+                 List<View> theViews = viewsFromSession.get(sessionID);
+                 for (View thisView: theViews)
+                 {
+                     numViews += 1;
+                     averageViewPrice += thisView.getPrice();
+                 }
+                 averageViewPrice = averageViewPrice/numViews;
+
+                 // cycle through buys and compute difference here
+                 List<Buy> theBuys = buysFromSession.get(sessionID);
+                 for (Buy thisBuy: theBuys)
+                 {
+                     System.out.println("\tBought " + thisBuy.getProduct());
+                     System.out.println("\t\tBuy: " + thisBuy.getPrice() +
+                             "\n\t\tAVP: " + averageViewPrice);
+                     System.out.println("\t\tDif: " +
+                             (thisBuy.getPrice() - averageViewPrice) + " cents");
+                 }
+             }
+             catch (NullPointerException ex) {
+                 // Check if there are no purchases in this session
+                 if (buysFromSession.get(sessionID) != null) {
+                     // there aren't any views, so price difference is the amount purchased
+                     List<Buy> theBuys = buysFromSession.get(sessionID);
+                     for (Buy thisBuy: theBuys)
+                     {
+                         System.err.println("\tBought " + thisBuy.getProduct());
+                         System.err.println("\t\tCustomer purchased all viewed items");
+                     }
+                 }
+                 else if (viewsFromSession.get(sessionID) != null) {
+                     List<View> theViews = viewsFromSession.get(sessionID);
+                     for (View thisView: theViews)
+                     {
+                         numViews += 1;
+                         averageViewPrice += thisView.getPrice();
+                     }
+                     averageViewPrice = averageViewPrice/numViews;
+                     System.err.println("\tNO SALE\n\t\tAVP: " + averageViewPrice);
+                 }
+                 else System.err.println("\tNO ACTIVITY");
+             }
+         }
+      }
    }
 
       //write this after you have figured out how to store your data
@@ -186,12 +246,12 @@ public class LogAnalyzer
 
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
-   private static void printStatistics(
+  // private static void printStatistics(
       /* add parameters as needed */
-      )
-   {
-      printSessionPriceDifference( /*add arguments as needed */);
-      printCustomerItemViewsForPurchase( /*add arguments as needed */);
+     // )
+  /// {
+     // printSessionPriceDifference( /*add arguments as needed */);
+     // printCustomerItemViewsForPurchase( /*add arguments as needed */);
 
       /* This is commented out as it will not work until you read
          in your data to appropriate data structures, but is included
@@ -200,7 +260,7 @@ public class LogAnalyzer
          printOutExample(sessionsFromCustomer, viewsFromSession, buysFromSession);
       */
 		
-   }
+  // }
 
    /* provided as an example of a method that might traverse your
       collections of data once they are written 
@@ -287,21 +347,10 @@ public class LogAnalyzer
       }
       return args[0];
    }
-}   
+}
       //write this after you have figured out how to store your data
       //make sure that you understand the problem
- /*  public static void printSessionPriceDifference(
-      // add parameters as needed
-      )
-   {
-      System.out.println("Price Difference for Purchased Product by Session");
-
-      // add printing
-   }
-
-      //write this after you have figured out how to store your data
-      //make sure that you understand the problem
-   private static void printCustomerItemViewsForPurchase(
+  /* private static void printCustomerItemViewsForPurchase(
       // add parameters as needed
       )
    {

@@ -11,5 +11,6 @@ public class View {
     }
 
     public String getProduct() { return this.productId; }
+    public int getPrice() { return this.price; }
 }
 
