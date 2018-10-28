@@ -1084,12 +1084,12 @@ final class Functions
       return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
    }*/
 
-   public static Entity createBlacksmith(String id, Point position,
+   /*public static Entity createBlacksmith(String id, Point position,
       List<PImage> images)
    {
       return new Entity(EntityKind.BLACKSMITH, id, position, images,
          0, 0, 0, 0);
-   }
+   }*/
 
    public static Entity createMinerFull(String id, int resourceLimit,
       Point position, int actionPeriod, int animationPeriod,
