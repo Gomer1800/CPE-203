@@ -1,18 +1,15 @@
-public interface Action
+final class Activity implements Action
 {
-    void executeAction( EventScheduler e) ;
-}
-    /*
-   private final ActionKind kind;
+   private final ActionKind kind = ActionKind.ACTIVITY;
    private final  Entity entity;
    private final  WorldModel world;
    private final  ImageStore imageStore;
    private final  int repeatCount;
 
-   public Action(ActionKind kind, Entity entity, WorldModel world,
+   public Activity(Entity entity, WorldModel world,
       ImageStore imageStore, int repeatCount)
    {
-      this.kind = kind;
+      // this.kind = kind;
       this.entity = entity;
       this.world = world;
       this.imageStore = imageStore;
@@ -20,17 +17,20 @@ public interface Action
    }
    // Accessors
    // METHODS
+   /*
    public void executeAction(EventScheduler scheduler) {
        switch (this.kind) {
+           /*
            case ACTIVITY:
                this.executeActivityAction(scheduler);
                break;
 
             case ANIMATION:
-               this.executeAnimationAction(scheduler);
+               this.executeAction(scheduler);
                break;
        }
    }
+
    private void executeAnimationAction(EventScheduler scheduler) {
        this.entity.nextImage();
 
@@ -40,8 +40,8 @@ public interface Action
                    ((MoveableEntity)entity).getAnimationPeriod());
        }
    }
-
-   private void executeActivityAction(EventScheduler scheduler)
+*/
+   public void executeAction(EventScheduler scheduler)
    {
       switch (this.entity.getKind())
       {
@@ -81,4 +81,4 @@ public interface Action
             this.entity.getKind()));
       }
    }
-}*/
+}

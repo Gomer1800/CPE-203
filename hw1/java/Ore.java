@@ -98,7 +98,7 @@ final class Ore implements ActionableEntity
    public Action createActivityAction(WorldModel world,
       ImageStore imageStore)
    {
-      return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
+      return new Activity(this, world, imageStore, 0);
    }
 /*
    public Action createAnimationAction(int repeatCount)
