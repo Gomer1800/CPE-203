@@ -3,19 +3,18 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-public interface Entity
+final class Blacksmith implements Entity
 {
-    /*
-   private final EntityKind kind;
+   private final EntityKind kind = EntityKind.BLACKSMITH ;
    private final String id;
    private Point position;
    private final List<PImage> images;
    private int imageIndex;
-   private final int resourceLimit;
-   private int resourceCount;
-   private final int actionPeriod;
-   private final int animationPeriod;
-
+   // private final int resourceLimit;
+   // private int resourceCount;
+   // private final int actionPeriod;
+   // private final int animationPeriod;
+/*
    private static final String BLOB_KEY = "blob";
    private static final String BLOB_ID_SUFFIX = " -- blob";
    private static final int BLOB_PERIOD_SCALE = 4;
@@ -54,44 +53,42 @@ public interface Entity
    private static final int ORE_COL = 2;
    private static final int ORE_ROW = 3;
    private static final int ORE_ACTION_PERIOD = 4;
-
+*/
    private static final String SMITH_KEY = "blacksmith";
    private static final int SMITH_NUM_PROPERTIES = 4;
    private static final int SMITH_ID = 1;
    private static final int SMITH_COL = 2;
    private static final int SMITH_ROW = 3;
-
+/*
    private static final String VEIN_KEY = "vein";
    private static final int VEIN_NUM_PROPERTIES = 5;
    private static final int VEIN_ID = 1;
    private static final int VEIN_COL = 2;
    private static final int VEIN_ROW = 3;
+*/
 
-
-   public Entity(EntityKind kind, String id, Point position,
-      List<PImage> images, int resourceLimit, int resourceCount,
-      int actionPeriod, int animationPeriod)
+   public Blacksmith( String id, 
+           Point position,
+           List<PImage> images)
    {
-      this.kind = kind;
+      // this.kind = kind;
       this.id = id;
       this.position = position;
       this.images = images;
       this.imageIndex = 0;
-      this.resourceLimit = resourceLimit;
-      this.resourceCount = resourceCount;
-      this.actionPeriod = actionPeriod;
-      this.animationPeriod = animationPeriod;
+      // this.resourceLimit = resourceLimit;
+      // this.resourceCount = resourceCount;
+      // this.actionPeriod = actionPeriod;
+      // this.animationPeriod = animationPeriod;
    }
-*/
    // accessors
-   EntityKind getKind() ; // { return this.kind; }
-   String getID() ; // { return this.id; }
-   Point getPosition() ; // { return this.position; }
-   List<PImage> getImages() ; // { return this.images; }
-   int getImageIndex() ; //  { return this.imageIndex; }
-   void setPosition(Point p) ; // { this.position = p; }
-   void nextImage() ;
-}
+   public EntityKind getKind() { return this.kind; }
+   public String getID() { return this.id; }
+   public Point getPosition() { return this.position; }
+   public List<PImage> getImages() { return this.images; }
+   public int getImageIndex() { return this.imageIndex; }
+   public void setPosition(Point p) { this.position = p; }
+   
    // public int getResourceLimit() { return this.resourceLimit; }
    // public int getResourceCount() { return this.resourceCount; }
    // public int getActionPeriod() { return this.actionPeriod; }
@@ -134,7 +131,6 @@ public interface Entity
 
       return newPos;
    }
-
 
    public Point nextPositionMiner(WorldModel world,
       Point destPos)
@@ -185,7 +181,6 @@ public interface Entity
       }
    }
 
-
    public static boolean moveToFull(Entity miner, WorldModel world,
       Entity target, EventScheduler scheduler)
    {
@@ -210,7 +205,6 @@ public interface Entity
          return false;
       }
    }
-
 
    public static boolean moveToNotFull(Entity miner, WorldModel world,
       Entity target, EventScheduler scheduler)
@@ -240,7 +234,6 @@ public interface Entity
          return false;
       }
    }
-
 
    public void transformFull(WorldModel world,
       EventScheduler scheduler, ImageStore imageStore)
@@ -292,12 +285,12 @@ public interface Entity
             this.kind));
       }
    }
-
+*/
    public void nextImage()
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
-
+/*
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -456,5 +449,5 @@ public interface Entity
       default:
       }
    }
-   
-}*/
+*/
+}

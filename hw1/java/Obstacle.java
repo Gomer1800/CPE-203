@@ -3,19 +3,18 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-public interface Entity
+final class Obstacle implements Entity
 {
-    /*
-   private final EntityKind kind;
+   private final EntityKind kind = EntityKind.OBSTACLE;
    private final String id;
    private Point position;
    private final List<PImage> images;
    private int imageIndex;
-   private final int resourceLimit;
-   private int resourceCount;
-   private final int actionPeriod;
-   private final int animationPeriod;
-
+   // private final int resourceLimit;
+   // private int resourceCount;
+   // private final int actionPeriod;
+   // private final int animationPeriod;
+/*
    private static final String BLOB_KEY = "blob";
    private static final String BLOB_ID_SUFFIX = " -- blob";
    private static final int BLOB_PERIOD_SCALE = 4;
@@ -41,13 +40,13 @@ public interface Entity
    private static final int MINER_LIMIT = 4;
    private static final int MINER_ACTION_PERIOD = 5;
    private static final int MINER_ANIMATION_PERIOD = 6;
-
+*/
    private static final String OBSTACLE_KEY = "obstacle";
    private static final int OBSTACLE_NUM_PROPERTIES = 4;
    private static final int OBSTACLE_ID = 1;
    private static final int OBSTACLE_COL = 2;
    private static final int OBSTACLE_ROW = 3;
-
+/*
    private static final String ORE_KEY = "ore";
    private static final int ORE_NUM_PROPERTIES = 5;
    private static final int ORE_ID = 1;
@@ -66,36 +65,32 @@ public interface Entity
    private static final int VEIN_ID = 1;
    private static final int VEIN_COL = 2;
    private static final int VEIN_ROW = 3;
+*/
 
-
-   public Entity(EntityKind kind, String id, Point position,
-      List<PImage> images, int resourceLimit, int resourceCount,
-      int actionPeriod, int animationPeriod)
+   public Obstacle(String id, Point position,
+      List<PImage> images)
    {
-      this.kind = kind;
+      // this.kind = kind;
       this.id = id;
       this.position = position;
       this.images = images;
       this.imageIndex = 0;
-      this.resourceLimit = resourceLimit;
-      this.resourceCount = resourceCount;
-      this.actionPeriod = actionPeriod;
-      this.animationPeriod = animationPeriod;
+      // this.resourceLimit = resourceLimit;
+      // this.resourceCount = resourceCount;
+      // this.actionPeriod = actionPeriod;
+      // this.animationPeriod = animationPeriod;
    }
-*/
    // accessors
-   EntityKind getKind() ; // { return this.kind; }
-   String getID() ; // { return this.id; }
-   Point getPosition() ; // { return this.position; }
-   List<PImage> getImages() ; // { return this.images; }
-   int getImageIndex() ; //  { return this.imageIndex; }
-   void setPosition(Point p) ; // { this.position = p; }
-   void nextImage() ;
-}
+   public EntityKind getKind() { return this.kind; }
+   public String getID() { return this.id; }
+   public Point getPosition() { return this.position; }
+   public List<PImage> getImages() { return this.images; }
+   public int getImageIndex() { return this.imageIndex; }
    // public int getResourceLimit() { return this.resourceLimit; }
    // public int getResourceCount() { return this.resourceCount; }
    // public int getActionPeriod() { return this.actionPeriod; }
 
+   public void setPosition(Point p) { this.position = p; }
    // Methods
 /*
    public Action createActivityAction(WorldModel world,
@@ -134,7 +129,6 @@ public interface Entity
 
       return newPos;
    }
-
 
    public Point nextPositionMiner(WorldModel world,
       Point destPos)
@@ -185,7 +179,6 @@ public interface Entity
       }
    }
 
-
    public static boolean moveToFull(Entity miner, WorldModel world,
       Entity target, EventScheduler scheduler)
    {
@@ -210,7 +203,6 @@ public interface Entity
          return false;
       }
    }
-
 
    public static boolean moveToNotFull(Entity miner, WorldModel world,
       Entity target, EventScheduler scheduler)
@@ -292,12 +284,12 @@ public interface Entity
             this.kind));
       }
    }
-
+*/
    public void nextImage()
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
-
+/*
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -456,5 +448,5 @@ public interface Entity
       default:
       }
    }
-   
-}*/
+   */
+}

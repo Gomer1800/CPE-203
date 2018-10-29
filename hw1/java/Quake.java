@@ -3,19 +3,18 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-public interface Entity
+final class Quake implements MoveableEntity
 {
-    /*
-   private final EntityKind kind;
-   private final String id;
+   private final EntityKind kind = EntityKind.QUAKE;
+   private final String id = QUAKE_ID;
    private Point position;
    private final List<PImage> images;
    private int imageIndex;
-   private final int resourceLimit;
-   private int resourceCount;
-   private final int actionPeriod;
-   private final int animationPeriod;
-
+   // private final int resourceLimit;
+   // private int resourceCount;
+   private final int actionPeriod = QUAKE_ACTION_PERIOD;
+   private final int animationPeriod = QUAKE_ANIMATION_PERIOD;
+/*
    private static final String BLOB_KEY = "blob";
    private static final String BLOB_ID_SUFFIX = " -- blob";
    private static final int BLOB_PERIOD_SCALE = 4;
@@ -26,13 +25,13 @@ public interface Entity
    private static final int ORE_CORRUPT_MIN = 20000;
    private static final int ORE_CORRUPT_MAX = 30000;
    private static final int ORE_REACH = 1;
-
+*/
    private static final String QUAKE_KEY = "quake";
    private static final String QUAKE_ID = "quake";
    private static final int QUAKE_ACTION_PERIOD = 1100;
    private static final int QUAKE_ANIMATION_PERIOD = 100;
    private static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
-
+/*
    private static final String MINER_KEY = "miner";
    private static final int MINER_NUM_PROPERTIES = 7;
    private static final int MINER_ID = 1;
@@ -66,49 +65,44 @@ public interface Entity
    private static final int VEIN_ID = 1;
    private static final int VEIN_COL = 2;
    private static final int VEIN_ROW = 3;
+*/
 
-
-   public Entity(EntityKind kind, String id, Point position,
-      List<PImage> images, int resourceLimit, int resourceCount,
-      int actionPeriod, int animationPeriod)
+   public Quake( Point position, List<PImage> images )
    {
-      this.kind = kind;
-      this.id = id;
+      // this.kind = kind;
+      // this.id = id;
       this.position = position;
       this.images = images;
       this.imageIndex = 0;
-      this.resourceLimit = resourceLimit;
-      this.resourceCount = resourceCount;
-      this.actionPeriod = actionPeriod;
-      this.animationPeriod = animationPeriod;
+      // this.resourceLimit = resourceLimit;
+      // this.resourceCount = resourceCount;
+      // this.actionPeriod = actionPeriod;
+      // this.animationPeriod = animationPeriod;
    }
-*/
    // accessors
-   EntityKind getKind() ; // { return this.kind; }
-   String getID() ; // { return this.id; }
-   Point getPosition() ; // { return this.position; }
-   List<PImage> getImages() ; // { return this.images; }
-   int getImageIndex() ; //  { return this.imageIndex; }
-   void setPosition(Point p) ; // { this.position = p; }
-   void nextImage() ;
-}
+   public EntityKind getKind() { return this.kind; }
+   public String getID() { return this.id; }
+   public Point getPosition() { return this.position; }
+   public List<PImage> getImages() { return this.images; }
+   public int getImageIndex() { return this.imageIndex; }
    // public int getResourceLimit() { return this.resourceLimit; }
    // public int getResourceCount() { return this.resourceCount; }
-   // public int getActionPeriod() { return this.actionPeriod; }
+   public int getActionPeriod() { return this.actionPeriod; }
 
+   public void setPosition(Point p) { this.position = p; }
    // Methods
-/*
+
    public Action createActivityAction(WorldModel world,
       ImageStore imageStore)
    {
-      return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
+      return new Activity( this, world, imageStore, 0);
    }
 
    public Action createAnimationAction(int repeatCount)
    {
-      return new Action(ActionKind.ANIMATION, this, null, null, repeatCount);
+      return new Animation( this, null, null, repeatCount);
    }
-
+/*
    public Point nextPositionOreBlob(WorldModel world,
       Point destPos)
    {
@@ -276,7 +270,7 @@ public interface Entity
 
       return false;
    }
-
+*/
    public int getAnimationPeriod()
    {
       switch (this.kind)
@@ -297,7 +291,7 @@ public interface Entity
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
-
+/*
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -375,14 +369,14 @@ public interface Entity
          this.createActivityAction(world, imageStore),
          nextPeriod);
    }
-
-   public void executeQuakeActivity(WorldModel world,
+*/
+   public void executeActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       scheduler.unscheduleAllEvents(this);
       world.removeEntity(this);
    }
-
+/*
    public void executeVeinActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -402,12 +396,13 @@ public interface Entity
          this.createActivityAction(world, imageStore),
          this.actionPeriod);
    }
-
+*/
    public void scheduleActions(EventScheduler scheduler,
       WorldModel world, ImageStore imageStore)
    {
       switch (this.kind)
       {
+          /*
       case MINER_FULL:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
@@ -437,7 +432,7 @@ public interface Entity
          scheduler.scheduleEvent(this,
             this.createAnimationAction(0), this.getAnimationPeriod());
          break;
-
+*/
       case QUAKE:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
@@ -446,15 +441,14 @@ public interface Entity
             this.createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
             this.getAnimationPeriod());
          break;
-
+/*
       case VEIN:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
             this.actionPeriod);
          break;
-
+*/
       default:
       }
    }
-   
-}*/
+}

@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-public interface Entity
+public interface ActionableEntity extends Entity
 {
     /*
    private final EntityKind kind;
@@ -83,14 +83,10 @@ public interface Entity
       this.animationPeriod = animationPeriod;
    }
 */
-   // accessors
-   EntityKind getKind() ; // { return this.kind; }
-   String getID() ; // { return this.id; }
-   Point getPosition() ; // { return this.position; }
-   List<PImage> getImages() ; // { return this.images; }
-   int getImageIndex() ; //  { return this.imageIndex; }
-   void setPosition(Point p) ; // { this.position = p; }
-   void nextImage() ;
+    int getActionPeriod() ;
+    Action createActivityAction (WorldModel w, ImageStore i );
+    void executeActivity ( WorldModel w, ImageStore i, EventScheduler e );
+    void scheduleActions ( EventScheduler e, WorldModel w, ImageStore i );
 }
    // public int getResourceLimit() { return this.resourceLimit; }
    // public int getResourceCount() { return this.resourceCount; }
