@@ -3,8 +3,9 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Entity
+public interface Entity
 {
+    /*
    private final EntityKind kind;
    private final String id;
    private Point position;
@@ -81,19 +82,21 @@ final class Entity
       this.actionPeriod = actionPeriod;
       this.animationPeriod = animationPeriod;
    }
+*/
    // accessors
-   public EntityKind getKind() { return this.kind; }
-   public String getID() { return this.id; }
-   public Point getPosition() { return this.position; }
-   public List<PImage> getImages() { return this.images; }
-   public int getImageIndex() { return this.imageIndex; }
-   public int getResourceLimit() { return this.resourceLimit; }
-   public int getResourceCount() { return this.resourceCount; }
-   public int getActionPeriod() { return this.actionPeriod; }
+   EntityKind getKind() ; // { return this.kind; }
+   String getID() ; // { return this.id; }
+   Point getPosition() ; // { return this.position; }
+   List<PImage> getImages() ; // { return this.images; }
+   int getImageIndex() ; //  { return this.imageIndex; }
+   void setPosition(Point p) ; // { this.position = p; }
+}
+   // public int getResourceLimit() { return this.resourceLimit; }
+   // public int getResourceCount() { return this.resourceCount; }
+   // public int getActionPeriod() { return this.actionPeriod; }
 
-   public void setPosition(Point p) { this.position = p; }
    // Methods
-
+/*
    public Action createActivityAction(WorldModel world,
       ImageStore imageStore)
    {
@@ -452,4 +455,5 @@ final class Entity
       default:
       }
    }
-}
+   
+}*/

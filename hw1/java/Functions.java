@@ -757,12 +757,20 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
             Integer.parseInt(properties[MINER_ROW]));
-         Entity entity = createMinerNotFull(properties[MINER_ID],
+         Entity entity = new Miner_Not_Full(properties[MINER_ID],
+                 pt,
+                 imageStore.getImageList(MINER_KEY),
+                 Integer.parseInt(properties[MINER_LIMIT]),
+                 0,
+                 Integer.parseInt(properties[MINER_ACTION_PERIOD]),
+                 Integer.parseInt(properties[MINER_ANIMATION_PERIOD]));
+                 /*
             Integer.parseInt(properties[MINER_LIMIT]),
             pt,
             Integer.parseInt(properties[MINER_ACTION_PERIOD]),
             Integer.parseInt(properties[MINER_ANIMATION_PERIOD]),
             imageStore.getImageList(MINER_KEY));
+            */
          world.tryAddEntity(entity);
       }
 
@@ -777,8 +785,9 @@ final class Functions
          Point pt = new Point(
             Integer.parseInt(properties[OBSTACLE_COL]),
             Integer.parseInt(properties[OBSTACLE_ROW]));
-         Entity entity = createObstacle(properties[OBSTACLE_ID],
-            pt, imageStore.getImageList(OBSTACLE_KEY));
+         Entity entity = new Obstacle(properties[OBSTACLE_ID],
+                 pt, 
+                 imageStore.getImageList(OBSTACLE_KEY));
          world.tryAddEntity(entity);
       }
 
@@ -792,9 +801,11 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[ORE_COL]),
             Integer.parseInt(properties[ORE_ROW]));
-         Entity entity = createOre(properties[ORE_ID],
-            pt, Integer.parseInt(properties[ORE_ACTION_PERIOD]),
-            imageStore.getImageList(ORE_KEY));
+         Entity entity = new Ore(properties[ORE_ID],
+                 pt, 
+                 imageStore.getImageList(ORE_KEY),
+                 Integer.parseInt(properties[ORE_ACTION_PERIOD]));
+
          world.tryAddEntity(entity);
       }
 
@@ -808,8 +819,10 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[SMITH_COL]),
             Integer.parseInt(properties[SMITH_ROW]));
-         Entity entity = createBlacksmith(properties[SMITH_ID],
-            pt, imageStore.getImageList(SMITH_KEY));
+         Entity entity = new Blacksmith(properties[SMITH_ID],
+                 pt, 
+                 imageStore.getImageList(SMITH_KEY));
+
          world.tryAddEntity(entity);
       }
 
@@ -823,10 +836,11 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
             Integer.parseInt(properties[VEIN_ROW]));
-         Entity entity = createVein(properties[VEIN_ID],
+         Entity entity = new Vein(properties[VEIN_ID],
             pt,
-            Integer.parseInt(properties[VEIN_ACTION_PERIOD]),
-            imageStore.getImageList(VEIN_KEY));
+            imageStore.getImageList(VEIN_KEY),
+            Integer.parseInt(properties[VEIN_ACTION_PERIOD]));
+
          world.tryAddEntity(entity);
       }
 
@@ -1089,7 +1103,7 @@ final class Functions
    {
       return new Entity(EntityKind.BLACKSMITH, id, position, images,
          0, 0, 0, 0);
-   }*/
+   }
 
    public static Entity createMinerFull(String id, int resourceLimit,
       Point position, int actionPeriod, int animationPeriod,
@@ -1140,4 +1154,5 @@ final class Functions
       return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
          actionPeriod, 0);
    }
+   */
 }

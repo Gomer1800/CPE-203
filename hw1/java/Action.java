@@ -10,7 +10,7 @@ final class Action
       ImageStore imageStore, int repeatCount)
    {
       this.kind = kind;
-      this.entity = entity;
+      this.entity = ((Entity)entity);
       this.world = world;
       this.imageStore = imageStore;
       this.repeatCount = repeatCount;
@@ -34,7 +34,8 @@ final class Action
        if(this.repeatCount != 1) {
            scheduler.scheduleEvent(this.entity,
                    this.entity.createAnimationAction(Math.max(this.repeatCount - 1, 0)),
-                   entity.getAnimationPeriod());
+
+                   entity.getClass().getAnimationPeriod());
        }
    }
 

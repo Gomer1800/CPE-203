@@ -3,17 +3,17 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Blacksmith implements Entity
+final class Miner_Not_Full implements Entity
 {
-   private final EntityKind kind = EntityKind.BLACKSMITH ;
+   private final EntityKind kind = EntityKind.MINER_NOT_FULL;
    private final String id;
    private Point position;
    private final List<PImage> images;
    private int imageIndex;
-   // private final int resourceLimit;
-   // private int resourceCount;
-   // private final int actionPeriod;
-   // private final int animationPeriod;
+   private final int resourceLimit;
+   private int resourceCount;
+   private final int actionPeriod;
+   private final int animationPeriod;
 /*
    private static final String BLOB_KEY = "blob";
    private static final String BLOB_ID_SUFFIX = " -- blob";
@@ -31,7 +31,7 @@ final class Blacksmith implements Entity
    private static final int QUAKE_ACTION_PERIOD = 1100;
    private static final int QUAKE_ANIMATION_PERIOD = 100;
    private static final int QUAKE_ANIMATION_REPEAT_COUNT = 10;
-
+*/
    private static final String MINER_KEY = "miner";
    private static final int MINER_NUM_PROPERTIES = 7;
    private static final int MINER_ID = 1;
@@ -40,7 +40,7 @@ final class Blacksmith implements Entity
    private static final int MINER_LIMIT = 4;
    private static final int MINER_ACTION_PERIOD = 5;
    private static final int MINER_ANIMATION_PERIOD = 6;
-
+/*
    private static final String OBSTACLE_KEY = "obstacle";
    private static final int OBSTACLE_NUM_PROPERTIES = 4;
    private static final int OBSTACLE_ID = 1;
@@ -53,13 +53,13 @@ final class Blacksmith implements Entity
    private static final int ORE_COL = 2;
    private static final int ORE_ROW = 3;
    private static final int ORE_ACTION_PERIOD = 4;
-*/
+
    private static final String SMITH_KEY = "blacksmith";
    private static final int SMITH_NUM_PROPERTIES = 4;
    private static final int SMITH_ID = 1;
    private static final int SMITH_COL = 2;
    private static final int SMITH_ROW = 3;
-/*
+
    private static final String VEIN_KEY = "vein";
    private static final int VEIN_NUM_PROPERTIES = 5;
    private static final int VEIN_ID = 1;
@@ -67,19 +67,19 @@ final class Blacksmith implements Entity
    private static final int VEIN_ROW = 3;
 */
 
-   public Blacksmith( String id, 
-           Point position,
-           List<PImage> images)
+   public Miner_Not_Full(String id, Point position,
+      List<PImage> images, int resourceLimit, int resourceCount,
+      int actionPeriod, int animationPeriod)
    {
       // this.kind = kind;
       this.id = id;
       this.position = position;
       this.images = images;
       this.imageIndex = 0;
-      // this.resourceLimit = resourceLimit;
-      // this.resourceCount = resourceCount;
-      // this.actionPeriod = actionPeriod;
-      // this.animationPeriod = animationPeriod;
+      this.resourceLimit = resourceLimit;
+      this.resourceCount = resourceCount;
+      this.actionPeriod = actionPeriod;
+      this.animationPeriod = animationPeriod;
    }
    // accessors
    public EntityKind getKind() { return this.kind; }
@@ -87,14 +87,13 @@ final class Blacksmith implements Entity
    public Point getPosition() { return this.position; }
    public List<PImage> getImages() { return this.images; }
    public int getImageIndex() { return this.imageIndex; }
-   public void setPosition(Point p) { this.position = p; }
-   
-   // public int getResourceLimit() { return this.resourceLimit; }
-   // public int getResourceCount() { return this.resourceCount; }
-   // public int getActionPeriod() { return this.actionPeriod; }
+   public int getResourceLimit() { return this.resourceLimit; }
+   public int getResourceCount() { return this.resourceCount; }
+   public int getActionPeriod() { return this.actionPeriod; }
 
+   public void setPosition(Point p) { this.position = p; }
    // Methods
-/*
+
    public Action createActivityAction(WorldModel world,
       ImageStore imageStore)
    {
@@ -105,7 +104,7 @@ final class Blacksmith implements Entity
    {
       return new Action(ActionKind.ANIMATION, this, null, null, repeatCount);
    }
-
+/*
    public Point nextPositionOreBlob(WorldModel world,
       Point destPos)
    {
@@ -131,7 +130,7 @@ final class Blacksmith implements Entity
 
       return newPos;
    }
-
+*/
    public Point nextPositionMiner(WorldModel world,
       Point destPos)
    {
@@ -153,11 +152,11 @@ final class Blacksmith implements Entity
 
       return newPos;
    }
-
+/*
    public static boolean moveToOreBlob(Entity blob, WorldModel world,
       Entity target, EventScheduler scheduler)
    {
-      if (Point.adjacent(blob.position, target.position))
+      if (Point.adjacent(blob.getPosition(), target.getPosition()))
       {
          world.removeEntity(target);
          scheduler.unscheduleAllEvents(target);
@@ -165,9 +164,9 @@ final class Blacksmith implements Entity
       }
       else
       {
-         Point nextPos = blob.nextPositionOreBlob(world, target.position);
+         Point nextPos = blob.nextPositionOreBlob(world, target.getPosition());
 
-         if (!blob.position.equals(nextPos))
+         if (!blob.getPosition().equals(nextPos))
          {
             Optional<Entity> occupant = world.getOccupant(nextPos);
             if (occupant.isPresent())
@@ -181,18 +180,18 @@ final class Blacksmith implements Entity
       }
    }
 
-   public static boolean moveToFull(Entity miner, WorldModel world,
+   public boolean moveToFull(WorldModel world,
       Entity target, EventScheduler scheduler)
    {
-      if (Point.adjacent(miner.position, target.position))
+      if (Point.adjacent(this.position, target.getPosition()))
       {
          return true;
       }
       else
       {
-         Point nextPos = miner.nextPositionMiner(world, target.position);
+         Point nextPos = this.nextPositionMiner(world, target.getPosition());
 
-         if (!miner.position.equals(nextPos))
+         if (!this.position.equals(nextPos))
          {
             Optional<Entity> occupant = world.getOccupant(nextPos);
             if (occupant.isPresent())
@@ -200,18 +199,18 @@ final class Blacksmith implements Entity
                scheduler.unscheduleAllEvents(occupant.get());
             }
 
-            world.moveEntity(miner, nextPos);
+            world.moveEntity(this, nextPos);
          }
          return false;
       }
    }
-
-   public static boolean moveToNotFull(Entity miner, WorldModel world,
+*/
+   public boolean moveToNotFull(WorldModel world,
       Entity target, EventScheduler scheduler)
    {
-      if (Point.adjacent(miner.position, target.position))
+      if (Point.adjacent(this.getPosition(), target.getPosition()))
       {
-         miner.resourceCount += 1;
+         this.resourceCount += 1;
          world.removeEntity(target);
          scheduler.unscheduleAllEvents(target);
 
@@ -219,9 +218,9 @@ final class Blacksmith implements Entity
       }
       else
       {
-         Point nextPos = miner.nextPositionMiner(world, target.position);
+         Point nextPos = this.nextPositionMiner(world, target.getPosition());
 
-         if (!miner.position.equals(nextPos))
+         if (!this.position.equals(nextPos))
          {
             Optional<Entity> occupant = world.getOccupant(nextPos);
             if (occupant.isPresent())
@@ -229,12 +228,12 @@ final class Blacksmith implements Entity
                scheduler.unscheduleAllEvents(occupant.get());
             }
 
-            world.moveEntity(miner, nextPos);
+            world.moveEntity(this, nextPos);
          }
          return false;
       }
    }
-
+/*
    public void transformFull(WorldModel world,
       EventScheduler scheduler, ImageStore imageStore)
    {
@@ -248,21 +247,22 @@ final class Blacksmith implements Entity
       world.addEntity(miner);
       miner.scheduleActions(scheduler, world, imageStore);
    }
-
+*/
    public boolean transformNotFull(WorldModel world,
       EventScheduler scheduler, ImageStore imageStore)
    {
       if (this.resourceCount >= this.resourceLimit)
       {
-         Entity miner = Functions.createMinerFull(this.id, this.resourceLimit,
-            this.position, this.actionPeriod, this.animationPeriod,
-            this.images);
+         Entity miner = new Miner_Full(this.id, this.position, 
+                 this.images, this.resourceLimit,
+                 this.resourceLimit, this.actionPeriod,
+                 this.animationPeriod );
 
          world.removeEntity(this);
          scheduler.unscheduleAllEvents(this);
 
          world.addEntity(miner);
-         miner.scheduleActions(scheduler, world, imageStore);
+         ((Miner_Full)miner).scheduleActions(scheduler, world, imageStore);
 
          return true;
       }
@@ -290,7 +290,7 @@ final class Blacksmith implements Entity
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
-
+/*
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -309,14 +309,14 @@ final class Blacksmith implements Entity
             this.actionPeriod);
       }
    }
-
+*/
    public void executeMinerNotFullActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Entity> notFullTarget = world.findNearest(this.position,
          EntityKind.ORE);
 
       if (!notFullTarget.isPresent() ||
-         !Entity.moveToNotFull(this, world, notFullTarget.get(), scheduler) ||
+         !this.moveToNotFull(world, notFullTarget.get(), scheduler) ||
          !this.transformNotFull(world, scheduler, imageStore))
       {
          scheduler.scheduleEvent(this,
@@ -324,7 +324,7 @@ final class Blacksmith implements Entity
             this.actionPeriod);
       }
    }
-
+/*
    public void executeOreActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -395,12 +395,13 @@ final class Blacksmith implements Entity
          this.createActivityAction(world, imageStore),
          this.actionPeriod);
    }
-
+*/   
    public void scheduleActions(EventScheduler scheduler,
       WorldModel world, ImageStore imageStore)
    {
       switch (this.kind)
       {
+          /*
       case MINER_FULL:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
@@ -408,7 +409,7 @@ final class Blacksmith implements Entity
          scheduler.scheduleEvent(this, this.createAnimationAction(0),
             this.getAnimationPeriod());
          break;
-
+*/
       case MINER_NOT_FULL:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
@@ -416,7 +417,7 @@ final class Blacksmith implements Entity
          scheduler.scheduleEvent(this,
             this.createAnimationAction(0), this.getAnimationPeriod());
          break;
-
+/*
       case ORE:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
@@ -445,9 +446,8 @@ final class Blacksmith implements Entity
             this.createActivityAction(world, imageStore),
             this.actionPeriod);
          break;
-
+*/
       default:
       }
    }
-*/
 }

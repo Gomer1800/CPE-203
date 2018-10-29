@@ -3,9 +3,9 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Blacksmith implements Entity
+final class Obstacle implements Entity
 {
-   private final EntityKind kind = EntityKind.BLACKSMITH ;
+   private final EntityKind kind = EntityKind.OBSTACLE;
    private final String id;
    private Point position;
    private final List<PImage> images;
@@ -40,26 +40,26 @@ final class Blacksmith implements Entity
    private static final int MINER_LIMIT = 4;
    private static final int MINER_ACTION_PERIOD = 5;
    private static final int MINER_ANIMATION_PERIOD = 6;
-
+*/
    private static final String OBSTACLE_KEY = "obstacle";
    private static final int OBSTACLE_NUM_PROPERTIES = 4;
    private static final int OBSTACLE_ID = 1;
    private static final int OBSTACLE_COL = 2;
    private static final int OBSTACLE_ROW = 3;
-
+/*
    private static final String ORE_KEY = "ore";
    private static final int ORE_NUM_PROPERTIES = 5;
    private static final int ORE_ID = 1;
    private static final int ORE_COL = 2;
    private static final int ORE_ROW = 3;
    private static final int ORE_ACTION_PERIOD = 4;
-*/
+
    private static final String SMITH_KEY = "blacksmith";
    private static final int SMITH_NUM_PROPERTIES = 4;
    private static final int SMITH_ID = 1;
    private static final int SMITH_COL = 2;
    private static final int SMITH_ROW = 3;
-/*
+
    private static final String VEIN_KEY = "vein";
    private static final int VEIN_NUM_PROPERTIES = 5;
    private static final int VEIN_ID = 1;
@@ -67,9 +67,8 @@ final class Blacksmith implements Entity
    private static final int VEIN_ROW = 3;
 */
 
-   public Blacksmith( String id, 
-           Point position,
-           List<PImage> images)
+   public Obstacle(String id, Point position,
+      List<PImage> images)
    {
       // this.kind = kind;
       this.id = id;
@@ -87,12 +86,11 @@ final class Blacksmith implements Entity
    public Point getPosition() { return this.position; }
    public List<PImage> getImages() { return this.images; }
    public int getImageIndex() { return this.imageIndex; }
-   public void setPosition(Point p) { this.position = p; }
-   
    // public int getResourceLimit() { return this.resourceLimit; }
    // public int getResourceCount() { return this.resourceCount; }
    // public int getActionPeriod() { return this.actionPeriod; }
 
+   public void setPosition(Point p) { this.position = p; }
    // Methods
 /*
    public Action createActivityAction(WorldModel world,
@@ -235,6 +233,7 @@ final class Blacksmith implements Entity
       }
    }
 
+
    public void transformFull(WorldModel world,
       EventScheduler scheduler, ImageStore imageStore)
    {
@@ -285,12 +284,12 @@ final class Blacksmith implements Entity
             this.kind));
       }
    }
-
+*/
    public void nextImage()
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
-
+/*
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -449,5 +448,5 @@ final class Blacksmith implements Entity
       default:
       }
    }
-*/
+   */
 }
