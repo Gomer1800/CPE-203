@@ -10,7 +10,7 @@ final class Action
       ImageStore imageStore, int repeatCount)
    {
       this.kind = kind;
-      this.entity = ((Entity)entity);
+      this.entity = entity;
       this.world = world;
       this.imageStore = imageStore;
       this.repeatCount = repeatCount;
@@ -33,9 +33,8 @@ final class Action
 
        if(this.repeatCount != 1) {
            scheduler.scheduleEvent(this.entity,
-                   this.entity.createAnimationAction(Math.max(this.repeatCount - 1, 0)),
-
-                   entity.getClass().getAnimationPeriod());
+                   ((MoveableEntity)this.entity).createAnimationAction(Math.max(this.repeatCount - 1, 0)),
+                   ((MoveableEntity)entity).getAnimationPeriod());
        }
    }
 
@@ -44,32 +43,32 @@ final class Action
       switch (this.entity.getKind())
       {
       case MINER_FULL:
-         this.entity.executeMinerFullActivity(this.world,
+         ((ActionableEntity)this.entity).executeActivity(this.world,
             this.imageStore, scheduler);
          break;
 
       case MINER_NOT_FULL:
-         this.entity.executeMinerNotFullActivity(this.world,
+         ((ActionableEntity)this.entity).executeActivity(this.world,
             this.imageStore, scheduler);
          break;
 
       case ORE:
-         this.entity.executeOreActivity(this.world, this.imageStore,
+         ((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
             scheduler);
          break;
 
       case ORE_BLOB:
-         this.entity.executeOreBlobActivity(this.world,
+         ((ActionableEntity)this.entity).executeActivity(this.world,
             this.imageStore, scheduler);
          break;
 
       case QUAKE:
-         this.entity.executeQuakeActivity(this.world, this.imageStore,
+         ((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
             scheduler);
          break;
 
       case VEIN:
-         this.entity.executeVeinActivity(this.world, this.imageStore,
+         ((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
             scheduler);
          break;
 

@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Miner_Not_Full implements Entity
+final class Miner_Not_Full implements MoveableEntity
 {
    private final EntityKind kind = EntityKind.MINER_NOT_FULL;
    private final String id;
@@ -310,7 +310,7 @@ final class Miner_Not_Full implements Entity
       }
    }
 */
-   public void executeMinerNotFullActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
+   public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Entity> notFullTarget = world.findNearest(this.position,
          EntityKind.ORE);

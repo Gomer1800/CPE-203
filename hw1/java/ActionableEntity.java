@@ -3,30 +3,30 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Vein implements ActionableEntity
+public interface ActionableEntity extends Entity
 {
-   private final Random rand = new Random();
-   private final EntityKind kind = EntityKind.VEIN;
+    /*
+   private final EntityKind kind;
    private final String id;
    private Point position;
    private final List<PImage> images;
    private int imageIndex;
-   // private final int resourceLimit;
-   // private int resourceCount;
+   private final int resourceLimit;
+   private int resourceCount;
    private final int actionPeriod;
-   // private final int animationPeriod;
-/*
+   private final int animationPeriod;
+
    private static final String BLOB_KEY = "blob";
    private static final String BLOB_ID_SUFFIX = " -- blob";
    private static final int BLOB_PERIOD_SCALE = 4;
    private static final int BLOB_ANIMATION_MIN = 50;
    private static final int BLOB_ANIMATION_MAX = 150;
-*/
+
    private static final String ORE_ID_PREFIX = "ore -- ";
    private static final int ORE_CORRUPT_MIN = 20000;
    private static final int ORE_CORRUPT_MAX = 30000;
    private static final int ORE_REACH = 1;
-/*
+
    private static final String QUAKE_KEY = "quake";
    private static final String QUAKE_ID = "quake";
    private static final int QUAKE_ACTION_PERIOD = 1100;
@@ -47,20 +47,20 @@ final class Vein implements ActionableEntity
    private static final int OBSTACLE_ID = 1;
    private static final int OBSTACLE_COL = 2;
    private static final int OBSTACLE_ROW = 3;
-*/
+
    private static final String ORE_KEY = "ore";
    private static final int ORE_NUM_PROPERTIES = 5;
    private static final int ORE_ID = 1;
    private static final int ORE_COL = 2;
    private static final int ORE_ROW = 3;
    private static final int ORE_ACTION_PERIOD = 4;
-/*
+
    private static final String SMITH_KEY = "blacksmith";
    private static final int SMITH_NUM_PROPERTIES = 4;
    private static final int SMITH_ID = 1;
    private static final int SMITH_COL = 2;
    private static final int SMITH_ROW = 3;
-*/
+
    private static final String VEIN_KEY = "vein";
    private static final int VEIN_NUM_PROPERTIES = 5;
    private static final int VEIN_ID = 1;
@@ -68,39 +68,38 @@ final class Vein implements ActionableEntity
    private static final int VEIN_ROW = 3;
 
 
-   public Vein( String id, Point position,
-      List<PImage> images,
-      int actionPeriod )
+   public Entity(EntityKind kind, String id, Point position,
+      List<PImage> images, int resourceLimit, int resourceCount,
+      int actionPeriod, int animationPeriod)
    {
-      // this.kind = kind;
+      this.kind = kind;
       this.id = id;
       this.position = position;
       this.images = images;
       this.imageIndex = 0;
-      // this.resourceLimit = resourceLimit;
-      // this.resourceCount = resourceCount;
+      this.resourceLimit = resourceLimit;
+      this.resourceCount = resourceCount;
       this.actionPeriod = actionPeriod;
-      // this.animationPeriod = animationPeriod;
+      this.animationPeriod = animationPeriod;
    }
-   // accessors
-   public EntityKind getKind() { return this.kind; }
-   public String getID() { return this.id; }
-   public Point getPosition() { return this.position; }
-   public List<PImage> getImages() { return this.images; }
-   public int getImageIndex() { return this.imageIndex; }
+*/
+    int getActionPeriod() ;
+    Action createActivityAction (WorldModel w, ImageStore i );
+    void executeActivity ( WorldModel w, ImageStore i, EventScheduler e );
+    void scheduleActions ( EventScheduler e, WorldModel w, ImageStore i );
+}
    // public int getResourceLimit() { return this.resourceLimit; }
    // public int getResourceCount() { return this.resourceCount; }
-   public int getActionPeriod() { return this.actionPeriod; }
+   // public int getActionPeriod() { return this.actionPeriod; }
 
-   public void setPosition(Point p) { this.position = p; }
    // Methods
-
+/*
    public Action createActivityAction(WorldModel world,
       ImageStore imageStore)
    {
       return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
    }
-/*
+
    public Action createAnimationAction(int repeatCount)
    {
       return new Action(ActionKind.ANIMATION, this, null, null, repeatCount);
@@ -289,12 +288,12 @@ final class Vein implements ActionableEntity
             this.kind));
       }
    }
-*/
+
    public void nextImage()
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
-/*
+
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
@@ -379,22 +378,20 @@ final class Vein implements ActionableEntity
       scheduler.unscheduleAllEvents(this);
       world.removeEntity(this);
    }
-*/
-   public void executeActivity(WorldModel world,
+
+   public void executeVeinActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Point> openPt = world.findOpenAround(this.position);
 
       if (openPt.isPresent())
       {
-         Entity ore = new Ore(ORE_ID_PREFIX + this.id, 
-                 openPt.get(),
-                 imageStore.getImageList(ORE_KEY) ,
-                 ORE_CORRUPT_MIN + this.rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN));
-         
+         Entity ore = Functions.createOre(ORE_ID_PREFIX + this.id,
+            openPt.get(), ORE_CORRUPT_MIN +
+               Functions.rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
+            imageStore.getImageList(ORE_KEY));
          world.addEntity(ore);
-
-         ((Ore) ore).scheduleActions(scheduler, world, imageStore);
+         ore.scheduleActions(scheduler, world, imageStore);
       }
 
       scheduler.scheduleEvent(this,
@@ -407,7 +404,6 @@ final class Vein implements ActionableEntity
    {
       switch (this.kind)
       {
-          /*
       case MINER_FULL:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
@@ -446,7 +442,7 @@ final class Vein implements ActionableEntity
             this.createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
             this.getAnimationPeriod());
          break;
-*/
+
       case VEIN:
          scheduler.scheduleEvent(this,
             this.createActivityAction(world, imageStore),
@@ -456,4 +452,5 @@ final class Vein implements ActionableEntity
       default:
       }
    }
-}
+   
+}*/

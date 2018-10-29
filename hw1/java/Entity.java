@@ -90,6 +90,7 @@ public interface Entity
    List<PImage> getImages() ; // { return this.images; }
    int getImageIndex() ; //  { return this.imageIndex; }
    void setPosition(Point p) ; // { this.position = p; }
+   void nextImage() ;
 }
    // public int getResourceLimit() { return this.resourceLimit; }
    // public int getResourceCount() { return this.resourceCount; }

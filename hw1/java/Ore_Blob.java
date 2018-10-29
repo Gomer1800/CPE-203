@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Ore_Blob implements Entity
+final class Ore_Blob implements MoveableEntity
 {
    private final EntityKind kind = EntityKind.ORE_BLOB;
    private final String id;
@@ -347,7 +347,7 @@ final class Ore_Blob implements Entity
       blob.scheduleActions(scheduler, world, imageStore);
    }
 */
-   public void executeOreBlobActivity(WorldModel world,
+   public void executeActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Entity> blobTarget = world.findNearest(this.position, EntityKind.VEIN);

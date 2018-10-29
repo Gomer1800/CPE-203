@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Miner_Full implements Entity
+final class Miner_Full implements MoveableEntity
 {
    private final EntityKind kind = EntityKind.MINER_FULL;
    private final String id;
@@ -97,12 +97,12 @@ final class Miner_Full implements Entity
    public Action createActivityAction(WorldModel world,
       ImageStore imageStore)
    {
-      return new Action(ActionKind.ACTIVITY, ((Entity)this), world, imageStore, 0);
+      return new Action(ActionKind.ACTIVITY, this, world, imageStore, 0);
    }
 
    public Action createAnimationAction(int repeatCount)
    {
-      return new Action(ActionKind.ANIMATION, ((Entity)this), null, null, repeatCount);
+      return new Action(ActionKind.ANIMATION, this, null, null, repeatCount);
    }
 /*
    public Point nextPositionOreBlob(WorldModel world,
@@ -291,7 +291,7 @@ final class Miner_Full implements Entity
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
 
-   public void executeMinerFullActivity(WorldModel world,
+   public void executeActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Optional<Entity> fullTarget = world.findNearest(this.position,

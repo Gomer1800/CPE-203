@@ -3,9 +3,9 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Ore implements Entity
+final class Ore implements ActionableEntity
 {
-   private static final Random rand = new Random();
+   private final Random rand = new Random();
    private final EntityKind kind = EntityKind.ORE;
    private final String id;
    private Point position;
@@ -325,7 +325,7 @@ final class Ore implements Entity
       }
    }
 */
-   public void executeOreActivity(WorldModel world,
+   public void executeActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       Point pos = this.position;  // store current position before removing

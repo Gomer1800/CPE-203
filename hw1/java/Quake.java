@@ -3,7 +3,7 @@ import processing.core.PImage;
 import java.util.Optional;
 import java.util.Random;
 
-final class Quake implements Entity
+final class Quake implements MoveableEntity
 {
    private final EntityKind kind = EntityKind.QUAKE;
    private final String id = QUAKE_ID;
@@ -370,7 +370,7 @@ final class Quake implements Entity
          nextPeriod);
    }
 */
-   public void executeQuakeActivity(WorldModel world,
+   public void executeActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
       scheduler.unscheduleAllEvents(this);

@@ -285,12 +285,12 @@ final class Blacksmith implements Entity
             this.kind));
       }
    }
-
+*/
    public void nextImage()
    {
       this.imageIndex = (this.imageIndex + 1) % this.images.size();
    }
-
+/*
    public void executeMinerFullActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
