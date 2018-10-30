@@ -30,7 +30,7 @@ public class TestCases
 
        ArtistComparator comp = new ArtistComparator();
        for (int i = 0; i < songs.length - 1; i++ ) {
-           int thisSong = 0;
+           int thisSong = i;
            for (int j = 0; j < songs.length - 1; j++ ) {
                if (!sortedByArtist.contains(songs[j].getArtist())) 
                {
@@ -65,7 +65,7 @@ public class TestCases
    public void testThenComparing()
    {
    }
-
+/*
    @Test
    public void runSort()
    {
@@ -87,4 +87,5 @@ public class TestCases
 
       assertEquals(songList, expectedList);
    }
+   */
 }
