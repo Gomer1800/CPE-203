@@ -37,8 +37,9 @@ public class TestCases
                    if (comp.compare(songs[thisSong] , songs[j] ) > 0 ) { thisSong = j; }
                }
            }
-
-           sortedByArtist.add( songs[thisSong].getArtist() );
+           if (!sortedByArtist.contains(songs[i].getArtist())) {
+               sortedByArtist.add( songs[thisSong].getArtist() );
+           }
        }
 
        for( String Artist : sortedByArtist) {
