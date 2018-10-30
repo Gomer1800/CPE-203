@@ -29,16 +29,22 @@ public class TestCases
        List <String> sortedByArtist =  new ArrayList<>();
 
        ArtistComparator comp = new ArtistComparator();
+       int thisSong = 0;
+
        for (int i = 0; i < songs.length - 1; i++ ) {
-           int thisSong = i;
+           String artist;
            for (int j = 0; j < songs.length - 1; j++ ) {
-               if (!sortedByArtist.contains(songs[j].getArtist())) 
+               thisSong = i;
+               artist = songs[thisSong].getArtist();
+               if (!sortedByArtist.contains(songs[j].getArtist()))
                {
-                   if (comp.compare(songs[thisSong] , songs[j] ) > 0 ) { thisSong = j; }
+                   if (comp.compare(songs[thisSong] , songs[j] ) < 0 ) {
+                       artist = songs[thisSong].getArtist();
+                   }
                }
            }
-           if (!sortedByArtist.contains(songs[i].getArtist())) {
-               sortedByArtist.add( songs[thisSong].getArtist() );
+           if (!sortedByArtist.contains(songs[thisSong].getArtist())) {
+               sortedByArtist.add( artist );
            }
        }
 
