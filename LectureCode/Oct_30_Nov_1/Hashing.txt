@@ -1,0 +1,30 @@
+What if you have a large array of strings data pairs
+You want to quickly find a particular string and its associated data
+
+    "name" - data
+
+Sorting Methods & time?
+    Linear search: O(n/2)
+    Binary search: O(log_base2_n), you sort the whole list in some order then
+        divide the list in half and check the middle element, eliminating half the stack
+        with each iteration.
+
+Hashing
+
+    Student
+        String last, first, middle
+        int dateOfBirth
+        double gpa
+
+// overriding Object's hashCode method
+// our hashCode creates a custom hashCode that is made up by the hashCode of the 
+
+        public int hashCode() 
+            int result s1.getLast().hashcode() +
+                s1.getFirst().hashCode() +
+                s1.getMiddle().hashCode() +
+                si.getDateOfBirth +
+                ((Double) s1.getDPA()).hashCode();
+        }
+we can can call the overriden function s1.hashCode()
+on our student object
