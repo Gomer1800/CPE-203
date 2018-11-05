@@ -5,7 +5,7 @@ import java.util.Random;
 
 public abstract class ActiveEntity extends Entity
 {
-   private final int actionPeriod;
+   protected final int actionPeriod;
    
    protected ActiveEntity(
            EntityKind kind,
@@ -21,8 +21,82 @@ public abstract class ActiveEntity extends Entity
        this.actionPeriod = actionPeriod;
    }
     
-   public int getActionPeriod() { return this.actionPeriod; }
-   public Action createActivityAction (WorldModel w, ImageStore i );
-   public void executeActivity ( WorldModel w, ImageStore i, EventScheduler e );
-   public void scheduleActions ( EventScheduler e, WorldModel w, ImageStore i );
+   public int getActionPeriod() { return this.actionPeriod; } // matches all
+
+   public Action createActivityAction (WorldModel world, ImageStore imageStore ) { // matches all
+       return new Activity ( this, world, imageStore, 0); 
+   }
+
+   public abstract void executeActivity ( 
+           WorldModel world, 
+           ImageStore imageStore, 
+           EventScheduler scheduler ) ;
+
+   public void scheduleActions(
+           EventScheduler scheduler,
+           WorldModel world,
+           ImageStore imageStore)
+   {
+       switch (super.kind)
+       {
+           case MINER_FULL:
+               scheduler.scheduleEvent(
+                       this,
+                       this.createActivityAction(world, imageStore),
+                       this.actionPeriod);
+               scheduler.scheduleEvent(
+                       this, 
+                       ((AnimatedEntity)this).createAnimationAction(0),
+                       ((AnimatedEntity)this).getAnimationPeriod());
+               break;
+           case MINER_NOT_FULL:
+               scheduler.scheduleEvent(
+                       this,
+                       this.createActivityAction(world, imageStore),
+                       this.actionPeriod);
+               scheduler.scheduleEvent(
+                       this,
+                       ((AnimatedEntity)this).createAnimationAction(0), 
+                       ((AnimatedEntity)this).getAnimationPeriod());
+               break;
+           
+           case ORE:
+               scheduler.scheduleEvent(
+                       this,
+                       this.createActivityAction(world, imageStore),
+                       this.actionPeriod);
+               break;
+           
+           case ORE_BLOB:
+               scheduler.scheduleEvent(
+                       this,
+                       this.createActivityAction(world, imageStore),
+                       this.actionPeriod);
+               scheduler.scheduleEvent(
+                       this,
+                       ((AnimatedEntity)this).createAnimationAction(0), 
+                       ((AnimatedEntity)this).getAnimationPeriod());
+               break;
+           
+           case QUAKE:
+               scheduler.scheduleEvent(
+                       this,
+                       this.createActivityAction(world, imageStore),
+                       this.actionPeriod);
+               scheduler.scheduleEvent(
+                       this,
+                       ((AnimatedEntity)this).createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
+                       ((AnimatedEntity)this).getAnimationPeriod());
+               break;
+           
+           case VEIN:
+               scheduler.scheduleEvent(
+                       this,
+                       this.createActivityAction(world, imageStore),
+                       this.actionPeriod);
+               break;
+           
+           default:
+       }
+   }
 }
