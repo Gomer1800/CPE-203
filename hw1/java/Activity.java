@@ -46,32 +46,32 @@ final class Activity implements Action
       switch (this.entity.getKind())
       {
       case MINER_FULL:
-         ((ActionableEntity)this.entity).executeActivity(this.world,
-            this.imageStore, scheduler);
-         break;
+         //((ActiveEntity)this.entity).executeActivity(this.world,
+         //   this.imageStore, scheduler);
+         //break;
 
       case MINER_NOT_FULL:
-         ((ActionableEntity)this.entity).executeActivity(this.world,
-            this.imageStore, scheduler);
-         break;
+         //((ActionableEntity)this.entity).executeActivity(this.world,
+         //   this.imageStore, scheduler);
+         //break;
 
       case ORE:
-         ((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
-            scheduler);
-         break;
+         //((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
+         //   scheduler);
+         //break;
 
       case ORE_BLOB:
-         ((ActionableEntity)this.entity).executeActivity(this.world,
-            this.imageStore, scheduler);
-         break;
+         //((ActionableEntity)this.entity).executeActivity(this.world,
+         //   this.imageStore, scheduler);
+         //break;
 
       case QUAKE:
-         ((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
-            scheduler);
-         break;
+         //((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
+         //   scheduler);
+         //break;
 
       case VEIN:
-         ((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
+         ((ActiveEntity)this.entity).executeActivity(this.world, this.imageStore,
             scheduler);
          break;
 

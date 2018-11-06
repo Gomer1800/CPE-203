@@ -36,8 +36,8 @@ final class Animation implements Action
 
        if(this.repeatCount != 1) {
            scheduler.scheduleEvent(this.entity,
-                   ((MoveableEntity)this.entity).createAnimationAction(Math.max(this.repeatCount - 1, 0)),
-                   ((MoveableEntity)entity).getAnimationPeriod());
+                   ((AnimatedEntity)this.entity).createAnimationAction(Math.max(this.repeatCount - 1, 0)),
+                   ((AnimatedEntity)entity).getAnimationPeriod());
        }
    }
 /*
