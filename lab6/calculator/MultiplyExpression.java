@@ -1,23 +1,18 @@
 class MultiplyExpression
-   implements Expression
+    extends BinaryExpression
 {
-   private final Expression lft;
-   private final Expression rht;
+    private static final String OPERATOR = " * " ;
 
    public MultiplyExpression(final Expression lft, final Expression rht)
    {
-      this.lft = lft;
-      this.rht = rht;
+       super(
+               lft,
+               rht,
+               OPERATOR );
    }
 
-   public String toString()
-   {
-      return "(" + lft + " * " + rht + ")";
-   }
-
-   public double evaluate(final Bindings bindings)
-   {
-      return lft.evaluate(bindings) * rht.evaluate(bindings);
+   protected double _applyOperator( double [] evaluations ) {
+       return evaluations[0] * evaluations[1];
    }
 }
 
