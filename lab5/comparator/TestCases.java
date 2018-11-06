@@ -26,52 +26,135 @@ public class TestCases
    @Test
    public void testArtistComparator()
    {
-       List <String> sortedByArtist =  new ArrayList<>();
+       System.out.println("\nDEFAULT TEST");
+       
+       //List <String> sortedByArtist =  new ArrayList<>();
 
        ArtistComparator comp = new ArtistComparator();
-       int thisSong = 0;
+       if (comp.compare(songs[0], songs[2]) < 0) {
+           System.out.println(songs[0].getArtist() +" "+songs[2].getArtist());
+       }
+       else if (comp.compare(songs[0], songs[2]) > 0) {
+           System.out.println(songs[2].getArtist()+" "+songs[0].getArtist());
+       }
 
+       if (comp.compare(songs[4], songs[7]) < 0) {
+           System.out.println(songs[4].getArtist() +" "+songs[7].getArtist());
+       }
+       else if (comp.compare(songs[4], songs[7]) > 0) {
+           System.out.println(songs[7].getArtist()+" "+songs[4].getArtist());
+       }
+ 
+       if (comp.compare(songs[3], songs[5]) < 0) {
+           System.out.println(songs[3].getArtist() +" "+songs[5].getArtist());
+       }
+       else if (comp.compare(songs[3], songs[5]) > 0) {
+           System.out.println(songs[5].getArtist()+" "+songs[3].getArtist());
+       }
+       /*
+        * int thisSong;
+
+       System.out.println("array length = :" + songs.length);
        for (int i = 0; i < songs.length - 1; i++ ) {
-           String artist;
+           thisSong = 0;
            for (int j = 0; j < songs.length - 1; j++ ) {
-               thisSong = i;
-               artist = songs[thisSong].getArtist();
-               if (!sortedByArtist.contains(songs[j].getArtist()))
+               if (sortedByArtist.contains(songs[j].getArtist()) == false)
                {
-                   if (comp.compare(songs[thisSong] , songs[j] ) < 0 ) {
-                       artist = songs[thisSong].getArtist();
+                   if (comp.compare( songs[thisSong] , songs[j] ) > 0 ) {
+                       thisSong = j;
+                       System.out.println(thisSong);
                    }
                }
            }
-           if (!sortedByArtist.contains(songs[thisSong].getArtist())) {
-               sortedByArtist.add( artist );
-           }
+           sortedByArtist.add(songs[thisSong].getArtist());
        }
 
        for( String Artist : sortedByArtist) {
            System.out.println(Artist);
        }
+       */
    }
 
    @Test
    public void testLambdaTitleComparator()
    {
+       System.out.println("\nLAMBDA TEST");
+       Comparator <Song> comp2 = (Song s1, Song s2)-> s1.getTitle().compareTo( s2.getTitle());
+
+       if (comp2.compare(songs[2], songs[4]) < 0) {
+           System.out.println(songs[2].getTitle() +" "+songs[4].getTitle());
+       }
+       else if (comp2.compare(songs[2], songs[4]) > 0) {
+           System.out.println(songs[4].getTitle()+" "+songs[2].getTitle());
+       }
+
+       if (comp2.compare(songs[4], songs[7]) < 0) {
+           System.out.println(songs[4].getTitle() +" "+songs[7].getTitle());
+       }
+       else if (comp2.compare(songs[4], songs[7]) > 0) {
+           System.out.println(songs[7].getTitle()+" "+songs[4].getTitle());
+       }
+
    }
 
    @Test
    public void testYearExtractorComparator()
    {
+       System.out.println("\nEXTRACTOR TEST");
+       Comparator <Song> compKey = Comparator.comparing((Song s1)-> s1.getYear());
+       
+       if ( compKey.compare(songs[0], songs[3]) < 0) {
+           System.out.println( songs[3].getYear()+ " "+songs[0].getYear());
+       }
+       else if ( compKey.compare(songs[0], songs[3]) > 0) {
+           System.out.println( songs[0].getYear()+ " "+songs[3].getYear());
+       }
+
    }
 
    @Test
    public void testComposedComparator()
    {
+       System.out.println("\n Composed Test");
+       Comparator <Song> compA = Comparator.comparing( Song::getArtist);
+       Comparator <Song> compB = compA.thenComparing( Song::getYear);
+
+       System.out.println(compB.compare( songs[3], songs[7]));
+       if (compB.compare( songs[3], songs[7] ) > 0) {
+           System.out.println( songs[7].toString()+ " " +songs[3].toString());
+       }
+       
+       if (compB.compare( songs[4], songs[5] ) > 0) {
+           System.out.println( songs[5].toString()+ " " +songs[4].toString());
+       }
+       else if (compB.compare( songs[4], songs[5] ) < 0) {
+           System.out.println( songs[4].toString()+ " " +songs[5].toString());
+       }
    }
 
    @Test
    public void testThenComparing()
    {
+       System.out.println("\n then Comparing Test");
+       Comparator <Song> compA = Comparator.comparing( Song::getTitle);
+       Comparator <Song> compB = compA.thenComparing( Song::getArtist);
+
+       System.out.println(compB.compare( songs[4], songs[5]));
+       if (compB.compare( songs[3], songs[5] ) > 0) {
+           System.out.println( songs[5].toString()+ " " +songs[3].toString());
+       }
+       else if (compB.compare( songs[3], songs[5] ) < 0) {
+           System.out.println( songs[3].toString()+ " " +songs[5].toString());
+       }
+
+       if (compB.compare( songs[4], songs[5] ) > 0) {
+           System.out.println( songs[5].toString()+ " " +songs[4].toString());
+       }
+       else if (compB.compare( songs[4], songs[5] ) < 0) {
+           System.out.println( songs[4].toString()+ " " +songs[5].toString());
+       }
    }
+}
 /*
    @Test
    public void runSort()
@@ -95,4 +178,3 @@ public class TestCases
       assertEquals(songList, expectedList);
    }
    */
-}
