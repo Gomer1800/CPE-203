@@ -93,7 +93,7 @@ public class TestCases
 
    @Test
    public void testExcercise6() {
-       System.out.println("\nTESTING STUDENT HASHCODE");
+       System.out.println("\nTESTING STUDENT HASH");
        // courses of student 1
        List<CourseSection> currentCourses1 =  new ArrayList<>();
        currentCourses1.add(new CourseSection("CSC", "203", 35,
