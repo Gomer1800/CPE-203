@@ -9,11 +9,15 @@ import java.time.LocalTime;
 
 import org.junit.Test;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class TestCases
 {
    @Test
    public void testExercise1()
    {
+       System.out.println("\nTESTING COURSESECTION");
       final CourseSection one = new CourseSection("CSC", "203", 35,
          LocalTime.of(9, 40), LocalTime.of(11, 0));
       final CourseSection two = new CourseSection("CSC", "203", 35,
@@ -26,6 +30,8 @@ public class TestCases
    @Test
    public void testExercise2()
    {
+       System.out.println("\nTESTING COURSESECTION");
+
       final CourseSection one = new CourseSection("CSC", "203", 35,
          LocalTime.of(9, 10), LocalTime.of(10, 0));
       final CourseSection two = new CourseSection("CSC", "203", 35,
@@ -38,6 +44,8 @@ public class TestCases
    @Test
    public void testExercise3()
    {
+       System.out.println("\nTESTING COURSESECTION");
+
       final CourseSection one = new CourseSection("CSC", "203", 35,
          LocalTime.of(9, 40), LocalTime.of(11, 0));
       final CourseSection two = new CourseSection("CSC", "203", 35,
@@ -49,11 +57,37 @@ public class TestCases
    @Test
    public void testExercise4()
    {
+       System.out.println("\nTESTING COURSESECTION");
+
       final CourseSection one = new CourseSection("CSC", "203", 35,
          LocalTime.of(9, 10), LocalTime.of(10, 0));
       final CourseSection two = new CourseSection("CSC", "203", 34,
          LocalTime.of(9, 10), LocalTime.of(10, 0));
 
       assertNotEquals(one.hashCode(), two.hashCode());
+   }
+
+   @Test
+   public void testExcercise5() {
+       System.out.println("\nTESTING STUDENT");
+       // courses of student 1
+       List<CourseSection> currentCourses1 =  new ArrayList<>();
+       currentCourses1.add(new CourseSection("CSC", "203", 35,
+         LocalTime.of(9, 10), LocalTime.of(10, 0))) ;
+       currentCourses1.add(new CourseSection("CSC", "203", 34,
+         LocalTime.of(9, 10), LocalTime.of(10, 0))) ;
+       // courses of student 2
+       List<CourseSection> currentCourses2 =  new ArrayList<>();
+       currentCourses2.add(new CourseSection("CSC", "203", 35,
+         LocalTime.of(9, 10), LocalTime.of(10, 0))) ;
+       currentCourses2.add(new CourseSection("CSC", "203", 34,
+         LocalTime.of(9, 10), LocalTime.of(10, 0))) ;
+
+       Student student1 = new Student("Gomez", "Luis", 27, currentCourses1 ) ;
+       Student student2 = new Student("Gomez", "Luis", 27, currentCourses2 ) ;
+       
+       assertTrue(student1.equals(student2));
+       assertTrue(student2.equals(student1));
+
    }
 }

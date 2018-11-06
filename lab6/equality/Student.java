@@ -15,4 +15,24 @@ class Student
       this.age = age;
       this.currentCourses = currentCourses;
    }
+
+   public int hashCode() {
+       int result = 
+           this.surname.hashCode() +
+           this.givenName.hashCode() +
+           ((Integer)this.age).hashCode();
+       for (CourseSection course : this.currentCourses) {
+           result += course.hashCode();
+       }
+
+       return result;
+   }
+
+   public boolean equals( Object other ) {
+       if (other == null) { return false; }
+
+       if (this.getClass() != other.getClass()) { return false; }
+
+       return this.hashCode() == ((Student) other).hashCode();
+   }
 }
