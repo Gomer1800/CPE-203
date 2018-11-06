@@ -85,7 +85,7 @@ public abstract class ActiveEntity extends Entity
                        this.actionPeriod);
                scheduler.scheduleEvent(
                        this,
-                       ((AnimatedEntity)this).createAnimationAction(QUAKE_ANIMATION_REPEAT_COUNT),
+                       ((AnimatedEntity)this).createAnimationAction(Quake.QUAKE_ANIMATION_REPEAT_COUNT),
                        ((AnimatedEntity)this).getAnimationPeriod());
                break;
            
