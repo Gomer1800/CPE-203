@@ -11,7 +11,7 @@ public class PathingMain extends PApplet
    private PImage background;
    private PImage obstacle;
    private PImage goal;
-   private List<Point> path;
+   private LinkedList<Point> path;
 
    private static final int TILE_SIZE = 32;
 
@@ -35,7 +35,7 @@ public class PathingMain extends PApplet
    public void setup()
    {
 
-      path = new LinkedList<>();
+      path = new LinkedList<Point>();
       wPos = new Point(2, 2);
       imgs = new ArrayList<>();
       imgs.add(loadImage("images/wyvern1.bmp"));
@@ -81,6 +81,7 @@ public class PathingMain extends PApplet
       {
          grid[11][col] = GridValues.OBSTACLE;
       }
+      //grid[2][3] = GridValues.GOAL;
 
       grid[13][14] = GridValues.GOAL;
    }
@@ -124,7 +125,7 @@ public class PathingMain extends PApplet
       {
          for (Point p : path)
          {
-            fill(128, 0, 0);
+            fill(204, 102, 0);
             rect(p.x * TILE_SIZE + TILE_SIZE * 3 / 8,
                p.y * TILE_SIZE + TILE_SIZE * 3 / 8,
                TILE_SIZE / 4, TILE_SIZE / 4);
@@ -143,10 +144,11 @@ public class PathingMain extends PApplet
             image(obstacle, col * TILE_SIZE, row * TILE_SIZE);
             break;
          case SEARCHED:
+            //image(obstacle, col * TILE_SIZE, row * TILE_SIZE);
             fill(0, 128);
             rect(col * TILE_SIZE + TILE_SIZE / 4,
-               row * TILE_SIZE + TILE_SIZE / 4,
-               TILE_SIZE / 2, TILE_SIZE / 2);
+              row * TILE_SIZE + TILE_SIZE / 4,
+              TILE_SIZE / 2, TILE_SIZE / 2);
             break;
          case GOAL:
             image(goal, col * TILE_SIZE, row * TILE_SIZE);
@@ -161,17 +163,18 @@ public class PathingMain extends PApplet
 
    public void keyPressed()
    {
-      if (key == ' ')
+      if (key == 'o')
       {
 			//clear out prior path
          path.clear();
 			//example - replace with dfs	
-         moveOnce(wPos, grid, path);
+         depthFirstSearch(wPos, grid, path);
+         // moveOnce(wPos, grid, path); 
       }
       else if (key == 'p')
       {
          drawPath ^= true;
-         redraw();
+         redraw() ;
       }
    }
 
@@ -180,7 +183,35 @@ public class PathingMain extends PApplet
 		in one direction for one tile - it mostly is for illustrating
 		how you might test the occupancy grid and add nodes to path!
 	*/
-   private boolean moveOnce(Point pos, GridValues[][] grid, List<Point> path)
+   private boolean depthFirstSearch(Point node, GridValues[][] grid, LinkedList<Point> path)
+   {
+      try {
+         Thread.sleep(200);
+      } catch (Exception e) {}
+      redraw() ;
+
+      if (!withinBounds(node, grid)) { return false ;}
+      if (grid[node.y][node.x] == null) { return false ;} // Default Case
+      if (grid[node.y][node.x] == GridValues.GOAL) { return true ;}
+      if (grid[node.y][node.x] == GridValues.OBSTACLE) { return false ;}
+      if (grid[node.y][node.x] == GridValues.SEARCHED) { return false ;}
+          
+      grid[node.y][node.x] = GridValues.SEARCHED ;
+
+      // Order of search, E, S, W, N
+      boolean found = ( 
+              depthFirstSearch( new Point(node.x +1, node.y), grid, path) ||
+              depthFirstSearch( new Point(node.x , node.y +1), grid, path) ||
+              depthFirstSearch( new Point(node.x -1, node.y), grid, path) ||
+              depthFirstSearch( new Point(node.x, node.y -1), grid, path)
+              ) ;
+      if (found) { 
+          path.offerFirst(node) ;
+      }
+      return found;
+   }
+ 
+   /*private boolean moveOnce(Point pos, GridValues[][] grid, List<Point> path)
    {
       try {
          Thread.sleep(200);
@@ -202,8 +233,9 @@ public class PathingMain extends PApplet
 			//set this value as searched
       	grid[rightN.y][rightN.x] = GridValues.SEARCHED;
       }
+
 		return false;
-   }
+   }*/
 
    private static boolean withinBounds(Point p, GridValues[][] grid)
    {
