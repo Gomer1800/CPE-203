@@ -215,18 +215,18 @@ public class PathingMain extends PApplet
       System.out.println("( "+node.x+" , "+node.y+" )");
 
       if (!withinBounds(node, grid)) { return false ;}
-      //if (this.grid[node.y][node.x] == null) { return false ;} // Default Case
+      if (this.grid[node.y][node.x] == null) { return false ;} // Default Case
       if (this.grid[node.y][node.x] == GridValues.GOAL) { return true ;}
       if (this.grid[node.y][node.x] == GridValues.OBSTACLE) { return false ;}
       if (this.grid[node.y][node.x] == GridValues.SEARCHED) { return false ;}
           
       this.grid[node.y][node.x] = GridValues.SEARCHED ;
 
-      boolean found = ( 
+      boolean found = (
+              depthFirstSearch( new Point(node.x, node.y -1)) ||
+              depthFirstSearch( new Point(node.x , node.y +1)) || 
               depthFirstSearch( new Point(node.x +1, node.y)) ||
-              depthFirstSearch( new Point(node.x , node.y +1)) ||
-              depthFirstSearch( new Point(node.x -1, node.y)) ||
-              depthFirstSearch( new Point(node.x, node.y -1))
+              depthFirstSearch( new Point(node.x -1, node.y))
               ) ;
       if (found) { 
           this.path.offerFirst(node) ;
