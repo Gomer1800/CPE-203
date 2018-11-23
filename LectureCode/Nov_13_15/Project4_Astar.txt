@@ -1,0 +1,10 @@
+Given a 8 X 6 2D array
+
+NumCols = 6
+NumRows = 8
+
+nodeNum = row  NUMCOLS + col ; // gives us a unique # for each square ... 2,3 -> 2*6+3 = 15
+
+row = nodeNum / NUMCOLS ;
+col = nodeNum  % NUMCOLS ;
+
