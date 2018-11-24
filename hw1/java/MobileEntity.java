@@ -7,12 +7,12 @@ import java.util.function.Predicate;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import java.util.stream.Collectors;
-import java.lang.Math;
 
-
-public abstract class MobileEntity extends AnimatedEntity implements PathingStrategy
+public abstract class MobileEntity extends AnimatedEntity
 { 
+   protected PathingStrategy SingleStep_Strategy = new SingleStepPathingStrategy();
+   protected final StrategyKind strategy ;
+
    protected MobileEntity(
            EntityKind kind, 
            String id, 
@@ -28,9 +28,12 @@ public abstract class MobileEntity extends AnimatedEntity implements PathingStra
                images,
                actionPeriod,
                animationPeriod);
+
+       strategy = StrategyKind.SINGLE_STEP;
    }
 
-   public Point nextPosition(
+   // Default
+   /* public Point nextPosition(
            WorldModel world,
            Point destPos ) {
 
@@ -40,29 +43,43 @@ public abstract class MobileEntity extends AnimatedEntity implements PathingStra
 
        newPos = newPosition( horiz, newPos, world, destPos );
        return newPos;
-           }
-   // Sinle Step path finding
-   public List<Point> computePath(
-           Point start, 
-           Point end,
-           Predicate<Point> canPassThrough,
-           BiPredicate<Point, Point> withinReach,
-           Function<Point,
-           Stream<Point>> potentialNeighbors)
-   {
-        /* Does not check withinReach.  Since only a single step is taken
-         * *        * on each call, the caller will need to check if the destination
-         * *               * has been reached.
-         * *                      */
-       return potentialNeighbors.apply(start)
-           .filter(canPassThrough)
-           .filter(pt ->
-                   !pt.equals(start)
-                   && !pt.equals(end)
-                   && Math.abs(end.getX() - pt.getX()) <= Math.abs(end.getX() - start.getX())
-                   && Math.abs(end.getY() - pt.getY()) <= Math.abs(end.getY() - start.getY()))
-           .limit(1)
-           .collect(Collectors.toList());
+           }*/
+   // Single Step
+   public Point nextPosition(
+           WorldModel world,
+           Point destPos ) {
+
+       Point newPos = new Point(0,0);
+
+       switch (this.strategy)
+       {
+           case DEFAULT:
+               int horiz = Integer.signum(destPos.getX() - this.position.getX());
+               newPos = new Point(this.position.getX() + horiz,
+                       this.position.getY());
+               
+               newPos = newPosition( horiz, newPos, world, destPos );
+               break;
+           
+           case SINGLE_STEP:
+               List<Point> points ;
+
+               points = SingleStep_Strategy.computePath( this.position, destPos,
+                       p -> withinBounds(p, world) 
+                       && world.getOccupancyCell(p) == null,
+                       (p1, p2) -> Point.adjacent(p1, p2),
+                       PathingStrategy.DIAGONAL_CARDINAL_NEIGHBORS);
+
+               if (points.size() == 0) { newPos = this.position; }
+               else newPos = points.get(0);
+               break;
+       }
+       return newPos;
+   }
+
+   // From Worksheet
+   private static boolean withinBounds( Point thisPoint, WorldModel thisWorld) {
+       return thisWorld.withinBounds( thisPoint);
    }
 
    // ABSTRACT METHODS

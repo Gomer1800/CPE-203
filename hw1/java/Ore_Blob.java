@@ -36,11 +36,10 @@ final class Ore_Blob extends MobileEntity
 
    public Point newPosition( int horiz, Point newPos, WorldModel world, Point destPos)
    {
-       /*
-      int horiz = Integer.signum(destPos.getX() - this.position.getX());
+      /*int horiz = Integer.signum(destPos.getX() - this.position.getX());
       Point newPos = new Point(this.position.getX() + horiz,
-         this.position.getY());
-*/
+         this.position.getY());*/
+
       Optional<Entity> occupant = world.getOccupant(newPos);
 
       if (horiz == 0 ||

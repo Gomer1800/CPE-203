@@ -33,6 +33,7 @@ final class WorldModel
    public int getNumRows() { return this.numRows; }
    public int getNumCols() { return this.numCols; }
    public Set<Entity> getEntities() { return this.entities; }
+   public Entity getEntity(int row, int col) { return this.occupancy[row][col] ; }
    // Methods
 
    public Optional<Entity> findNearest(Point pos,
@@ -62,7 +63,7 @@ final class WorldModel
       this.addEntity(entity);
    }
    
-   private boolean withinBounds(Point pos)
+   public boolean withinBounds(Point pos)
    {
       return pos.getY() >= 0 && pos.getY() < this.numRows &&
          pos.getX() >= 0 && pos.getX() < this.numCols;
@@ -175,7 +176,7 @@ final class WorldModel
       }
    }
 
-   private Entity getOccupancyCell(Point pos)
+   public Entity getOccupancyCell(Point pos)
    {
       return this.occupancy[pos.getY()][pos.getX()];
    }

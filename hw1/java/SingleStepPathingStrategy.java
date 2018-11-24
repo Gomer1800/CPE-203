@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import java.util.stream.Collectors;
 import java.lang.Math;
 
-public abstract class SingleStepPathingStrategy
+class SingleStepPathingStrategy
     implements PathingStrategy {
     
     public List<Point> computePath(
@@ -14,8 +14,7 @@ public abstract class SingleStepPathingStrategy
             Point end,
             Predicate<Point> canPassThrough,
             BiPredicate<Point, Point> withinReach,
-            Function<Point,
-            Stream<Point>> potentialNeighbors)
+            Function<Point, Stream<Point>> potentialNeighbors)
     {
         /* Does not check withinReach.  Since only a single step is taken
          * *        * on each call, the caller will need to check if the destination
@@ -31,4 +30,16 @@ public abstract class SingleStepPathingStrategy
             .limit(1)
             .collect(Collectors.toList());
     }
+   // From Worksheet
+   private static boolean withinBounds( Point p, WorldModel world) {
+       return p.getY() >= 0 && p.getY() < world.getNumRows()
+           && p.getX() >= 0 && p.getX() < world.getNumCols() ;
+   }
+
+   private static boolean neighbors( Point p1, Point p2) {
+       return p1.getX()+1 == p2.getX() && p1.getY() == p2.getY()
+           || p1.getX()-1 == p2.getX() && p1.getY() == p2.getY()
+           || p1.getX() == p2.getX() && p1.getY()+1 == p2.getY()
+           || p1.getX() == p2.getX() && p1.getY()-1 == p2.getY() ;
+   }
 }
