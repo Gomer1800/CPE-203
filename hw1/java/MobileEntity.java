@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 public abstract class MobileEntity extends AnimatedEntity
 { 
    protected PathingStrategy SingleStep_Strategy = new SingleStepPathingStrategy();
+   protected PathingStrategy Astar_Strategy = new AstarPathingStrategy(); 
    protected final StrategyKind strategy ;
 
    protected MobileEntity(
@@ -29,7 +30,7 @@ public abstract class MobileEntity extends AnimatedEntity
                actionPeriod,
                animationPeriod);
 
-       strategy = StrategyKind.SINGLE_STEP;
+       strategy = StrategyKind.A_STAR;
    }
 
    // Default
@@ -50,6 +51,7 @@ public abstract class MobileEntity extends AnimatedEntity
            Point destPos ) {
 
        Point newPos = new Point(0,0);
+       List<Point> points ;
 
        switch (this.strategy)
        {
@@ -62,7 +64,6 @@ public abstract class MobileEntity extends AnimatedEntity
                break;
            
            case SINGLE_STEP:
-               List<Point> points ;
 
                points = SingleStep_Strategy.computePath( this.position, destPos,
                        p -> withinBounds(p, world) 
@@ -72,6 +73,18 @@ public abstract class MobileEntity extends AnimatedEntity
 
                if (points.size() == 0) { newPos = this.position; }
                else newPos = points.get(0);
+               break;
+
+           case A_STAR:
+
+               points = Astar_Strategy.computePath( this.position, destPos,
+                       p -> withinBounds(p, world) 
+                       && world.getOccupancyCell(p) == null,
+                       (p1, p2) -> Point.adjacent(p1, p2),
+                       PathingStrategy.DIAGONAL_CARDINAL_NEIGHBORS);
+
+               if (points.size() == 0) { newPos = this.position; }
+               else newPos = points.get(points.size()-1); 
                break;
        }
        return newPos;

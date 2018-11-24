@@ -1,6 +1,7 @@
 enum StrategyKind
 {
    DEFAULT,
-   SINGLE_STEP
+   SINGLE_STEP,
+   A_STAR
 }
 
