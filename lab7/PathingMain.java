@@ -136,13 +136,13 @@ public class PathingMain extends PApplet
    {
       switch (grid[row][col])
       {
-         case BACKGROUND:
+         case SEARCHED:
             image(background, col * TILE_SIZE, row * TILE_SIZE);
             break;
          case OBSTACLE:
             image(obstacle, col * TILE_SIZE, row * TILE_SIZE);
             break;
-         case SEARCHED:
+         case BACKGROUND:
             fill(0, 128);
             rect(col * TILE_SIZE + TILE_SIZE / 4,
                row * TILE_SIZE + TILE_SIZE / 4,
