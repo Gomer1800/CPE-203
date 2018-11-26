@@ -1,0 +1,8 @@
+Midterm Topics ... first 4 topics are the most important!!!
+-Lambda Expressions
+-Streams
+-Trees
+-Recursion (expect to write one)
+-Depth first, breadth first (understand it, but not as important as what is above)
+-A*
+-Previous Midterm topics are fairgame, but not emphasized

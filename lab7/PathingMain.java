@@ -11,7 +11,8 @@ public class PathingMain extends PApplet
    private PImage background;
    private PImage obstacle;
    private PImage goal;
-   private List<Point> path;
+   private LinkedList<Point> path;
+   private int i = 0;
 
    private static final int TILE_SIZE = 32;
 
@@ -34,25 +35,23 @@ public class PathingMain extends PApplet
 	/* runs once to set up world */
    public void setup()
    {
+      this.path = new LinkedList<Point>();
+      this.wPos = new Point(2, 2);
+      this.imgs = new ArrayList<>();
+      this.imgs.add(loadImage("images/wyvern1.bmp"));
+      this.imgs.add(loadImage("images/wyvern2.bmp"));
+      this.imgs.add(loadImage("images/wyvern3.bmp"));
 
-      path = new LinkedList<>();
-      wPos = new Point(2, 2);
-      imgs = new ArrayList<>();
-      imgs.add(loadImage("images/wyvern1.bmp"));
-      imgs.add(loadImage("images/wyvern2.bmp"));
-      imgs.add(loadImage("images/wyvern3.bmp"));
+      this.background = loadImage("images/grass.bmp");
+      this.obstacle = loadImage("images/vein.bmp");
+      this.goal = loadImage("images/water.bmp");
 
-      background = loadImage("images/grass.bmp");
-      obstacle = loadImage("images/vein.bmp");
-      goal = loadImage("images/water.bmp");
-
-      grid = new GridValues[ROWS][COLS];
+      this.grid = new GridValues[ROWS][COLS];
       initialize_grid(grid);
 
-      current_image = 0;
-      next_time = System.currentTimeMillis() + ANIMATION_TIME;
+      this.current_image = 0;
+      this.next_time = System.currentTimeMillis() + ANIMATION_TIME;
       noLoop();
-      draw();
    }
 
 	/* set up a 2D grid to represent the world */
@@ -81,7 +80,6 @@ public class PathingMain extends PApplet
       {
          grid[11][col] = GridValues.OBSTACLE;
       }
-
       grid[13][14] = GridValues.GOAL;
    }
 
@@ -93,10 +91,12 @@ public class PathingMain extends PApplet
 	/* runs over and over */
    public void draw()
    {
+      System.out.println("Drawing...");
       // A simplified action scheduling handler
       long time = System.currentTimeMillis();
       if (time >= next_time)
       {
+         System.out.println("next image ...");
          next_image();
          next_time = time + ANIMATION_TIME;
       }
@@ -117,20 +117,35 @@ public class PathingMain extends PApplet
          }
       }
    }
-
+   
    private void draw_path()
+   {
+      if (drawPath)
+      {
+          if (this.i < path.size()) {
+            fill(255, 0, 0);
+            rect(path.get(i).x * TILE_SIZE + TILE_SIZE * 3 / 8,
+               path.get(i).y * TILE_SIZE + TILE_SIZE * 3 / 8,
+               TILE_SIZE / 4, TILE_SIZE / 4);
+            i++;
+          }
+          else i = 0;
+      }
+   }
+
+   /*private void draw_path()
    {
       if (drawPath)
       {
          for (Point p : path)
          {
-            fill(128, 0, 0);
+            fill(255, 0, 0);
             rect(p.x * TILE_SIZE + TILE_SIZE * 3 / 8,
                p.y * TILE_SIZE + TILE_SIZE * 3 / 8,
                TILE_SIZE / 4, TILE_SIZE / 4);
          }
       }
-   }
+   }*/
 
    private void draw_tile(int row, int col)
    {
@@ -142,11 +157,22 @@ public class PathingMain extends PApplet
          case OBSTACLE:
             image(obstacle, col * TILE_SIZE, row * TILE_SIZE);
             break;
+<<<<<<< HEAD
          case BACKGROUND:
             fill(0, 128);
             rect(col * TILE_SIZE + TILE_SIZE / 4,
                row * TILE_SIZE + TILE_SIZE / 4,
                TILE_SIZE / 2, TILE_SIZE / 2);
+=======
+         case SEARCHED:
+            if (this.drawPath == false){
+                fill(0, 128);
+                rect(col * TILE_SIZE + TILE_SIZE / 4,
+                        row * TILE_SIZE + TILE_SIZE / 4,
+                        TILE_SIZE / 2, TILE_SIZE / 2);
+                System.out.println("SEARCHED");
+            }
+>>>>>>> dev
             break;
          case GOAL:
             image(goal, col * TILE_SIZE, row * TILE_SIZE);
@@ -161,18 +187,30 @@ public class PathingMain extends PApplet
 
    public void keyPressed()
    {
-      if (key == ' ')
+      if (key == 'o')
       {
-			//clear out prior path
+          i=0;
+         drawPath = false; 
          path.clear();
-			//example - replace with dfs	
-         moveOnce(wPos, grid, path);
+         depthFirstSearch(wPos);
+         redraw();
       }
       else if (key == 'p')
       {
-         drawPath ^= true;
-         redraw();
+         drawPath = true;
+          try {
+              Thread.sleep(10);
+          } catch (Exception e) {}
+         redraw() ;
       }
+      else if (key == 'r') // reset
+      {
+          i = 0;
+         drawPath ^= false;
+         initialize_grid(grid);
+         this.path.clear();
+         redraw();
+      }    
    }
 
 	/* replace the below with a depth first search 
@@ -180,7 +218,31 @@ public class PathingMain extends PApplet
 		in one direction for one tile - it mostly is for illustrating
 		how you might test the occupancy grid and add nodes to path!
 	*/
-   private boolean moveOnce(Point pos, GridValues[][] grid, List<Point> path)
+   private boolean depthFirstSearch(Point node)
+   {
+      System.out.println("( "+node.x+" , "+node.y+" )");
+
+      if (!withinBounds(node, grid)) { return false ;}
+      if (this.grid[node.y][node.x] == null) { return false ;} // Default Case
+      if (this.grid[node.y][node.x] == GridValues.GOAL) { return true ;}
+      if (this.grid[node.y][node.x] == GridValues.OBSTACLE) { return false ;}
+      if (this.grid[node.y][node.x] == GridValues.SEARCHED) { return false ;}
+          
+      this.grid[node.y][node.x] = GridValues.SEARCHED ;
+
+      boolean found = (
+              depthFirstSearch( new Point(node.x, node.y -1)) ||
+              depthFirstSearch( new Point(node.x , node.y +1)) || 
+              depthFirstSearch( new Point(node.x +1, node.y)) ||
+              depthFirstSearch( new Point(node.x -1, node.y))
+              ) ;
+      if (found) { 
+          this.path.offerFirst(node) ;
+      }
+      return found;
+   }
+ 
+   /*private boolean moveOnce(Point pos, GridValues[][] grid, List<Point> path)
    {
       try {
          Thread.sleep(200);
@@ -202,8 +264,9 @@ public class PathingMain extends PApplet
 			//set this value as searched
       	grid[rightN.y][rightN.x] = GridValues.SEARCHED;
       }
+
 		return false;
-   }
+   }*/
 
    private static boolean withinBounds(Point p, GridValues[][] grid)
    {
