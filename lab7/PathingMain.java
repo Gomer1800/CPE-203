@@ -151,19 +151,12 @@ public class PathingMain extends PApplet
    {
       switch (grid[row][col])
       {
-         case SEARCHED:
+         case BACKGROUND:
             image(background, col * TILE_SIZE, row * TILE_SIZE);
             break;
          case OBSTACLE:
             image(obstacle, col * TILE_SIZE, row * TILE_SIZE);
             break;
-<<<<<<< HEAD
-         case BACKGROUND:
-            fill(0, 128);
-            rect(col * TILE_SIZE + TILE_SIZE / 4,
-               row * TILE_SIZE + TILE_SIZE / 4,
-               TILE_SIZE / 2, TILE_SIZE / 2);
-=======
          case SEARCHED:
             if (this.drawPath == false){
                 fill(0, 128);
@@ -172,7 +165,6 @@ public class PathingMain extends PApplet
                         TILE_SIZE / 2, TILE_SIZE / 2);
                 System.out.println("SEARCHED");
             }
->>>>>>> dev
             break;
          case GOAL:
             image(goal, col * TILE_SIZE, row * TILE_SIZE);
