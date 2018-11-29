@@ -53,7 +53,9 @@ public class TestCases
          LocalTime.of(9, 40), LocalTime.of(11, 0));
 
       assertEquals(one.hashCode(), two.hashCode());
-      System.out.println("\nTESTING COURSESECTION HASH");
+      System.out.println("Hash: "+ Objects.hash(one, two));
+      System.out.println("HashCode: "+ one.hashCode() + two.hashCode());
+
       assertEquals(one.hashCode() + two.hashCode(), Objects.hash(one, two));
 
    }
