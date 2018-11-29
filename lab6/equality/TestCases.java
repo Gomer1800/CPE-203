@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.Objects;
 import java.util.Arrays;
 import java.time.LocalTime;
 
@@ -52,6 +53,9 @@ public class TestCases
          LocalTime.of(9, 40), LocalTime.of(11, 0));
 
       assertEquals(one.hashCode(), two.hashCode());
+      System.out.println("\nTESTING COURSESECTION HASH");
+      assertEquals(one.hashCode() + two.hashCode(), Objects.hash(one, two));
+
    }
 
    @Test
