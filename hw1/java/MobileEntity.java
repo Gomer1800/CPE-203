@@ -76,9 +76,8 @@ public abstract class MobileEntity extends AnimatedEntity
                break;
 
            case A_STAR:
-
                points = Astar_Strategy.computePath( this.position, destPos,
-                       p -> withinBounds(p, world) 
+                       p -> withinBounds(p, world)
                        && world.getOccupancyCell(p) == null,
                        (p1, p2) -> Point.adjacent(p1, p2),
                        PathingStrategy.DIAGONAL_CARDINAL_NEIGHBORS);
