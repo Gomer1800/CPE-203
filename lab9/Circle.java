@@ -10,15 +10,15 @@ public class Circle
         Random rand = new Random();
         radius = rand.nextDouble()*10;
     }
-    public Circle(double radius)
+    public Circle(double r)
     {
-        if (radius == 0)
+        if (r == 0)
            throw new ZeroRadiusException();
 
-        if (radius < 0)
-           throw new NegativeRadiusException(radius); 
+        if (r < 0)
+           throw new NegativeRadiusException(r); 
         
-        this.radius = radius;
+        this.radius = r;
     }
 
     public double radius()
