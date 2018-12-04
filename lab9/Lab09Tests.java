@@ -108,5 +108,11 @@ public class Lab09Tests
    {
       Circle c = new Circle(0);
    }
+   @Test(expected = NegativeRadiusException.class)
+   public void throwsNegativeRadiusException() 
+   {
+      Circle c = new Circle(-1);
+   }
+
 }
    
