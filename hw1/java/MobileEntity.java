@@ -30,7 +30,7 @@ public abstract class MobileEntity extends AnimatedEntity
                actionPeriod,
                animationPeriod);
 
-       strategy = StrategyKind.A_STAR;
+       strategy = StrategyKind.SINGLE_STEP;
    }
 
    // Default
