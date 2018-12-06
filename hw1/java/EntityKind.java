@@ -10,5 +10,6 @@ enum EntityKind
    VEIN,
    ZOMBIE,
    TOMB,
-   CLOUD
+   PLAGUE_CLOUD,
+   BONES
 }

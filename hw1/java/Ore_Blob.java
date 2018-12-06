@@ -102,7 +102,8 @@ final class Ore_Blob extends MobileEntity
 
          if (this.moveTo(world, blobTarget.get(), scheduler))
          {
-            Entity quake = new Quake(tgtPos,
+            Entity quake = new Quake(
+                    tgtPos,
                     imageStore.getImageList(QUAKE_KEY));
 
             world.addEntity(quake);

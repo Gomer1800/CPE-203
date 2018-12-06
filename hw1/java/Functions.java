@@ -24,17 +24,17 @@ final class Functions
    private static final int KEYED_BLUE_IDX = 4;
 
    private static final int PROPERTY_KEY = 0;
+   
+   private static final String ORE_ID_PREFIX = "ore -- ";
+   private static final int ORE_CORRUPT_MIN = 20000;
+   private static final int ORE_CORRUPT_MAX = 30000;
+   private static final int ORE_REACH = 1;
 
    private static final String BLOB_KEY = "blob";
    private static final String BLOB_ID_SUFFIX = " -- blob";
    private static final int BLOB_PERIOD_SCALE = 4;
    private static final int BLOB_ANIMATION_MIN = 50;
    private static final int BLOB_ANIMATION_MAX = 150;
-
-   private static final String ORE_ID_PREFIX = "ore -- ";
-   private static final int ORE_CORRUPT_MIN = 20000;
-   private static final int ORE_CORRUPT_MAX = 30000;
-   private static final int ORE_REACH = 1;
 
    private static final String QUAKE_KEY = "quake";
    private static final String QUAKE_ID = "quake";
@@ -76,7 +76,38 @@ final class Functions
    private static final int VEIN_COL = 2;
    private static final int VEIN_ROW = 3;
    private static final int VEIN_ACTION_PERIOD = 4;
+
+   private static final String ZOMBIE_KEY = "zombie";
+   private static final String ZOMBIE_ID_SUFFIX = " -- zombie";
+   private static final int ZOMBIE_PERIOD_SCALE = 4;
+   private static final int ZOMBIE_ANIMATION_MIN = 50;
+   private static final int ZOMBIE_ANIMATION_MAX = 150;
+ 
+   private static final String BONES_KEY = "bones";
+   private static final int BONES_NUM_PROPERTIES = 5;
+   private static final int BONES_ID = 1;
+   private static final int BONES_COL = 2;
+   private static final int BONES_ROW = 3;
+   private static final int BONES_ACTION_PERIOD = 4;
    
+   private static final String BONES_ID_PREFIX = "bones -- ";
+   private static final int BONES_CORRUPT_MIN = 20000;
+   private static final int BONES_CORRUPT_MAX = 30000;
+   private static final int BONES_REACH = 1;
+
+   private static final String PLAGUE_CLOUD_KEY = "plague";
+   private static final String PLAGUE_CLOUD_ID = "plague";
+   private static final int PLAGUE_CLOUD_ACTION_PERIOD = 1100;
+   private static final int PLAGUE_CLOUD_ANIMATION_PERIOD = 100;
+   private static final int PLAGUE_CLOUD_ANIMATION_REPEAT_COUNT = 10;
+   
+   private static final String TOMB_KEY = "tomb";
+   private static final int TOMB_NUM_PROPERTIES = 5;
+   private static final int TOMB_ID = 1;
+   private static final int TOMB_COL = 2;
+   private static final int TOMB_ROW = 3;
+   private static final int TOMB_ACTION_PERIOD = 4;
+
    public static PImage getCurrentImage(Object entity)
    {
       if (entity instanceof Background)
@@ -95,505 +126,6 @@ final class Functions
             entity));
       }
    }
-
-   /*public static int getAnimationPeriod(Entity entity)
-   {
-      switch (entity.kind)
-      {
-      case MINER_FULL:
-      case MINER_NOT_FULL:
-      case ORE_BLOB:
-      case QUAKE:
-         return entity.animationPeriod;
-      default:
-         throw new UnsupportedOperationException(
-            String.format("getAnimationPeriod not supported for %s",
-            entity.kind));
-      }
-   }*/
-
-   /*public static void nextImage(Entity entity)
-   {
-      entity.imageIndex = (entity.imageIndex + 1) % entity.images.size();
-   }*/
-
-   /*public static void executeAction(Action action, EventScheduler scheduler)
-   {
-      switch (action.kind)
-      {
-      case ACTIVITY:
-         executeActivityAction(action, scheduler);
-         break;
-
-      case ANIMATION:
-         executeAnimationAction(action, scheduler);
-         break;
-      }
-   }*/
-
-   /*public static void executeAnimationAction(Action action,
-      EventScheduler scheduler)
-   {
-      nextImage(action.entity);
-
-      if (action.repeatCount != 1)
-      {
-         scheduleEvent(scheduler, action.entity,
-            createAnimationAction(action.entity,
-               Math.max(action.repeatCount - 1, 0)),
-            getAnimationPeriod(action.entity));
-      }
-   }*/
-
-   /*public static void executeActivityAction(Action action,
-      EventScheduler scheduler)
-   {
-      switch (action.entity.kind)
-      {
-      case MINER_FULL:
-         executeMinerFullActivity(action.entity, action.world,
-            action.imageStore, scheduler);
-         break;
-
-      case MINER_NOT_FULL:
-         executeMinerNotFullActivity(action.entity, action.world,
-            action.imageStore, scheduler);
-         break;
-
-      case ORE:
-         executeOreActivity(action.entity, action.world, action.imageStore,
-            scheduler);
-         break;
-
-      case ORE_BLOB:
-         executeOreBlobActivity(action.entity, action.world,
-            action.imageStore, scheduler);
-         break;
-
-      case QUAKE:
-         executeQuakeActivity(action.entity, action.world, action.imageStore,
-            scheduler);
-         break;
-
-      case VEIN:
-         executeVeinActivity(action.entity, action.world, action.imageStore,
-            scheduler);
-         break;
-
-      default:
-         throw new UnsupportedOperationException(
-            String.format("executeActivityAction not supported for %s",
-            action.entity.kind));
-      }
-   }*/
-
-   /*public static void executeMinerFullActivity(Entity entity, WorldModel world,
-      ImageStore imageStore, EventScheduler scheduler)
-   {
-      Optional<Entity> fullTarget = findNearest(world, entity.position,
-         EntityKind.BLACKSMITH);
-
-      if (fullTarget.isPresent() &&
-         moveToFull(entity, world, fullTarget.get(), scheduler))
-      {
-         transformFull(entity, world, scheduler, imageStore);
-      }
-      else
-      {
-          scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-      }
-   }*/
-
-   /*public static void executeMinerNotFullActivity(Entity entity,
-      WorldModel world, ImageStore imageStore, EventScheduler scheduler)
-   {
-      Optional<Entity> notFullTarget = findNearest(world, entity.position,
-         EntityKind.ORE);
-
-      if (!notFullTarget.isPresent() ||
-         !moveToNotFull(entity, world, notFullTarget.get(), scheduler) ||
-         !transformNotFull(entity, world, scheduler, imageStore))
-      {
-         scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-      }
-   }*/
-
-   /*public static void executeOreActivity(Entity entity, WorldModel world,
-      ImageStore imageStore, EventScheduler scheduler)
-   {
-      Point pos = entity.position;  // store current position before removing
-
-      world.removeEntity(entity);
-      scheduler.unscheduleAllEvents(entity);
-
-      Entity blob = createOreBlob(entity.id + BLOB_ID_SUFFIX,
-         pos, entity.actionPeriod / BLOB_PERIOD_SCALE,
-         BLOB_ANIMATION_MIN +
-            rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN),
-         imageStore.getImageList(BLOB_KEY));
-
-      world.addEntity(blob);
-      scheduleActions(blob, scheduler, world, imageStore);
-   }*/
-
-   /*public static void executeOreBlobActivity(Entity entity, WorldModel world,
-      ImageStore imageStore, EventScheduler scheduler)
-   {
-      Optional<Entity> blobTarget = findNearest(world,
-         entity.position, EntityKind.VEIN);
-      long nextPeriod = entity.actionPeriod;
-
-      if (blobTarget.isPresent())
-      {
-         Point tgtPos = blobTarget.get().position;
-
-         if (moveToOreBlob(entity, world, blobTarget.get(), scheduler))
-         {
-            Entity quake = createQuake(tgtPos,
-               imageStore.getImageList(QUAKE_KEY));
-
-            world.addEntity(quake);
-            nextPeriod += entity.actionPeriod;
-            scheduleActions(quake, scheduler, world, imageStore);
-         }
-      }
-
-      scheduler.scheduleEvent(entity,
-         createActivityAction(entity, world, imageStore),
-         nextPeriod);
-   }*/
-
-   /*public static void executeQuakeActivity(Entity entity, WorldModel world,
-      ImageStore imageStore, EventScheduler scheduler)
-   {
-      scheduler.unscheduleAllEvents(entity);
-      world.removeEntity(entity);
-   }*/
-
-   /*public static void executeVeinActivity(Entity entity, WorldModel world,
-      ImageStore imageStore, EventScheduler scheduler)
-   {
-      Optional<Point> openPt = world.findOpenAround(entity.position);
-
-      if (openPt.isPresent())
-      {
-         Entity ore = createOre(ORE_ID_PREFIX + entity.id,
-            openPt.get(), ORE_CORRUPT_MIN +
-               rand.nextInt(ORE_CORRUPT_MAX - ORE_CORRUPT_MIN),
-            imageStore.getImageList(ORE_KEY));
-         world.addEntity(ore);
-         scheduleActions(ore, scheduler, world, imageStore);
-      }
-
-      scheduler.scheduleEvent(entity,
-         createActivityAction(entity, world, imageStore),
-         entity.actionPeriod);
-   }*/
-
-   /*public static void scheduleActions(Entity entity, EventScheduler scheduler,
-      WorldModel world, ImageStore imageStore)
-   {
-      switch (entity.kind)
-      {
-      case MINER_FULL:
-         scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity, createAnimationAction(entity, 0),
-            entity.getAnimationPeriod());
-         break;
-
-      case MINER_NOT_FULL:
-         scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, 0), entity.getAnimationPeriod());
-         break;
-
-      case ORE:
-         scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-         break;
-
-      case ORE_BLOB:
-         scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, 0), entity.getAnimationPeriod());
-         break;
-
-      case QUAKE:
-         scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-         scheduler.scheduleEvent(entity,
-            createAnimationAction(entity, QUAKE_ANIMATION_REPEAT_COUNT),
-            entity.getAnimationPeriod());
-         break;
-
-      case VEIN:
-         scheduler.scheduleEvent(entity,
-            createActivityAction(entity, world, imageStore),
-            entity.actionPeriod);
-         break;
-
-      default:
-      }
-   }*/
-
-   /*public static boolean transformNotFull(Entity entity, WorldModel world,
-      EventScheduler scheduler, ImageStore imageStore)
-   {
-      if (entity.resourceCount >= entity.resourceLimit)
-      {
-         Entity miner = createMinerFull(entity.id, entity.resourceLimit,
-            entity.position, entity.actionPeriod, entity.animationPeriod,
-            entity.images);
-
-         world.removeEntity(entity);
-         scheduler.unscheduleAllEvents(entity);
-
-         world.addEntity(miner);
-         miner.scheduleActions(scheduler, world, imageStore);
-
-         return true;
-      }
-
-      return false;
-   }*/
-
-   /*public static void transformFull(Entity entity, WorldModel world,
-      EventScheduler scheduler, ImageStore imageStore)
-   {
-      Entity miner = createMinerNotFull(entity.id, entity.resourceLimit,
-         entity.position, entity.actionPeriod, entity.animationPeriod,
-         entity.images);
-
-      world.removeEntity(entity);
-      scheduler.unscheduleAllEvents(entity);
-
-      world.addEntity(miner);
-      miner.scheduleActions(scheduler, world, imageStore);
-   }*/
-
-   /*public static boolean moveToNotFull(Entity miner, WorldModel world,
-      Entity target, EventScheduler scheduler)
-   {
-      if (Point.adjacent(miner.position, target.position))
-      {
-         miner.resourceCount += 1;
-         world.removeEntity(target);
-         scheduler.unscheduleAllEvents(target);
-
-         return true;
-      }
-      else
-      {
-         Point nextPos = nextPositionMiner(miner, world, target.position);
-
-         if (!miner.position.equals(nextPos))
-         {
-            Optional<Entity> occupant = world.getOccupant(nextPos);
-            if (occupant.isPresent())
-            {
-               scheduler.unscheduleAllEvents(occupant.get());
-            }
-
-            world.moveEntity(miner, nextPos);
-         }
-         return false;
-      }
-   }*/
-
-   /*public static boolean moveToFull(Entity miner, WorldModel world,
-      Entity target, EventScheduler scheduler)
-   {
-      if (Point.adjacent(miner.position, target.position))
-      {
-         return true;
-      }
-      else
-      {
-         Point nextPos = nextPositionMiner(miner, world, target.position);
-
-         if (!miner.position.equals(nextPos))
-         {
-            Optional<Entity> occupant = world.getOccupant(nextPos);
-            if (occupant.isPresent())
-            {
-               scheduler.unscheduleAllEvents(occupant.get());
-            }
-
-            world.moveEntity(miner, nextPos);
-         }
-         return false;
-      }
-   }*/
-
-   /*public static boolean moveToOreBlob(Entity blob, WorldModel world,
-      Entity target, EventScheduler scheduler)
-   {
-      if (Point.adjacent(blob.position, target.position))
-      {
-         world.removeEntity(target);
-         scheduler.unscheduleAllEvents(target);
-         return true;
-      }
-      else
-      {
-         Point nextPos = nextPositionOreBlob(blob, world, target.position);
-
-         if (!blob.position.equals(nextPos))
-         {
-            Optional<Entity> occupant = world.getOccupant(nextPos);
-            if (occupant.isPresent())
-            {
-               scheduler.unscheduleAllEvents(occupant.get());
-            }
-
-            world.moveEntity(blob, nextPos);
-         }
-         return false;
-      }
-   }*/
-
-   /*public static Point nextPositionMiner(Entity entity, WorldModel world,
-      Point destPos)
-   {
-      int horiz = Integer.signum(destPos.getX() - entity.position.getX());
-      Point newPos = new Point(entity.position.getX() + horiz,
-         entity.position.getY());
-
-      if (horiz == 0 || world.isOccupied(newPos))
-      {
-         int vert = Integer.signum(destPos.getY() - entity.position.getY());
-         newPos = new Point(entity.position.getX(),
-            entity.position.getY() + vert);
-
-         if (vert == 0 || world.isOccupied(newPos))
-         {
-            newPos = entity.position;
-         }
-      }
-
-      return newPos;
-   }*/
-
-   /*public static Point nextPositionOreBlob(Entity entity, WorldModel world,
-      Point destPos)
-   {
-      int horiz = Integer.signum(destPos.getX() - entity.position.getX());
-      Point newPos = new Point(entity.position.getX() + horiz,
-         entity.position.getY());
-
-      Optional<Entity> occupant = world.getOccupant(newPos);
-
-      if (horiz == 0 ||
-         (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
-      {
-         int vert = Integer.signum(destPos.getY() - entity.position.getY());
-         newPos = new Point(entity.position.getX(), entity.position.getY() + vert);
-         occupant = world.getOccupant(newPos);
-
-         if (vert == 0 ||
-            (occupant.isPresent() && !(occupant.get().kind == EntityKind.ORE)))
-         {
-            newPos = entity.position;
-         }
-      }
-
-      return newPos;
-   }*/
-
-   /*public static boolean adjacent(Point p1, Point p2)
-   {
-      return (p1.getX() == p2.getX() && Math.abs(p1.getY() - p2.getY()) == 1) ||
-         (p1.getY() == p2.getY() && Math.abs(p1.getX() - p2.getX()) == 1);
-   }*/
-
-   /*public static Optional<Point> findOpenAround(WorldModel world, Point pos)
-   {
-      for (int dy = -ORE_REACH; dy <= ORE_REACH; dy++)
-      {
-         for (int dx = -ORE_REACH; dx <= ORE_REACH; dx++)
-         {
-            Point newPt = new Point(pos.getX() + dx, pos.getY() + dy);
-            if (world.withinBounds(newPt) &&
-               !isOccupied(world, newPt))
-            {
-               return Optional.of(newPt);
-            }
-         }
-      }
-
-      return Optional.empty();
-   }*/
-
-   /*public static void scheduleEvent(EventScheduler scheduler,
-      Entity entity, Action action, long afterPeriod)
-   {
-      long time = System.currentTimeMillis() +
-         (long)(afterPeriod * scheduler.timeScale);
-      Event event = new Event(action, time, entity);
-
-      scheduler.eventQueue.add(event);
-
-      // update list of pending events for the given entity
-      List<Event> pending = scheduler.pendingEvents.getOrDefault(entity,
-         new LinkedList<>());
-      pending.add(event);
-      scheduler.pendingEvents.put(entity, pending);
-   }*/
-
-   /*public static void unscheduleAllEvents(EventScheduler scheduler,
-      Entity entity)
-   {
-      List<Event> pending = scheduler.pendingEvents.remove(entity);
-
-      if (pending != null)
-      {
-         for (Event event : pending)
-         {
-            scheduler.eventQueue.remove(event);
-         }
-      }
-   }*/
-
-   /*public static void removePendingEvent(EventScheduler scheduler,
-      Event event)
-   {
-      List<Event> pending = scheduler.pendingEvents.get(event.entity);
-
-      if (pending != null)
-      {
-         pending.remove(event);
-      }
-   }*/
-
-   /*public static void updateOnTime(EventScheduler scheduler, long time)
-   {
-      while (!scheduler.eventQueue.isEmpty() &&
-         scheduler.eventQueue.peek().time < time)
-      {
-         Event next = scheduler.eventQueue.poll();
-         
-         scheduler.removePendingEvent(next);
-         
-         next.action.executeAction(scheduler);
-      }
-   }*/
-
-   /*public static List<PImage> getImageList(ImageStore imageStore, String key)
-   {
-      return imageStore.images.getOrDefault(key, imageStore.defaultImages);
-   }*/
 
    public static void loadImages(Scanner in, ImageStore imageStore,
       PApplet screen)
@@ -670,18 +202,6 @@ final class Functions
       img.updatePixels();
    }
 
-   /*public static void shift(Viewport viewport, int col, int row)
-   {
-      viewport.col = col;
-      viewport.row = row;
-   }*/
-
-   /*public static boolean contains(Viewport viewport, Point p)
-   {
-      return p.getY() >= viewport.row && p.getY() < viewport.row + viewport.numRows &&
-         p.getX() >= viewport.col && p.getX() < viewport.col + viewport.numCols;
-   }*/
-
    public static void load(Scanner in, WorldModel world, ImageStore imageStore)
    {
       int lineNumber = 0;
@@ -729,6 +249,11 @@ final class Functions
             return parseSmith(properties, world, imageStore);
          case VEIN_KEY:
             return parseVein(properties, world, imageStore);
+         case TOMB_KEY:
+            return parseTomb(properties, world, imageStore);
+         case BONES_KEY:
+            return parseBones(properties, world, imageStore);
+
          }
       }
 
@@ -847,29 +372,42 @@ final class Functions
       return properties.length == VEIN_NUM_PROPERTIES;
    }
 
-   /*public static void tryAddEntity(WorldModel world, Entity entity)
+   public static boolean parseTomb(String [] properties, WorldModel world,
+      ImageStore imageStore)
    {
-      if (isOccupied(world, entity.position))
+      if (properties.length == TOMB_NUM_PROPERTIES)
       {
-         // arguably the wrong type of exception, but we are not
-         // defining our own exceptions yet
-         throw new IllegalArgumentException("position occupied");
+         Point pt = new Point(Integer.parseInt(properties[TOMB_COL]),
+            Integer.parseInt(properties[TOMB_ROW]));
+         Entity entity = new Tomb(
+                 properties[TOMB_ID],
+                 pt,
+                 imageStore.getImageList(TOMB_KEY),
+                 Integer.parseInt(properties[TOMB_ACTION_PERIOD]));
+
+         world.tryAddEntity(entity);
       }
 
-      addEntity(world, entity);
-   }*/
-
-   /*public static boolean withinBounds(WorldModel world, Point pos)
+      return properties.length == TOMB_NUM_PROPERTIES;
+   }
+   
+   public static boolean parseBones(String [] properties, WorldModel world,
+      ImageStore imageStore)
    {
-      return pos.getY() >= 0 && pos.getY() < world.numRows &&
-         pos.getX() >= 0 && pos.getX() < world.numCols;
-   }*/
+      if (properties.length == BONES_NUM_PROPERTIES)
+      {
+         Point pt = new Point(Integer.parseInt(properties[BONES_COL]),
+            Integer.parseInt(properties[BONES_ROW]));
+         Entity entity = new Bones(properties[BONES_ID],
+                 pt, 
+                 imageStore.getImageList(BONES_KEY),
+                 Integer.parseInt(properties[BONES_ACTION_PERIOD]));
 
-   /*public static boolean isOccupied(WorldModel world, Point pos)
-   {
-      return world.withinBounds(pos) &&
-         getOccupancyCell(world, pos) != null;
-   }*/
+         world.tryAddEntity(entity);
+      }
+
+      return properties.length == BONES_NUM_PROPERTIES;
+   }
 
    public static Optional<Entity> nearestEntity(List<Entity> entities,
       Point pos)
@@ -898,261 +436,9 @@ final class Functions
       }
    }
 
-   /*public static int distanceSquared(Point p1, Point p2)
-   {
-      int deltaX = p1.getX() - p2.getX();
-      int deltaY = p1.getY() - p2.getY();
-
-      return deltaX * deltaX + deltaY * deltaY;
-   }*/
-
-   /*public static Optional<Entity> findNearest(WorldModel world, Point pos,
-      EntityKind kind)
-   {
-      List<Entity> ofType = new LinkedList<>();
-      for (Entity entity : world.getEntities())
-      {
-         if (entity.kind == kind)
-         {
-            ofType.add(entity);
-         }
-      }
-
-      return nearestEntity(ofType, pos);
-   }*/
-
-   /*
-      Assumes that there is no entity currently occupying the
-      intended destination cell.
-   */
-   /*public static void addEntity(WorldModel world, Entity entity)
-   {
-      if (world.withinBounds(entity.position))
-      {
-         setOccupancyCell(world, entity.position, entity);
-         world.entities.add(entity);
-      }
-   }*/
-
-   /*public static void moveEntity(WorldModel world, Entity entity, Point pos)
-   {
-      Point oldPos = entity.position;
-      if (world.withinBounds(pos) && !pos.equals(oldPos))
-      {
-         setOccupancyCell(world, oldPos, null);
-         removeEntityAt(world, pos);
-         setOccupancyCell(world, pos, entity);
-         entity.position = pos;
-      }
-   }*/
-
-   /*public static void removeEntity(WorldModel world, Entity entity)
-   {
-      removeEntityAt(world, entity.position);
-   }*/
-
-   /*public static void removeEntityAt(WorldModel world, Point pos)
-   {
-      if (world.withinBounds(pos)
-         && getOccupancyCell(world, pos) != null)
-      {
-         Entity entity = getOccupancyCell(world, pos);
-
-         // this moves the entity just outside of the grid for
-         //   debugging purposes
-
-         entity.position = new Point(-1, -1);
-         world.entities.remove(entity);
-         setOccupancyCell(world, pos, null);
-      }
-   }*/
-
-   /*public static Optional<PImage> getBackgroundImage(WorldModel world,
-      Point pos)
-   {
-      if (world.withinBounds(pos))
-      {
-         return Optional.of(getCurrentImage(getBackgroundCell(world, pos)));
-      }
-      else
-      {
-         return Optional.empty();
-      }
-   }*/
-
-   /*public static void setBackground(WorldModel world, Point pos,
-      Background background)
-   {
-      if (world.withinBounds(pos))
-      {
-         setBackgroundCell(world, pos, background);
-      }
-   }*/
-
-   /*public static Optional<Entity> getOccupant(WorldModel world, Point pos)
-   {
-      if (world.isOccupied(pos))
-      {
-         return Optional.of(getOccupancyCell(world, pos));
-      }
-      else
-      {
-         return Optional.empty();
-      }
-   }*/
-
-   /*public static Entity getOccupancyCell(WorldModel world, Point pos)
-   {
-      return world.occupancy[pos.getY()][pos.getX()];
-   }*/
-
-   /*public static void setOccupancyCell(WorldModel world, Point pos,
-      Entity entity)
-   {
-      world.occupancy[pos.getY()][pos.getX()] = entity;
-   }*/
-
-   /*public static Background getBackgroundCell(WorldModel world, Point pos)
-   {
-      return world.background[pos.getY()][pos.getX()];
-   }*/
-
-   /*public static void setBackgroundCell(WorldModel world, Point pos,
-      Background background)
-   {
-      world.background[pos.getY()][pos.getX()] = background;
-   }*/
-
-   /*public static Point viewportToWorld(Viewport viewport, int col, int row)
-   {
-      return new Point(col + viewport.col, row + viewport.row);
-   }
-
-   public static Point worldToViewport(Viewport viewport, int col, int row)
-   {
-      return new Point(col - viewport.col, row - viewport.row);
-   }*/
-
    public static int clamp(int value, int low, int high)
    {
       return Math.min(high, Math.max(value, low));
    }
 
-   /*public static void shiftView(WorldView view, int colDelta, int rowDelta)
-   {
-      int newCol = clamp(view.viewport.col + colDelta, 0,
-         view.world.numCols - view.viewport.numCols);
-      int newRow = clamp(view.viewport.row + rowDelta, 0,
-         view.world.numRows - view.viewport.numRows);
-
-      shift(view.viewport, newCol, newRow);
-   }*/
-
-   /*public static void drawBackground(WorldView view)
-   {
-      for (int row = 0; row < view.viewport.numRows; row++)
-      {
-         for (int col = 0; col < view.viewport.numCols; col++)
-         {
-            Point worldPoint = viewportToWorld(view.viewport, col, row);
-            Optional<PImage> image = getBackgroundImage(view.world,
-               worldPoint);
-            if (image.isPresent())
-            {
-               view.screen.image(image.get(), col * view.tileWidth,
-                  row * view.tileHeight);
-            }
-         }
-      }
-   }*/
-
-   /*public static void drawEntities(WorldView view)
-   {
-      for (Entity entity : view.world.entities)
-      {
-         Point pos = entity.position;
-
-         if (contains(view.viewport, pos))
-         {
-            Point viewPoint = worldToViewport(view.viewport, pos.getX(), pos.getY());
-            view.screen.image(getCurrentImage(entity),
-               viewPoint.getX() * view.tileWidth, viewPoint.getY() * view.tileHeight);
-         }
-      }
-   }*/
-
-   /*public static void drawViewport(WorldView view)
-   {
-      view.drawBackground();
-      view.drawEntities();
-   }*/
-
-   /*public static Action createAnimationAction(Entity entity, int repeatCount)
-   {
-      return new Action(ActionKind.ANIMATION, entity, null, null, repeatCount);
-   }*/
-
-   /*public static Action createActivityAction(Entity entity, WorldModel world,
-      ImageStore imageStore)
-   {
-      return new Action(ActionKind.ACTIVITY, entity, world, imageStore, 0);
-   }*/
-
-   /*public static Entity createBlacksmith(String id, Point position,
-      List<PImage> images)
-   {
-      return new Entity(EntityKind.BLACKSMITH, id, position, images,
-         0, 0, 0, 0);
-   }
-
-   public static Entity createMinerFull(String id, int resourceLimit,
-      Point position, int actionPeriod, int animationPeriod,
-      List<PImage> images)
-   {
-      return new Entity(EntityKind.MINER_FULL, id, position, images,
-         resourceLimit, resourceLimit, actionPeriod, animationPeriod);
-   }
-
-   public static Entity createMinerNotFull(String id, int resourceLimit,
-      Point position, int actionPeriod, int animationPeriod,
-      List<PImage> images)
-   {
-      return new Entity(EntityKind.MINER_NOT_FULL, id, position, images,
-         resourceLimit, 0, actionPeriod, animationPeriod);
-   }
-
-   public static Entity createObstacle(String id, Point position,
-      List<PImage> images)
-   {
-      return new Entity(EntityKind.OBSTACLE, id, position, images,
-         0, 0, 0, 0);
-   }
-
-   public static Entity createOre(String id, Point position, int actionPeriod,
-      List<PImage> images)
-   {
-      return new Entity(EntityKind.ORE, id, position, images, 0, 0,
-         actionPeriod, 0);
-   }
-
-   public static Entity createOreBlob(String id, Point position,
-      int actionPeriod, int animationPeriod, List<PImage> images)
-   {
-      return new Entity(EntityKind.ORE_BLOB, id, position, images,
-            0, 0, actionPeriod, animationPeriod);
-   }
-
-   public static Entity createQuake(Point position, List<PImage> images)
-   {
-      return new Entity(EntityKind.QUAKE, QUAKE_ID, position, images,
-         0, 0, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
-   }
-
-   public static Entity createVein(String id, Point position, int actionPeriod,
-      List<PImage> images)
-   {
-      return new Entity(EntityKind.VEIN, id, position, images, 0, 0,
-         actionPeriod, 0);
-   }
-   */
 }
