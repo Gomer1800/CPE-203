@@ -8,8 +8,8 @@ public final class VirtualWorld
 {
    private static final int TIMER_ACTION_PERIOD = 100;
 
-   private static final int VIEW_WIDTH = 1080;//640;
-   private static final int VIEW_HEIGHT = 1020;//480;
+   private static final int VIEW_WIDTH = 640;//640;
+   private static final int VIEW_HEIGHT = 480;//480;
    private static final int TILE_WIDTH = 32;
    private static final int TILE_HEIGHT = 32;
    private static final int WORLD_WIDTH_SCALE = 2;
@@ -78,6 +78,16 @@ public final class VirtualWorld
       }
 
       view.drawViewport();
+   }
+
+   public void mouseClicked()
+   {
+       // mouseX, mouseY, mousePressed
+       if(mousePressed &&
+               mouseX < WORLD_COLS-1 && mouseX > 0 &&
+               mouseY < WORLD_ROWS-1 && mouseY > 0) {
+           Point pos = new Point(mouseX, mouseY);
+               }
    }
 
    public void keyPressed()

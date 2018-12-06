@@ -7,5 +7,8 @@ enum EntityKind
    ORE,
    ORE_BLOB,
    QUAKE,
-   VEIN
+   VEIN,
+   ZOMBIE,
+   TOMB,
+   CLOUD
 }
