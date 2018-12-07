@@ -31,6 +31,8 @@ public abstract class AnimatedEntity extends ActiveEntity
       case MINER_FULL:
       case MINER_NOT_FULL:
       case ORE_BLOB:
+      case ZOMBIE:
+      case PLAGUE_CLOUD:
       case QUAKE:
          return this.animationPeriod;
       default:

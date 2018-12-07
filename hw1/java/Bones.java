@@ -9,11 +9,9 @@ final class Bones extends ActiveEntity
 
    private static final String ZOMBIE_KEY = "zombie";
    private static final String ZOMBIE_ID_SUFFIX = " -- zombie";
-   //private static final int ZOMBIE_ACTION_PERIOD = 5;
-   //private static final int ZOMBIE_ANIMATION_PERIOD = 6;
    private static final int ZOMBIE_PERIOD_SCALE = 4;
-   private static final int ZOMBIE_ANIMATION_MIN = 50;
-   private static final int ZOMBIE_ANIMATION_MAX = 150;
+   private static final int ZOMBIE_ANIMATION_MIN = 150;
+   private static final int ZOMBIE_ANIMATION_MAX = 200;
 
    private static final String BONES_ID_PREFIX = "bones -- ";
    private static final int BONES_CORRUPT_MIN = 20000;
@@ -44,13 +42,14 @@ final class Bones extends ActiveEntity
    public void executeActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
-      Point pos = this.position;  // store current position before removing
+      Point thisPos = this.position;  // store current position before removing
 
       world.removeEntity(this);
       scheduler.unscheduleAllEvents(this);
 
       Entity zombie = new Zombie(
-              this.id + ZOMBIE_ID_SUFFIX, pos,
+              this.id + ZOMBIE_ID_SUFFIX, 
+              thisPos,
               imageStore.getImageList(ZOMBIE_KEY), 
               this.actionPeriod / ZOMBIE_PERIOD_SCALE,
               ZOMBIE_ANIMATION_MIN + this.rand.nextInt(ZOMBIE_ANIMATION_MAX - ZOMBIE_ANIMATION_MIN) );

@@ -79,7 +79,7 @@ final class Functions
 
    private static final String ZOMBIE_KEY = "zombie";
    private static final String ZOMBIE_ID_SUFFIX = " -- zombie";
-   private static final int ZOMBIE_PERIOD_SCALE = 4;
+   private static final int ZOMBIE_PERIOD_SCALE = 8;
    private static final int ZOMBIE_ANIMATION_MIN = 50;
    private static final int ZOMBIE_ANIMATION_MAX = 150;
  
@@ -97,8 +97,8 @@ final class Functions
 
    private static final String PLAGUE_CLOUD_KEY = "plague";
    private static final String PLAGUE_CLOUD_ID = "plague";
-   private static final int PLAGUE_CLOUD_ACTION_PERIOD = 1100;
-   private static final int PLAGUE_CLOUD_ANIMATION_PERIOD = 100;
+   private static final int PLAGUE_CLOUD_ACTION_PERIOD = 4;
+   private static final int PLAGUE_CLOUD_ANIMATION_PERIOD = 5;
    private static final int PLAGUE_CLOUD_ANIMATION_REPEAT_COUNT = 10;
    
    private static final String TOMB_KEY = "tomb";
@@ -282,7 +282,8 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[MINER_COL]),
             Integer.parseInt(properties[MINER_ROW]));
-         Entity entity = new Miner_Not_Full(properties[MINER_ID],
+         Entity entity = new Miner_Not_Full(
+                 properties[MINER_ID],
                  pt,
                  imageStore.getImageList(MINER_KEY),
                  Integer.parseInt(properties[MINER_LIMIT]),
@@ -361,10 +362,11 @@ final class Functions
       {
          Point pt = new Point(Integer.parseInt(properties[VEIN_COL]),
             Integer.parseInt(properties[VEIN_ROW]));
-         Entity entity = new Vein(properties[VEIN_ID],
-            pt,
-            imageStore.getImageList(VEIN_KEY),
-            Integer.parseInt(properties[VEIN_ACTION_PERIOD]));
+         Entity entity = new Vein(
+                 properties[VEIN_ID],
+                 pt,
+                 imageStore.getImageList(VEIN_KEY),
+                 Integer.parseInt(properties[VEIN_ACTION_PERIOD]));
 
          world.tryAddEntity(entity);
       }

@@ -42,16 +42,18 @@ final class Ore extends ActiveEntity
    public void executeActivity(WorldModel world,
       ImageStore imageStore, EventScheduler scheduler)
    {
-      Point pos = this.position;  // store current position before removing
+      Point thisPos = this.position;  // store current position before removing
 
       world.removeEntity(this);
       scheduler.unscheduleAllEvents(this);
 
       Entity blob = new Ore_Blob(
-              this.id + BLOB_ID_SUFFIX, pos,
+              this.id + BLOB_ID_SUFFIX, 
+              thisPos,
               imageStore.getImageList(BLOB_KEY), 
               this.actionPeriod / BLOB_PERIOD_SCALE,
               BLOB_ANIMATION_MIN + this.rand.nextInt(BLOB_ANIMATION_MAX - BLOB_ANIMATION_MIN) );
+
       world.addEntity(blob);
       ((ActiveEntity) blob).scheduleActions(scheduler, world, imageStore);
    }

@@ -15,66 +15,24 @@ final class Activity implements Action
       this.imageStore = imageStore;
       this.repeatCount = repeatCount;
    }
-   // Accessors
-   // METHODS
-   /*
-   public void executeAction(EventScheduler scheduler) {
-       switch (this.kind) {
-           /*
-           case ACTIVITY:
-               this.executeActivityAction(scheduler);
-               break;
-
-            case ANIMATION:
-               this.executeAction(scheduler);
-               break;
-       }
-   }
-
-   private void executeAnimationAction(EventScheduler scheduler) {
-       this.entity.nextImage();
-
-       if(this.repeatCount != 1) {
-           scheduler.scheduleEvent(this.entity,
-                   ((MoveableEntity)this.entity).createAnimationAction(Math.max(this.repeatCount - 1, 0)),
-                   ((MoveableEntity)entity).getAnimationPeriod());
-       }
-   }
-*/
+   
    public void executeAction(EventScheduler scheduler)
    {
       switch (this.entity.getKind())
       {
       case MINER_FULL:
-         //((ActiveEntity)this.entity).executeActivity(this.world,
-         //   this.imageStore, scheduler);
-         //break;
-
       case MINER_NOT_FULL:
-         //((ActionableEntity)this.entity).executeActivity(this.world,
-         //   this.imageStore, scheduler);
-         //break;
-
       case ORE:
-         //((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
-         //   scheduler);
-         //break;
-
       case ORE_BLOB:
-         //((ActionableEntity)this.entity).executeActivity(this.world,
-         //   this.imageStore, scheduler);
-         //break;
-
       case QUAKE:
-         //((ActionableEntity)this.entity).executeActivity(this.world, this.imageStore,
-         //   scheduler);
-         //break;
-
+      case BONES:
+      case ZOMBIE:
+      case PLAGUE_CLOUD:
+      case TOMB:
       case VEIN:
          ((ActiveEntity)this.entity).executeActivity(this.world, this.imageStore,
             scheduler);
          break;
-
       default:
          throw new UnsupportedOperationException(
             String.format("executeActivityAction not supported for %s",

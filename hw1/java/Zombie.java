@@ -10,7 +10,7 @@ final class Zombie extends MobileEntity
 
    private static final String ZOMBIE_KEY = "zombie";
    private static final String ZOMBIE_ID_SUFFIX = " -- zombie";
-   private static final int ZOMBIE_PERIOD_SCALE = 4;
+   private static final int ZOMBIE_PERIOD_SCALE = 8;
    private static final int ZOMBIE_ANIMATION_MIN = 50;
    private static final int ZOMVIE_ANIMATION_MAX = 150;
    // private static final int ZOMBIE_NUM_PROPERTIES = 7;
@@ -104,9 +104,11 @@ final class Zombie extends MobileEntity
            ImageStore imageStore, 
            EventScheduler scheduler)
    {
-      Optional<Entity> notFullTarget = world.findNearest(this.position, EntityKind.MINER_NOT_FULL);
-      
-      Optional<Entity> FullTarget = world.findNearest(this.position, EntityKind.MINER_FULL);
+      Optional<Entity> notFullTarget = 
+          world.findNearest(this.position, EntityKind.MINER_NOT_FULL); 
+      Optional<Entity> FullTarget = 
+          world.findNearest(this.position, EntityKind.MINER_FULL);
+      long nextPeriod = this.actionPeriod;
 
       if (notFullTarget.isPresent())
       {
@@ -136,6 +138,10 @@ final class Zombie extends MobileEntity
              ((ActiveEntity) plague).scheduleActions(scheduler, world, imageStore);
          }
       }
+
+      scheduler.scheduleEvent(this,
+              this.createActivityAction(world, imageStore),
+              nextPeriod);
    }
    //END
 }

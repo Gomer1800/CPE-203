@@ -19,6 +19,8 @@ final class WorldView
       this.tileHeight = tileHeight;
       this.viewport = new Viewport(numRows, numCols);
    }
+   // Accessors
+   public Viewport getViewport() { return this.viewport; }
    // Methods
    //
    public void shiftView(int colDelta, int rowDelta)

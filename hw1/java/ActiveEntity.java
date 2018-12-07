@@ -59,14 +59,16 @@ public abstract class ActiveEntity extends Entity
                        ((AnimatedEntity)this).createAnimationAction(0), 
                        ((AnimatedEntity)this).getAnimationPeriod());
                break;
-           
+
+           case BONES:
            case ORE:
                scheduler.scheduleEvent(
                        this,
                        this.createActivityAction(world, imageStore),
                        this.actionPeriod);
                break;
-           
+
+           case ZOMBIE:    
            case ORE_BLOB:
                scheduler.scheduleEvent(
                        this,
@@ -77,7 +79,18 @@ public abstract class ActiveEntity extends Entity
                        ((AnimatedEntity)this).createAnimationAction(0), 
                        ((AnimatedEntity)this).getAnimationPeriod());
                break;
-           
+          
+           case PLAGUE_CLOUD:
+               scheduler.scheduleEvent(
+                       this,
+                       this.createActivityAction(world, imageStore),
+                       this.actionPeriod);
+               scheduler.scheduleEvent(
+                       this,
+                       ((AnimatedEntity)this).createAnimationAction(Plague_Cloud.PLAGUE_CLOUD_ANIMATION_REPEAT_COUNT),
+                       ((AnimatedEntity)this).getAnimationPeriod());
+               break;
+
            case QUAKE:
                scheduler.scheduleEvent(
                        this,
@@ -88,7 +101,8 @@ public abstract class ActiveEntity extends Entity
                        ((AnimatedEntity)this).createAnimationAction(Quake.QUAKE_ANIMATION_REPEAT_COUNT),
                        ((AnimatedEntity)this).getAnimationPeriod());
                break;
-           
+
+           case TOMB:
            case VEIN:
                scheduler.scheduleEvent(
                        this,

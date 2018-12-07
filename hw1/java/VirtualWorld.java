@@ -2,6 +2,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import processing.core.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public final class VirtualWorld
    extends PApplet
@@ -34,6 +36,13 @@ public final class VirtualWorld
    private static final double FASTEST_SCALE = 0.10;
 
    private static double timeScale = 1.0;
+
+   private static final String TOMB_KEY = "tomb";
+   private static final int TOMB_NUM_PROPERTIES = 5;
+   private static final int TOMB_ID = 1;
+   private static final int TOMB_COL = 2;
+   private static final int TOMB_ROW = 3;
+   private static final int TOMB_ACTION_PERIOD = 2000;
 
    private ImageStore imageStore;
    private WorldModel world;
@@ -82,12 +91,51 @@ public final class VirtualWorld
 
    public void mouseClicked()
    {
+       List<Point> aoePoints = new ArrayList<>();
+       Background areaofEffect = new Background("dirt",imageStore.getImageList("dirt"));
+
        // mouseX, mouseY, mousePressed
-       if(mousePressed &&
-               mouseX < WORLD_COLS-1 && mouseX > 0 &&
-               mouseY < WORLD_ROWS-1 && mouseY > 0) {
-           Point pos = new Point(mouseX, mouseY);
-               }
+       Point scaledPoint = new Point(mouseX/TILE_WIDTH, mouseY/TILE_HEIGHT);
+       Point viewPoint = this.view.getViewport().viewportToWorld(
+               scaledPoint.getX(),scaledPoint.getY());
+       if(this.world.withinBounds(viewPoint)) {
+           Entity tomb = new Tomb(
+                   String.valueOf(TOMB_ID),
+                   viewPoint,
+                   this.imageStore.getImageList(TOMB_KEY),
+                   TOMB_ACTION_PERIOD);
+
+           this.world.addEntity(tomb);
+           ((ActiveEntity)tomb).scheduleActions(
+               this.scheduler, this.world, this.imageStore);
+       
+      for(int i = -2; i <= 2 ; i++) {
+         for( int j = -2; j <= 2; j++) {
+             Point point = new Point(scaledPoint.getX() + i, scaledPoint.getY() + j);
+             aoePoints.add(point);
+         }
+      }
+      
+      for(Point thisPoint : aoePoints) {
+         this.world.setBackground(thisPoint, areaofEffect);
+         if (this.world.isOccupied(thisPoint) && 
+                 (this.world.getOccupant(thisPoint).get().getClass().getSuperclass() == Miner.class)) {
+             
+             this.scheduler.unscheduleAllEvents(world.getOccupant(thisPoint).get());
+             this.world.removeEntity(world.getOccupant(thisPoint).get());
+
+             Entity dwarfTomb = new Tomb(
+                   String.valueOf(TOMB_ID),
+                   thisPoint,
+                   this.imageStore.getImageList(TOMB_KEY),
+                   TOMB_ACTION_PERIOD);
+
+             this.world.addEntity(dwarfTomb);
+             ((ActiveEntity)dwarfTomb).scheduleActions(
+                 this.scheduler, this.world, this.imageStore);
+                 }
+      }
+    }
    }
 
    public void keyPressed()
