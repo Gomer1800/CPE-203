@@ -1,0 +1,19 @@
+Luis Gomez
+
+ZOMBIE APOCALYPSE
+1) HOW?
+The event is triggered by clicking and releasing any mouse button. This was achieved through the use of the mouseClicked() method provided by Processing.
+
+2) WHAT?
+The Zombie Apocalypse will create a Tombstone at the point of selection and will kill all dwarves in the nearby vicinity, as well as wilting all of the background tiles turning the area into a barren patch of dirt (Area of Effect is a 5 by 5 square area). These tombstones periodically create piles of Bones in their immediate vicinity which in turn have a random chance to spawn a Zombie. The Zombies will actively chase all miners, regardless of Full/NotFull, and when they catch a miner they will infect the miner with a cloud of plague gas which kills the miner and animates the him/her as a new Zombie. Currently there is no way for the miners to win.
+
+In the future I would like to give the Miners the ability to fight back with fire and the ability to respawn.
+
+3) AFFECTED ENTITIES:
+MINERS: They will be killed by the Event and replaced by Tomb entities.
+
+4) NEW ENTITIES:
+TOMBS: stationary, spawns bones
+BONES: stationary, "hatches" a Zombie
+ZOMBIES: mobile, hunts miners, spreads plague
+PLAGUE_CLOUD: stationary, spawns zombie
